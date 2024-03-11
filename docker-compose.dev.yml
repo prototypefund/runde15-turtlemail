@@ -1,0 +1,32 @@
+# This configuration is not meant for production use.
+
+services:
+  backend:
+    build:
+      dockerfile: Dockerfile
+      target: dev
+    env_file: [docker/env, docker/env-dev]
+    environment:
+      DEBUG_SERVER: ${DEBUG_SERVER}
+    volumes:
+      - ./turtlemail/:/usr/share/turtlemail/turtlemail/
+      - ./manage.py:/usr/share/turtlemail/manage.py
+      - ./docker/entrypoint.sh:/usr/bin/turtlemailctl
+
+  nginx:
+    depends_on: [backend, vite]
+
+  vite:
+    build:
+      dockerfile: docker/vite.Dockerfile
+      context: .
+    ports: ["8638:8638"]
+    volumes:
+      - ./turtlemail:/app/turtlemail/
+      - ./src/:/app/src/
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+      - ./postcss.config.js:/app/postcss.config.js
+      - ./tailwind.config.js:/app/tailwind.config.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./vite.config.ts:/app/vite.config.ts

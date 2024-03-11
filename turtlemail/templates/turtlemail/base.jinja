@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <link href="{{ static("turtlemail/bundled/favicon.svg") }}" rel="icon" type="image/svg+xml">
+        <meta name="robots" content="noindex, nofollow">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta name="theme-color" content="#00543A">
+        <link rel="manifest" href="{{ static("turtlemail/bundled/manifest.json") }}">
+        <title>turtlemail</title>
+        {{ vite_assets("src/style.css") }}
+        {{ vite_assets("src/main.ts") }}
+    </head>
+    <body>{% block body %}{% endblock %}</body>
+</html>

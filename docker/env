@@ -1,0 +1,29 @@
+POSTGRES_USER=turtlemail
+POSTGRES_PASSWORD=turtlemail
+POSTGRES_DB=turtlemail
+DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@database/$POSTGRES_DB
+
+# a secret key to encrypt sessions
+SECRET_KEY=not-a-very-secret-key
+
+# debug mode
+DEBUG=0
+
+# hostnames this app is allowed to operate on
+ALLOWED_HOSTS=localhost
+
+# default FROM email header value
+EMAIL_DEFAULT_FROM=noreply@example.org
+
+# SMTP server to send emails with
+# EMAIL_SMTP=smtp://localhost:25
+# EMAIL_SMTP=smtp+tls://user:pw@mail.example.org:465?timeout=10
+# EMAIL_SMTP=smtp+starttls://user:pw@mail.example.org:587
+
+# basic configuration
+DATA_DIR=/var/lib/turtlemail
+ASSET_SOURCE=manifest
+PYTHONPATH=/usr/share/turtlemail
+DJANGO_SETTINGS_MODULE=turtlemail.settings
+WEB_CONCURRENCY=2
+FORWARDED_ALLOW_IPS=127.0.0.1

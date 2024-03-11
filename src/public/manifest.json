@@ -1,0 +1,12 @@
+{
+  "theme_color": "#b3ff80",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "display": "standalone",
+  "dir": "left",
+  "lang": "de-DE",
+  "name": "turtlemail",
+  "short_name": "turtlemail",
+  "start_url": "/",
+  "scope": "/"
+}

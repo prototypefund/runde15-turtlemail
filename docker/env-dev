@@ -1,0 +1,4 @@
+DEBUG=1
+ASSET_SOURCE=live-server
+VITE_HOST=vite
+VITE_PORT=8638

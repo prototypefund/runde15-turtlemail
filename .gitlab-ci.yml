@@ -1,0 +1,43 @@
+include:
+  - project: 'kmohrf/gitlabfilet'
+    ref: 'v1.3.0'
+    file:
+      - '/templates/python.gitlab-ci.yml'
+      - '/templates/container.gitlab-ci.yml'
+
+variables:
+  GITLABFILET_IMAGE: git-registry.hack-hro.de:443/kmohrf/docker-recipes/debbuild-python-webdev:bookworm
+
+default:
+  tags:
+    - fast-io
+    - fast-network
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .npm/
+
+stages:
+  - test
+  - build
+  - deploy
+
+.js-tests:
+  stage: test
+  image: node:lts-alpine
+  before_script:
+    - ADBLOCK=true npm ci --cache .npm --prefer-offline
+
+lint::js:
+  extends: .js-tests
+  script:
+    - npm run lint
+
+test::js:
+  extends: .js-tests
+  script:
+    - npm run test
+
+deploy::container-image:
+  variables:
+    KANIKO_ARGS: --target production

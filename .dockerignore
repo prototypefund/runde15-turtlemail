@@ -1,0 +1,5 @@
+/data/
+/.tox/
+/build/
+/node_modules/
+/turtlemail/static/turtlemail/bundled/

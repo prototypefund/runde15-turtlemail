@@ -1,0 +1,31 @@
+# This configuration is not meant for production use.
+
+services:
+  database:
+    image: postgres:15-alpine
+    env_file: [docker/env]
+    restart: always
+    volumes:
+      - turtlemail-db:/var/lib/postgresql/data/
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on: [database]
+    env_file: [docker/env]
+    volumes:
+      - turtlemail-data:/var/lib/turtlemail
+      - ./turtlemail_settings.py:/etc/turtlemail/turtlemail_settings.py
+
+  nginx:
+    image: nginx
+    depends_on: [backend]
+    volumes:
+      - ./docker/nginx-server.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx-app.conf:/etc/nginx/snippets/app.conf
+    ports: ["8637:8637"]
+
+volumes:
+  turtlemail-data:
+  turtlemail-db:
