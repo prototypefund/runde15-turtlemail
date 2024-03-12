@@ -1,6 +1,6 @@
 # turtlemail
 
-Fast-Track the bureaucracy of legislative bodies.
+A peer-to-peer do-it-together parcel service.
 
 ## Development Environment
 
@@ -12,7 +12,7 @@ make dev
 make migrate
 ```
 
-Other commands django commands can be run by executing:
+Other django commands can be run by executing:
 
 ```shell
 docker compose exec -it backend turtlemailctl
