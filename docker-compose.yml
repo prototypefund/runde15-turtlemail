@@ -7,12 +7,19 @@ services:
     restart: always
     volumes:
       - turtlemail-db:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
       dockerfile: Dockerfile
       context: .
-    depends_on: [database]
+    depends_on:
+      database:
+        condition: service_healthy
     env_file: [docker/env]
     volumes:
       - turtlemail-data:/var/lib/turtlemail
