@@ -8,8 +8,10 @@ services:
     volumes:
       - turtlemail-db:/var/lib/postgresql/data/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB"]
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
+      start_period: 20s
+      start_interval: 1s
       timeout: 5s
       retries: 5
 
