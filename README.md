@@ -25,6 +25,10 @@ Custom Django configuration settings can be made in the `turtlemail_settings.py`
 in the project root. Note: if you’ve started the docker-compose environment this might
 have been auto-created as directory – you can safely delete it and restart docker-compose.
 
+### Working with translations
+
+Work with your code as usual, adding or removing translation keys as needed. Afterwards, run `make update-translations` to generate a new `.pot` file and merge it with the existing `.po` files.
+
 ## Deployment
 
 turtlemail can be deployed from source and via a container image.

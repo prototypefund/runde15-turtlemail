@@ -18,7 +18,7 @@ define help_message =
 dev:          start dev environment
 migrate:      migrate database (in dev environment)
 build:        build app dependencies
-update-types: update TypeScript type API Types
+update-translations: Update .po files
 endef
 
 .PHONY: help
@@ -56,3 +56,9 @@ dev:
 .PHONY: migrate
 migrate:
 	$(COMPOSE) exec -it backend turtlemailctl migrate
+
+.PHONY: update-translations
+update-translations:
+	poetry run pybabel extract -F babel.cfg -o turtlemail/locale/django.pot .
+	poetry run pybabel update -i turtlemail/locale/django.pot --domain django --output-dir turtlemail/locale
+	rm turtlemail/locale/django.pot
