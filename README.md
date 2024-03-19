@@ -12,6 +12,11 @@ make dev
 make migrate
 ```
 
+To use the pre-commit hooks, first [install poetry](https://python-poetry.org/docs/#installation). Then, install the pre-commit hooks:
+```
+poetry run pre-commit install
+```
+
 Other django commands can be run by executing:
 
 ```shell
