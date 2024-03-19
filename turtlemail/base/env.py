@@ -19,7 +19,9 @@ def get_env(env_var_name: str, *, cast=str, default: typing.Any = _Undefined):
         raise
 
 
-def get_env_list(env_var_name: str, *, separator=",", cast=str, default: typing.Any = _Undefined):
+def get_env_list(
+    env_var_name: str, *, separator=",", cast=str, default: typing.Any = _Undefined
+):
     try:
         value = get_env(env_var_name)
     except KeyError:
@@ -35,7 +37,9 @@ def is_env_true(env_var_name, *, default: bool = False):
         return default
 
 
-def get_env_address(env_var_name, *, default: tuple[str | None, int | None] | _Undefined = _Undefined):
+def get_env_address(
+    env_var_name, *, default: tuple[str | None, int | None] | _Undefined = _Undefined
+):
     try:
         raw_address: str | None = get_env(env_var_name)
     except KeyError:

@@ -81,7 +81,6 @@ TEMPLATES = [
             "extensions": [
                 *DEFAULT_EXTENSIONS,
             ],
-
         },
     },
     {
@@ -176,13 +175,13 @@ VITE_HOST = get_env("VITE_HOST", default="localhost")
 VITE_PUBLIC_HOST = get_env("PUBLIC_VITE_HOST", default="localhost")
 VITE_PORT = get_env("VITE_PORT", cast=int, default=8638)
 VITE_MANIFEST = (
-        BASE_DIR
-        / "turtlemail"
-        / "static"
-        / "turtlemail"
-        / "bundled"
-        / ".vite"
-        / "manifest.json"
+    BASE_DIR
+    / "turtlemail"
+    / "static"
+    / "turtlemail"
+    / "bundled"
+    / ".vite"
+    / "manifest.json"
 )
 
 # RELEASE might be set but empty, so we fall back to __version__
