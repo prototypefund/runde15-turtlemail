@@ -35,6 +35,7 @@ To help with writing Prototypefund "Monday" updates, we can generate a changelog
 
 ```
 poetry run cz bump
+poetry run git-cliff -o CHANGELOG.md
 ```
 
 This will update the version in `pyproject.toml`, **create a new commit**, add a tag to that commit, and re-generate `CHANGELOG.md`.

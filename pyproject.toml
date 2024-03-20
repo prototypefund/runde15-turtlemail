@@ -24,6 +24,7 @@ babel = "^2.14.0"
 ruff = "^0.3.2"
 pre-commit = "^3.6.2"
 commitizen = "^3.18.3"
+git-cliff = "^2.1.2"
 
 
 [tool.poetry.group.production.dependencies]
@@ -36,7 +37,7 @@ name = "cz_conventional_commits"
 tag_format = "v$version"
 version_scheme = "semver"
 version_provider = "poetry"
-update_changelog_on_bump = true
+update_changelog_on_bump = false
 major_version_zero = true
 
 
