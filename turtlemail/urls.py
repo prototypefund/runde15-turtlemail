@@ -20,4 +20,10 @@ from django.urls import path
 
 from turtlemail import views
 
-urlpatterns = [path("-/admin/", admin.site.urls), path("", views.index)]
+urlpatterns = [
+    path("-/admin/", admin.site.urls),
+    path("", views.index, name="index"),
+    path("deliveries", views.deliveries, name="deliveries"),
+    path("trips", views.trips, name="trips"),
+    path("profile", views.trips, name="profile"),
+]
