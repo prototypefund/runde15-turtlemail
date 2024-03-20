@@ -1,7 +1,7 @@
 {% extends "turtlemail/base.jinja" %}
 {% block body %}
     <div class="h-[100dvh] bg-base-200 flex justify-center items-center flex-col gap-2">
-        <p class="w-max-[50ch] rounded-lg p-6 bg-base-100">Hallo turtlemail!</p>
+        <p class="w-max-[50ch] rounded-lg p-6 bg-base-100">{{ _("Hello %(name)s!", name="turtlemail") }}</p>
         <button class="btn btn-primary" hx-get="/">load something from the server</button>
     </div>
 {% endblock %}

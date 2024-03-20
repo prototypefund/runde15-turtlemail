@@ -16,6 +16,7 @@ import sys
 from dotenv import load_dotenv
 import dj_database_url
 from django_jinja.builtins import DEFAULT_EXTENSIONS
+from django.utils.translation import gettext_lazy as _
 
 from turtlemail import __version__
 from turtlemail.base.env import get_env, get_env_list, is_env_true
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -140,6 +142,7 @@ PASSWORD_HASHERS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = "de-de"
+LANGUAGES = [("de", _("German")), ("en", _("English"))]
 TIME_ZONE = "Europe/Berlin"
 USE_I18N = True
 USE_TZ = True
