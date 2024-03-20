@@ -17,5 +17,8 @@
     "typescript": "^5.4.2",
     "vite": "^5.1.6",
     "vite-svg-loader": "^5.1.0"
+  },
+  "dependencies": {
+    "htmx.org": "^1.9.11"
   }
 }
