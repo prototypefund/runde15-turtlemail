@@ -1,3 +1,7 @@
+default_install_hook_types:
+  - pre-commit
+  # For the commitizen check
+  - commit-msg
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -11,3 +15,15 @@ repos:
     hooks:
       - id: ruff
       - id: ruff-format
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.18.3
+    hooks:
+      # Check all commits on the current branch that are not yet
+      # merged on main
+      - id: commitizen-branch
+        # Fix an issue with the default way to detect commits
+        # on the current branch
+        # https://github.com/commitizen-tools/commitizen/issues/704
+        args: ["--rev-range", "origin/main..HEAD"]
+      # Check the current commit
+      - id: commitizen

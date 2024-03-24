@@ -29,6 +29,19 @@ have been auto-created as directory – you can safely delete it and restart doc
 
 Work with your code as usual, adding or removing translation keys as needed. Afterwards, run `make update-translations` to generate a new `.pot` file and merge it with the existing `.po` files.
 
+## Versioning
+
+To help with writing Prototypefund "Monday" updates, we can generate a changelog every two weeks by releasing a new version:
+
+```
+poetry run cz bump
+poetry run git-cliff -o CHANGELOG.md
+```
+
+This will update the version in `pyproject.toml`, **create a new commit**, add a tag to that commit, and re-generate `CHANGELOG.md`.
+
+See [the commitizen bump docs](https://commitizen-tools.github.io/commitizen/bump/) for more info.
+
 ## Deployment
 
 turtlemail can be deployed from source and via a container image.
