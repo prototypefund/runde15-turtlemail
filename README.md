@@ -34,8 +34,11 @@ Work with your code as usual, adding or removing translation keys as needed. Aft
 To help with writing Prototypefund "Monday" updates, we can generate a changelog every two weeks by releasing a new version:
 
 ```
-poetry run cz bump
-poetry run git-cliff -o CHANGELOG.md
+VERSION=$(poetry run git-cliff --bumped-version)
+poetry run git-cliff --bump -o CHANGELOG.md
+git commit -m "bump: Release $VERSION"
+git tag -a $VERSION
+git push -a
 ```
 
 This will update the version in `pyproject.toml`, **create a new commit**, add a tag to that commit, and re-generate `CHANGELOG.md`.
