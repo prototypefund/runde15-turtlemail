@@ -23,7 +23,6 @@ babel = "^2.14.0"
 # ipython = "^8.22.2"
 ruff = "^0.3.2"
 pre-commit = "^3.6.2"
-commitizen = "^3.18.3"
 git-cliff = "^2.1.2"
 
 
