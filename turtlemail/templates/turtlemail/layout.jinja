@@ -1,0 +1,42 @@
+{% extends "turtlemail/base.jinja" %}
+{% block body %}
+    {% set url_name = request.resolver_match.url_name %}
+    <nav class="btm-nav lg:hidden">
+        <a href="{{ url("deliveries") }}"
+           {% if url_name == "deliveries" %}class="active"{% endif %}>
+            <span class="btm-nav-label">{{ _("Deliveries") }}</span>
+        </a>
+        <a href="{{ url("trips") }}"
+           {% if url_name == "trips" %}class="active"{% endif %}>
+            <span class="btm-nav-label">{{ _("Trips") }}</span>
+        </a>
+        <a href="{{ url("profile") }}"
+           {% if url_name == "profile" %}class="active"{% endif %}>
+            <span class="btm-nav-label">{{ _("Username") }}</span>
+        </a>
+    </nav>
+    <div class="sticky top-0 hidden navbar bg-base-100 lg:flex">
+        <div class="navbar-start">
+            <a href="{{ url("deliveries") }}" class="text-xl btn btn-ghost">{{ _("turtlemail") }}</a>
+        </div>
+        <div class="navbar-center">
+            <ul class="gap-2 text-lg menu menu-horizontal">
+                <li>
+                    <a href="{{ url("deliveries") }}"
+                       {% if url_name == "deliveries" %}class="focus"{% endif %}>{{ _("Deliveries") }}</a>
+                </li>
+                <li>
+                    <a href="{{ url("trips") }}"
+                       {% if url_name == "trips" %}class="focus"{% endif %}>{{ _("Trips") }}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-end">
+            <a href="{{ url("profile") }}"
+               class="h-8 px-4 mr-4 badge hover:bg-base-200 {% if url_name == "profile" %}badge-neutral{% endif %}">{{ _("Username") }}</a>
+        </div>
+    </div>
+    <div class="pt-8 pb-32 lg:pb-8" id="hx-nav-boost-content">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
