@@ -41,6 +41,8 @@ To help with writing Prototypefund "Monday" updates, we can generate a changelog
 ```
 VERSION=$(poetry run git-cliff --bumped-version)
 poetry run git-cliff --bump -o CHANGELOG.md
+# Update version in pyproject.toml
+vim pyproject.toml
 git commit -m "bump: Release $VERSION"
 git tag -a $VERSION
 git push -a
