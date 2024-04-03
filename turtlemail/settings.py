@@ -77,7 +77,7 @@ TEMPLATES = [
     {
         "NAME": "jinja",
         "BACKEND": "django_jinja.backend.Jinja2",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "extensions": [
@@ -132,11 +132,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
-PASSWORD_HASHERS = [
-    "django.contrib.auth.hashers.Argon2PasswordHasher",
-]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -210,3 +205,8 @@ try:
     from turtlemail_settings import *  # noqa: F401,F403
 except ImportError:
     pass
+
+# custom user model
+AUTH_USER_MODEL = "turtlemail.User"
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"

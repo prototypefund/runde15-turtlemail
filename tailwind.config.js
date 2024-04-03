@@ -2,7 +2,7 @@
 export default {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,vue}",
-    "./turtlemail/**/*.{html,jinja,js}",
+    "./turtlemail/**/*.{html,jinja,js,py}",
   ],
   theme: {},
   plugins: [require("daisyui")],

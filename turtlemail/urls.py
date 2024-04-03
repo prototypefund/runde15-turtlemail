@@ -17,6 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 
 from turtlemail import views
 
@@ -26,4 +27,7 @@ urlpatterns = [
     path("deliveries", views.deliveries, name="deliveries"),
     path("trips", views.trips, name="trips"),
     path("profile", views.trips, name="profile"),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
+    path("login", views.LoginView.as_view(), name="login"),
+    path("logout", LogoutView.as_view(), name="logout"),
 ]
