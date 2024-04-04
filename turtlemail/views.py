@@ -1,27 +1,26 @@
-from django.http.request import HttpRequest
 from django.contrib.auth.views import LoginView as _LoginView
 from django.shortcuts import redirect
-from django.template.response import TemplateResponse
-from django.views.generic import CreateView
+from django.views.generic import View, CreateView, TemplateView
 from django.urls import reverse_lazy, reverse
 
 from .forms import UserCreationForm, AuthenticationForm
 
 
-def index(request: HttpRequest):
-    return redirect(reverse("deliveries"), permanent=True)
+class IndexView(View):
+    def post(self, request):
+        return redirect(reverse("deliveries"), permanent=True)
 
 
-def deliveries(request: HttpRequest):
-    return TemplateResponse(request, "turtlemail/deliveries.jinja")
+class DeliveriesView(TemplateView):
+    template_name = "turtlemail/deliveries.jinja"
 
 
-def trips(request: HttpRequest):
-    return TemplateResponse(request, "turtlemail/trips.jinja")
+class StaysView(TemplateView):
+    template_name = "turtlemail/stays.jinja"
 
 
-def profile(request: HttpRequest):
-    return TemplateResponse(request, "turtlemail/profile.jinja")
+class ProfileView(TemplateView):
+    template_name = "turtlemail/profile.jinja"
 
 
 class SignUpView(CreateView):
