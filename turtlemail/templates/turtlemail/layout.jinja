@@ -6,9 +6,9 @@
            {% if url_name == "deliveries" %}class="active"{% endif %}>
             <span class="btm-nav-label">{{ _("Deliveries") }}</span>
         </a>
-        <a href="{{ url("trips") }}"
-           {% if url_name == "trips" %}class="active"{% endif %}>
-            <span class="btm-nav-label">{{ _("Trips") }}</span>
+        <a href="{{ url("stays") }}"
+           {% if url_name == "stays" %}class="active"{% endif %}>
+            <span class="btm-nav-label">{{ _("Stays") }}</span>
         </a>
         <a href="{{ url("profile") }}"
            {% if url_name == "profile" %}class="active"{% endif %}>
@@ -26,8 +26,8 @@
                        {% if url_name == "deliveries" %}class="focus"{% endif %}>{{ _("Deliveries") }}</a>
                 </li>
                 <li>
-                    <a href="{{ url("trips") }}"
-                       {% if url_name == "trips" %}class="focus"{% endif %}>{{ _("Trips") }}</a>
+                    <a href="{{ url("stays") }}"
+                       {% if url_name == "stays" %}class="focus"{% endif %}>{{ _("Stays") }}</a>
                 </li>
             </ul>
         </div>

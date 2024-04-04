@@ -23,10 +23,10 @@ from turtlemail import views
 
 urlpatterns = [
     path("-/admin/", admin.site.urls),
-    path("", views.index, name="index"),
-    path("deliveries", views.deliveries, name="deliveries"),
-    path("trips", views.trips, name="trips"),
-    path("profile", views.trips, name="profile"),
+    path("", views.IndexView.as_view(), name="index"),
+    path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
+    path("stays", views.StaysView.as_view(), name="stays"),
+    path("profile", views.ProfileView.as_view(), name="profile"),
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("login", views.LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),
