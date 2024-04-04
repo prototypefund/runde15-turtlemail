@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-19 15:09+0100\n"
+"POT-Creation-Date: 2024-04-03 16:02+0200\n"
 "PO-Revision-Date: 2024-03-18 16:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -18,15 +18,140 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: turtlemail/settings.py:145
+#: turtlemail/forms.py:14 turtlemail/templates/turtlemail/layout.jinja:15
+#: turtlemail/templates/turtlemail/layout.jinja:36
+msgid "Username"
+msgstr ""
+
+#: turtlemail/forms.py:20
+msgid "E-mail"
+msgstr ""
+
+#: turtlemail/forms.py:26
+msgid "Password"
+msgstr ""
+
+#: turtlemail/forms.py:36
+msgid "Password confirmation"
+msgstr ""
+
+#: turtlemail/models.py:21
+msgid "The email must be set."
+msgstr ""
+
+#: turtlemail/models.py:39
+msgid "Superuser must have is_staff=True."
+msgstr ""
+
+#: turtlemail/models.py:41
+msgid "Superuser must have is_superuser=True."
+msgstr ""
+
+#: turtlemail/models.py:48
+msgid "email address"
+msgstr ""
+
+#: turtlemail/models.py:54
+msgid "staff status"
+msgstr ""
+
+#: turtlemail/models.py:56
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: turtlemail/models.py:59
+msgid "active"
+msgstr ""
+
+#: turtlemail/models.py:61
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: turtlemail/models.py:66
+msgid "date joined"
+msgstr ""
+
+#: turtlemail/models.py:75
+msgid "user"
+msgstr ""
+
+#: turtlemail/models.py:76
+msgid "users"
+msgstr ""
+
+#: turtlemail/models.py:87
+msgid "Name"
+msgstr ""
+
+#: turtlemail/models.py:88
+msgid "Home"
+msgstr ""
+
+#: turtlemail/models.py:90
+msgid "Latitude"
+msgstr ""
+
+#: turtlemail/models.py:93
+msgid "Longitude"
+msgstr ""
+
+#: turtlemail/models.py:97 turtlemail/models.py:118
+msgid "Location"
+msgstr ""
+
+#: turtlemail/models.py:98
+msgid "Locations"
+msgstr ""
+
+#: turtlemail/models.py:120
+msgid "User"
+msgstr ""
+
+#: turtlemail/models.py:122
+msgid "Frequency"
+msgstr ""
+
+#: turtlemail/models.py:125
+msgid "Start"
+msgstr ""
+
+#: turtlemail/models.py:129
+msgid "End"
+msgstr ""
+
+#: turtlemail/models.py:134
+msgid "Stay"
+msgstr ""
+
+#: turtlemail/models.py:135
+msgid "Stays"
+msgstr ""
+
+#: turtlemail/settings.py:140
 msgid "German"
 msgstr ""
 
-#: turtlemail/settings.py:145
+#: turtlemail/settings.py:140
 msgid "English"
 msgstr ""
 
-#: turtlemail/templates/turtlemail/index.jinja:5
+#: turtlemail/templates/turtlemail/deliveries.jinja:5
 #, fuzzy, python-format
 msgid "Hello %(name)s!"
 msgstr "Hallo %(name)s!"
+
+#: turtlemail/templates/turtlemail/layout.jinja:7
+#: turtlemail/templates/turtlemail/layout.jinja:26
+msgid "Deliveries"
+msgstr ""
+
+#: turtlemail/templates/turtlemail/layout.jinja:11
+#: turtlemail/templates/turtlemail/layout.jinja:30
+msgid "Trips"
+msgstr ""
+
+#: turtlemail/templates/turtlemail/layout.jinja:20
+msgid "turtlemail"
+msgstr ""

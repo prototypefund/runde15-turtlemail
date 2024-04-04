@@ -1,9 +1,12 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
     BaseUserManager,
 )
+from django.core.validators import MinValueValidator
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -78,3 +81,59 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Location(models.Model):
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    is_home = models.BooleanField(verbose_name=_("Home"))
+    lat = models.DecimalField(
+        verbose_name=_("Latitude"), max_digits=17, decimal_places=15
+    )
+    lon = models.DecimalField(
+        verbose_name=_("Longitude"), max_digits=17, decimal_places=15
+    )
+
+    class Meta:
+        verbose_name = _("Location")
+        verbose_name_plural = _("Locations")
+
+    def __str__(self):
+        return self.name
+
+
+class Stay(models.Model):
+    DAILY = "DAILY"
+    WEEKLY = "WEEKLY"
+    SOMETIMES = "SOMETIMES"
+    ONCE = "ONCE"
+
+    FREQUENCY_CHOICES = [
+        ("DAILY", "Daily"),
+        ("WEEKLY", "Weekly"),
+        ("SOMETIMES", "Sometimes"),
+        ("ONCE", "Once"),
+    ]
+
+    location = models.ForeignKey(
+        Location, verbose_name=_("Location"), on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
+    frequency = models.CharField(
+        verbose_name=_("Frequency"), max_length=10, choices=FREQUENCY_CHOICES
+    )
+    start = models.DateField(
+        verbose_name=_("Start"),
+        validators=[MinValueValidator(limit_value=datetime.date.today)],
+        null=True,
+        blank=True,
+    )
+    end = models.DateField(
+        verbose_name=_("End"),
+        validators=[MinValueValidator(limit_value=datetime.date.today)],
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Stay")
+        verbose_name_plural = _("Stays")
