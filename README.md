@@ -43,9 +43,10 @@ VERSION=$(poetry run git-cliff --bumped-version)
 poetry run git-cliff --bump -o CHANGELOG.md
 # Update version in pyproject.toml
 vim pyproject.toml
+git add .
 git commit -m "bump: Release $VERSION"
-git tag -a $VERSION
-git push -a
+git tag $VERSION
+git push --all
 ```
 
 This will update the version in `pyproject.toml`, **create a new commit**, add a tag to that commit, and re-generate `CHANGELOG.md`.
