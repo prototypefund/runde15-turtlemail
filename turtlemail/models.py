@@ -92,6 +92,7 @@ class Location(models.Model):
     lon = models.DecimalField(
         verbose_name=_("Longitude"), max_digits=17, decimal_places=15
     )
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Location")

@@ -34,6 +34,10 @@ have been auto-created as directory – you can safely delete it and restart doc
 
 Work with your code as usual, adding or removing translation keys as needed. Afterwards, run `make update-translations` to generate a new `.pot` file and merge it with the existing `.po` files.
 
+### Import sample data
+
+run `make fixtures` to populate database with sample data
+
 ## Versioning
 
 To help with writing Prototypefund "Monday" updates, we can generate a changelog every two weeks by releasing a new version:

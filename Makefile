@@ -62,3 +62,7 @@ update-translations:
 	poetry run pybabel extract -F babel.cfg -o turtlemail/locale/django.pot .
 	poetry run pybabel update -i turtlemail/locale/django.pot --domain django --output-dir turtlemail/locale
 	rm turtlemail/locale/django.pot
+
+.PHONY: fixtures
+fixtures:
+	poetry run ./manage.py initdata
