@@ -65,4 +65,4 @@ update-translations:
 
 .PHONY: fixtures
 fixtures:
-	poetry run ./manage.py initdata
+	$(COMPOSE) exec -it backend turtlemailctl initdata
