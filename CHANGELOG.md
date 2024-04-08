@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2024-04-08
+
+### Bug Fixes
+
+- Changelog failing to render sometimes ([c13b876](c13b876a1e0b06e565ca8b59d74a394d164456ee))
+
+### Features
+
+- Add layout with navigation ([b718d92](b718d92ba1ba966b53bb9576054b41cc6e24ad89))
+- Add user model, signup and login ([ed83a6d](ed83a6d9669eb194025a944dcff4feaa01dd14f6))
+- Location and stay model ([468d9e0](468d9e09973ee1618a7707ea6405a9c98347e1b6))
+
+### Miscellaneous Tasks
+
+- Remove commitizen pre-commit hooks ([78b8a08](78b8a08c811b0ef7e6bd107928e44bd1ffb3e298))
+- Replace commitizen with 3 shell commands ([43c693f](43c693f0fda8d615d234a09c84a8339e5b1213d0))
+- Add formatting for jinja files ([502ec09](502ec09d3d45f264b054cd71d26a3a2a25b4afd3))
+- Add note for updating pyproject.toml on release ([e7f3395](e7f3395e2203da849fff8c249a81e73053eaf0f7))
+
+### Refactor
+
+- Function-based views ([9b8e3b7](9b8e3b7fcf7f88c4823f8e71df26b1d25798f53e))
+
 ## [0.1.1] - 2024-03-24
 
 ### Bug Fixes
