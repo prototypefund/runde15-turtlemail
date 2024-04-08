@@ -1,4 +1,14 @@
 - model: turtlemail.User
+  pk: 1
+  fields:
+    email: "admin@mail.local"
+    username: "admin"
+    is_staff: True
+    is_active: True
+    is_superuser: True
+    date_joined: 2024-04-08 13:34:35.764288+00:00
+    password: admin!
+- model: turtlemail.User
   pk: 2
   fields:
     email: "turtle@mail.local"

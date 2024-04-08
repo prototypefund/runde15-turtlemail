@@ -8,6 +8,5 @@ class Command(BaseCommand):
 
         call_command("loaddata", "initial_data.yaml")
         for user in User.objects.all():
-            if not user.is_superuser:
-                user.set_password(user.password)
-                user.save()
+            user.set_password(user.password)
+            user.save()
