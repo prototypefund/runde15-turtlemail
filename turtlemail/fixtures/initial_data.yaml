@@ -1,0 +1,100 @@
+- model: turtlemail.User
+  pk: 1
+  fields:
+    email: "admin@mail.local"
+    username: "admin"
+    is_staff: True
+    is_active: True
+    is_superuser: True
+    date_joined: 2024-04-08 13:34:35.764288+00:00
+    password: admin!
+- model: turtlemail.User
+  pk: 2
+  fields:
+    email: "turtle@mail.local"
+    username: "turtle"
+    is_staff: False
+    is_active: True
+    date_joined: 2024-04-02 13:34:35.764288+00:00
+    password: fasterthanrabbits!
+- model: turtlemail.User
+  pk: 3
+  fields:
+    email: "rabbit@mail.local"
+    username: "rabbit"
+    is_staff: False
+    is_active: True
+    date_joined: 2024-01-06 14:54:35.764288+00:00
+    password: turtlesarewhack!
+- model: turtlemail.location
+  pk: 1
+  fields:
+    user: 2
+    name: Zuhause
+    is_home: True
+    lat: 52.592879
+    lon: 13.431700
+- model: turtlemail.location
+  pk: 2
+  fields:
+    user: 2
+    name: Büro
+    is_home: False
+    lat: 52.530644
+    lon: 13.383068
+- model: turtlemail.location
+  pk: 3
+  fields:
+    user: 2
+    name: Fitness-Studio
+    is_home: False
+    lat: 52.520007
+    lon: 13.404954
+- model: turtlemail.location
+  pk: 4
+  fields:
+    user: 2
+    name: Hotel im Harz
+    is_home: False
+    lat: 51.762023294608895
+    lon: 10.67179715126023
+- model: turtlemail.location
+  pk: 5
+  fields:
+    user: 2
+    name: Beziehungsmensch
+    is_home: False
+    lat: 52.474145410871834
+    lon: 13.424565608461442
+- model: turtlemail.stay
+  pk: 1
+  fields:
+    location: 2
+    user: 2
+    frequency: DAILY
+    start: null
+    end: null
+- model: turtlemail.stay
+  pk: 2
+  fields:
+    location: 3
+    user: 2
+    frequency: "WEEKLY"
+    start: null
+    end: null
+- model: turtlemail.stay
+  pk: 3
+  fields:
+    location: 4
+    user: 2
+    frequency: "ONCE"
+    start: 2024-06-01
+    end: 2024-06-15
+- model: turtlemail.stay
+  pk: 4
+  fields:
+    location: 5
+    user: 2
+    frequency: "SOMETIMES"
+    start: null
+    end: null
