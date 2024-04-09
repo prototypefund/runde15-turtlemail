@@ -98,3 +98,105 @@
     frequency: "SOMETIMES"
     start: null
     end: null
+- model: turtlemail.Packet
+  pk: 1
+  fields:
+    human_id: cute-polar-bear
+    created_at: 2024-01-06 14:54:35.764288+00:00
+    sender: 2
+    receiver: 3
+    current_route: 1
+- model: turtlemail.Packet
+  pk: 2
+  fields:
+    human_id: fancy-palm-squirrel
+    created_at: 2024-02-06 19:24:35.764288+00:00
+    sender: 3
+    receiver: 1
+    current_route: 2
+- model: turtlemail.Route
+  pk: 1
+  fields:
+    status: CURRENT
+    packet: 1
+- model: turtlemail.RouteStep
+  pk: 1
+  fields:
+    route: 1
+    stay: 1
+    start: 2024-01-08
+    end: 2024-01-10
+    next_step: 2
+    packet: 1
+    status: COMPLETED
+- model: turtlemail.RouteStep
+  pk: 2
+  fields:
+    route: 1
+    stay: 2
+    start: 2024-01-10
+    end: 2024-01-15
+    previous_step: 1
+    packet: 1
+    status: COMPLETED
+- model: turtlemail.DeliveryLog
+  pk: 1
+  fields:
+    created_at: 2024-01-08 19:24:35.764288+00:00
+    route_step: 1
+    packet: 1
+    route: 1
+    action: ROUTE_STEP_CHANGE
+    new_step_status: ACCEPTED
+- model: turtlemail.DeliveryLog
+  pk: 2
+  fields:
+    created_at: 2024-01-09 08:24:35.764288+00:00
+    route_step: 1
+    packet: 1
+    route: 1
+    action: ROUTE_STEP_CHANGE
+    new_step_status: COMPLETED
+- model: turtlemail.Route
+  pk: 2
+  fields:
+    status: CURRENT
+    packet: 1
+- model: turtlemail.RouteStep
+  pk: 3
+  fields:
+    route: 2
+    stay: 1
+    start: 2024-01-08
+    end: 2024-01-10
+    next_step: 4
+    packet: 2
+    status: COMPLETED
+- model: turtlemail.RouteStep
+  pk: 4
+  fields:
+    route: 2
+    stay: 2
+    start: 2024-01-10
+    end: 2024-01-15
+    previous_step: 3
+    packet: 2
+    status: COMPLETED
+- model: turtlemail.DeliveryLog
+  pk: 3
+  fields:
+    created_at: 2024-01-08 19:24:35.764288+00:00
+    route_step: 2
+    packet: 2
+    route: 2
+    action: ROUTE_STEP_CHANGE
+    new_step_status: ACCEPTED
+- model: turtlemail.DeliveryLog
+  pk: 4
+  fields:
+    created_at: 2024-01-09 08:24:35.764288+00:00
+    route_step: 2
+    packet: 2
+    route: 2
+    action: ROUTE_STEP_CHANGE
+    new_step_status: COMPLETED

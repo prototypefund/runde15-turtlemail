@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-03 16:02+0200\n"
+"POT-Creation-Date: 2024-04-09 16:37+0200\n"
 "PO-Revision-Date: 2024-03-18 16:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -97,36 +97,93 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: turtlemail/models.py:97 turtlemail/models.py:118
-msgid "Location"
-msgstr ""
-
-#: turtlemail/models.py:98
-msgid "Locations"
-msgstr ""
-
-#: turtlemail/models.py:120
+#: turtlemail/models.py:95 turtlemail/models.py:121
 msgid "User"
 msgstr ""
 
-#: turtlemail/models.py:122
+#: turtlemail/models.py:98 turtlemail/models.py:119
+msgid "Location"
+msgstr ""
+
+#: turtlemail/models.py:99
+msgid "Locations"
+msgstr ""
+
+#: turtlemail/models.py:123
 msgid "Frequency"
 msgstr ""
 
-#: turtlemail/models.py:125
+#: turtlemail/models.py:126 turtlemail/models.py:217
 msgid "Start"
 msgstr ""
 
-#: turtlemail/models.py:129
+#: turtlemail/models.py:132 turtlemail/models.py:223
 msgid "End"
 msgstr ""
 
-#: turtlemail/models.py:134
+#: turtlemail/models.py:139 turtlemail/models.py:212
 msgid "Stay"
 msgstr ""
 
-#: turtlemail/models.py:135
+#: turtlemail/models.py:140 turtlemail/templates/turtlemail/layout.jinja:11
+#: turtlemail/templates/turtlemail/layout.jinja:30
 msgid "Stays"
+msgstr ""
+
+#: turtlemail/models.py:148
+msgid "Sender"
+msgstr ""
+
+#: turtlemail/models.py:154
+msgid "Recipient"
+msgstr ""
+
+#: turtlemail/models.py:158
+msgid "Created at"
+msgstr ""
+
+#: turtlemail/models.py:159
+msgid "Code"
+msgstr ""
+
+#: turtlemail/models.py:162
+msgid "Current route"
+msgstr ""
+
+#: turtlemail/models.py:182 turtlemail/models.py:245
+msgid "Status"
+msgstr ""
+
+#: turtlemail/models.py:185 turtlemail/models.py:243 turtlemail/models.py:268
+msgid "Packet"
+msgstr ""
+
+#: turtlemail/models.py:230
+msgid "Previous Step"
+msgstr ""
+
+#: turtlemail/models.py:237
+msgid "Next Step"
+msgstr ""
+
+#: turtlemail/models.py:247 turtlemail/models.py:270
+msgid "Route"
+msgstr ""
+
+#: turtlemail/models.py:260
+msgid "Datetime"
+msgstr ""
+
+#: turtlemail/models.py:263
+msgid "Routing Step"
+msgstr ""
+
+#: turtlemail/models.py:271
+msgid "Action Choices"
+msgstr ""
+
+#: turtlemail/models.py:274
+msgid "New Routing Step Status"
 msgstr ""
 
 #: turtlemail/settings.py:140
@@ -147,11 +204,9 @@ msgstr "Hallo %(name)s!"
 msgid "Deliveries"
 msgstr ""
 
-#: turtlemail/templates/turtlemail/layout.jinja:11
-#: turtlemail/templates/turtlemail/layout.jinja:30
-msgid "Trips"
-msgstr ""
-
 #: turtlemail/templates/turtlemail/layout.jinja:20
 msgid "turtlemail"
 msgstr ""
+
+#~ msgid "Trips"
+#~ msgstr ""
