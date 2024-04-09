@@ -109,10 +109,10 @@ class Stay(models.Model):
     ONCE = "ONCE"
 
     FREQUENCY_CHOICES = [
-        ("DAILY", "Daily"),
-        ("WEEKLY", "Weekly"),
-        ("SOMETIMES", "Sometimes"),
-        ("ONCE", "Once"),
+        (DAILY, "Daily"),
+        (WEEKLY, "Weekly"),
+        (SOMETIMES, "Sometimes"),
+        (ONCE, "Once"),
     ]
 
     location = models.ForeignKey(
