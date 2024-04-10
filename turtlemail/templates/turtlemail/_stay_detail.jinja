@@ -1,0 +1,12 @@
+<div class="grid grid-cols-2 p-4 md:grid-cols-3 gap-x-8 gap-y-4">
+    <div>{{ stay.location }}</div>
+    <div>
+        {{ stay.get_frequency_display() }}
+        {% if stay.start %}
+            <div class="col-span-2 text-base-content/60">
+                {{ stay.start|date }}
+                {% if stay.end %}until {{ stay.end|date }}{% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>

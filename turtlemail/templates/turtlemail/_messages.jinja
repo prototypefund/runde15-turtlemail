@@ -1,0 +1,15 @@
+<div>
+    {% if messages %}
+        <ul class="grid grid-cols w-full gap-y-2" id="messages">
+            {% for message in messages %}
+                <li class="alert {% if 'success' in message.tags %} alert-success {% elif 'error' in message.tags %} alert-error {% else %} alert-warning {% endif %} ">
+                    {% if 'safe' in message.tags %}
+                        {{ message|safe }}
+                    {% else %}
+                        {{ message }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

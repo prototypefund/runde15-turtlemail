@@ -1,18 +1,21 @@
 import secrets
 from typing import Any
-from django.contrib.auth.views import LoginView as _LoginView
-from django.http import HttpRequest
-from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView, DetailView
+
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin,
 )
+from django.contrib.auth.views import LoginView as _LoginView
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import CreateView, DetailView, TemplateView
 
 from turtlemail.models import Packet, RouteStep, User
 
-from .forms import UserCreationForm, AuthenticationForm, PacketForm
+from .forms import AuthenticationForm, PacketForm, StayForm, UserCreationForm
+from .models import Stay
 
 
 class DeliveriesView(LoginRequiredMixin, TemplateView):
@@ -21,6 +24,26 @@ class DeliveriesView(LoginRequiredMixin, TemplateView):
 
 class StaysView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/stays.jinja"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stays"] = Stay.objects.filter(user=self.request.user)
+        return context
+
+
+class HtmxCreateStayView(LoginRequiredMixin, CreateView):
+    model = Stay
+    template_name = "turtlemail/_stays_create_form.jinja"
+    form_class = StayForm
+    prefix = "create_stay"
+    success_url = reverse_lazy("stays")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        stay = form.save()
+        return render(
+            self.request, "turtlemail/_stays_create_form_success.jinja", {"stay": stay}
+        )
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):

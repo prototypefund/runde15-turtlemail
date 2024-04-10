@@ -1,14 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import (
-    BaseUserCreationForm,
     AuthenticationForm as _AuthenticationForm,
+)
+from django.contrib.auth.forms import (
+    BaseUserCreationForm,
     UsernameField,
 )
 from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
 
-from .models import User
+from .models import Stay, User
 
 
 class UserCreationForm(BaseUserCreationForm):
@@ -94,3 +96,28 @@ class PacketForm(forms.Form):
     def clean(self):
         if self.cleaned_data["clear_recipient_id"]:
             self.cleaned_data["recipient_id"] = None
+
+
+class StayForm(forms.ModelForm):
+    class Meta:
+        model = Stay
+        fields = ("location", "frequency", "start", "end")
+        widgets = {
+            "start": forms.DateInput(attrs={"type": "date"}),
+            "end": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        stay_start = cleaned_data["start"]
+        stay_end = cleaned_data["end"]
+        frequency = cleaned_data["frequency"]
+        needs_dates = frequency == Stay.ONCE
+        if (stay_start and stay_end) and (stay_end < stay_start):
+            self.add_error(
+                "start", _("The start date must be at or before the end date.")
+            )
+        if needs_dates and not stay_end:
+            self.add_error("end", _("The end date is required."))
+        if needs_dates and not stay_start:
+            self.add_error("start", _("The start date is required."))

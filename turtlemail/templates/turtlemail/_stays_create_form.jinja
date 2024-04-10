@@ -1,0 +1,49 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% block content %}
+    <form method="post"
+          hx-post="{{ url("htmx-create-stay") }}"
+          id="create_stay_form"
+          hx-swap="outerHTML"
+          class="grid items-stretch grid-cols-2 p-2 gap-x-8 gap-y-2 md:grid-cols-3">
+        {{ form.non_field_errors() }}
+        {% csrf_token %}
+        {% with field=form.location, label=True %}
+            {% include "turtlemail/_select_field.jinja" %}
+        {% endwith %}
+        {% with field=form.frequency, label=True %}
+            {% include "turtlemail/_select_field.jinja" %}
+        {% endwith %}
+        {% with field=form.start, label=True, hidden=True %}
+            {% include "turtlemail/_date_field.jinja" %}
+        {% endwith %}
+        {% with field=form.end, label=True, hidden=True %}
+            {% include "turtlemail/_date_field.jinja" %}
+        {% endwith %}
+        <button class="self-end w-full btn btn-primary">
+            {# Add an invisible indicator to keep the save text centered... #}
+            <span class="invisible loading"></span>
+            {{ _("Save") }}
+            <span class="loading htmx-indicator"></span>
+        </button>
+    </form>
+    <script type="module">
+    // show date pickers if frequency "once" is selected
+
+    const select = document.getElementById("{{form.frequency.auto_id}}");
+    const startDate = document.getElementById("{{ form.start.id_for_label}}_elem");
+    const endDate = document.getElementById("{{ form.end.id_for_label}}_elem");
+
+    function updateInputVisibility() {
+        const datesVisible = select.options[select.selectedIndex].value == "ONCE";
+
+        startDate.classList.toggle("hidden", !datesVisible);
+        startDate.getElementsByTagName("input")[0].toggleAttribute("disabled", !datesVisible);
+        endDate.classList.toggle("hidden", !datesVisible);
+        endDate.getElementsByTagName("input")[0].toggleAttribute("disabled", !datesVisible);
+    }
+
+    select.addEventListener('change', updateInputVisibility);
+    // When injecting this form, instantly set the correct visibility
+    updateInputVisibility()
+    </script>
+{% endblock %}
