@@ -6,6 +6,8 @@ from django.contrib.auth.forms import (
 )
 from django.utils.translation import gettext_lazy as _
 
+from turtlemail import widgets
+
 from .models import User
 
 
@@ -73,3 +75,22 @@ class AuthenticationForm(_AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.action = "Log In"
+
+
+class PacketForm(forms.Form):
+    recipient_username = forms.CharField(
+        widget=widgets.TextInput(),
+        label=_("Who would you like to send your packet to?"),
+        required=False,
+    )
+    recipient_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+    clear_recipient_id = forms.BooleanField(
+        required=False, label=_("Clear selected recipient")
+    )
+    confirm_recipient = forms.BooleanField(
+        required=False, label=_("Proceed with this recipient")
+    )
+
+    def clean(self):
+        if self.cleaned_data["clear_recipient_id"]:
+            self.cleaned_data["recipient_id"] = None

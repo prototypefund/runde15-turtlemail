@@ -1,4 +1,5 @@
 import datetime
+from typing import ClassVar
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -42,6 +43,11 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+    def search_for_recipient(self, username: str, searching_users_id: int):
+        return self.filter(
+            username__icontains=username,
+        ).exclude(id__exact=searching_users_id)
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -65,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
-    objects = UserManager()
+    objects: ClassVar[UserManager] = UserManager()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
@@ -157,13 +163,6 @@ class Packet(models.Model):
     )
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     human_id = models.TextField(verbose_name=_("Code"), unique=True)
-    current_route = models.OneToOneField(
-        "Route",
-        verbose_name=_("Current route"),
-        on_delete=models.RESTRICT,
-        # Don't create a field on the route pointing to this packet
-        related_name="+",
-    )
 
     class Meta:
         indexes = [
