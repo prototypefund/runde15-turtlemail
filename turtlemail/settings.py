@@ -83,6 +83,7 @@ TEMPLATES = [
             "extensions": [
                 *DEFAULT_EXTENSIONS,
             ],
+            "auto_reload": DEBUG,
         },
     },
     {
