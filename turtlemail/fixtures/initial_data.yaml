@@ -104,14 +104,14 @@
     human_id: cute-polar-bear
     created_at: 2024-01-06 14:54:35.764288+00:00
     sender: 2
-    receiver: 3
+    recipient: 3
 - model: turtlemail.Packet
   pk: 2
   fields:
     human_id: fancy-palm-squirrel
     created_at: 2024-02-06 19:24:35.764288+00:00
     sender: 3
-    receiver: 1
+    recipient: 1
 - model: turtlemail.Route
   pk: 1
   fields:

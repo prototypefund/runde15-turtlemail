@@ -155,7 +155,7 @@ class Packet(models.Model):
         on_delete=models.RESTRICT,
         related_name="sent_packets",
     )
-    receiver = models.ForeignKey(
+    recipient = models.ForeignKey(
         User,
         verbose_name=_("Recipient"),
         on_delete=models.RESTRICT,
@@ -168,7 +168,7 @@ class Packet(models.Model):
         indexes = [
             models.Index(fields=["human_id"]),
             models.Index(fields=["sender_id"]),
-            models.Index(fields=["receiver_id"]),
+            models.Index(fields=["recipient_id"]),
         ]
 
         verbose_name = _("Packet")

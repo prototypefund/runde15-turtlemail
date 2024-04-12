@@ -63,12 +63,11 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
         if not form.cleaned_data["confirm_recipient"]:
             return self.render_to_response(context)
 
-        # TODO rename receiver to recipient
         human_id = secrets.token_hex(8)
         packet = Packet(
             sender=request.user,
             human_id=human_id,
-            receiver=context["recipient"],
+            recipient=context["recipient"],
         )
         packet.save()
         return redirect(to=reverse("packet_detail", args=(packet.human_id,)))
