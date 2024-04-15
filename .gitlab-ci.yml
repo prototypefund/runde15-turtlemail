@@ -54,7 +54,9 @@ build_to_docker_registry:
   - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
   - /kaniko/executor --context ./ --dockerfile Dockerfile --destination $CD_DOCKER_REPO:$CD_REF_NAME --registry-mirror docker-mirror.collocall.de
   rules:
-  - if: $CI_REGISTRY_IMAGE != ""
+  - if: $CI_REGISTRY_IMAGE == ""
+    when: never
+  - when: on_success
   only:
   - main
 
