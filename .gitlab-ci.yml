@@ -41,3 +41,31 @@ test::js:
 deploy::container-image:
   variables:
     KANIKO_ARGS: --target production
+
+
+build_to_docker_registry:
+  tags:
+  - docker
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    CD_DOCKER_REPO: $CI_REGISTRY_IMAGE/turtlemail
+    CD_REF_NAME: latest
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+  - echo "$CI_REGISTRY_IMAGE"
+  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+  - /kaniko/executor --context ./ --dockerfile Dockerfile --destination $CD_DOCKER_REPO:$CD_REF_NAME --registry-mirror docker-mirror.collocall.de
+  only:
+  - main
+
+deploy_prod:
+  variables:
+    K8S_NAMESPACE: "uni-turtlemail"
+    K8S_DEPLOYMENT: "uni-turtlemail"
+  stage: deploy
+  trigger: "kubernetes/cluster1-uni-services"
+  only:
+  - main
