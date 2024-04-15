@@ -1,0 +1,6 @@
+<form hx-post="{{ url("edit-stay", pk=stay.id) }}"
+      hx-target="this"
+      hx-swap="outerHTML">
+    {{ stay.location }}
+    <button class="btn button-secondary">Save</button>
+</form>

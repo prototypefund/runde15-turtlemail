@@ -1,3 +1,6 @@
+{% if include_messages %}
+    {% include "turtlemail/_messages.jinja" %}
+{% endif %}
 <div class="grid grid-cols-2 p-4 md:grid-cols-3 gap-x-8 gap-y-4">
     <div>{{ stay.location }}</div>
     <div>
@@ -8,5 +11,15 @@
                 {% if stay.end %}until {{ stay.end|date }}{% endif %}
             </div>
         {% endif %}
+    </div>
+    <div class="flex flex-row gap-x-2">
+        <button type="button"
+                hx-get="{{ url("htmx-update-stay", pk=stay.id) }}"
+                hx-target="#stay_{{ stay.id }}"
+                class="btn btn-secondary btn-xs">{{ _("Edit") }}</button>
+        <button hx-delete="{{ url("htmx-delete-stay", pk=stay.id) }}"
+                hx-target="#stay_{{ stay.id }}"
+                hx-swap="outerHtml"
+                class="btn btn-secondary btn-xs">{{ _("Delete") }}</button>
     </div>
 </div>
