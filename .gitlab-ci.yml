@@ -1,9 +1,9 @@
 include:
-  - project: 'kmohrf/gitlabfilet'
-    ref: 'v1.3.0'
+  - project: "kmohrf/gitlabfilet"
+    ref: "v1.3.0"
     file:
-      - '/templates/python.gitlab-ci.yml'
-      - '/templates/container.gitlab-ci.yml'
+      - "/templates/python.gitlab-ci.yml"
+      - "/templates/container.gitlab-ci.yml"
 
 variables:
   GITLABFILET_IMAGE: git-registry.hack-hro.de:443/kmohrf/docker-recipes/debbuild-python-webdev:bookworm
@@ -40,7 +40,7 @@ test::js:
 
 build_to_docker_registry:
   tags:
-  - docker
+    - docker
   stage: build
   image:
     name: gcr.io/kaniko-project/executor:debug
@@ -50,13 +50,13 @@ build_to_docker_registry:
     CD_REF_NAME: latest
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-  - echo "$CI_REGISTRY_IMAGE"
-  - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-  - /kaniko/executor --context ./ --dockerfile Dockerfile --destination $CD_DOCKER_REPO:$CD_REF_NAME --registry-mirror docker-mirror.collocall.de
+    - echo "$CI_REGISTRY_IMAGE"
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context ./ --dockerfile Dockerfile --destination $CD_DOCKER_REPO:$CD_REF_NAME --registry-mirror docker-mirror.collocall.de
   rules:
-  - if: $CI_REGISTRY_IMAGE
+    - if: $CI_REGISTRY_IMAGE
   only:
-  - main
+    - main
 
 deploy_prod:
   variables:
@@ -65,4 +65,4 @@ deploy_prod:
   stage: deploy
   trigger: "kubernetes/cluster1-uni-services"
   only:
-  - main
+    - main
