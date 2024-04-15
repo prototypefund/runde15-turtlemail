@@ -38,11 +38,6 @@ test::js:
   script:
     - npm run test
 
-deploy::container-image:
-  variables:
-    KANIKO_ARGS: --target production
-
-
 build_to_docker_registry:
   tags:
   - docker
