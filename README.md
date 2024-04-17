@@ -17,10 +17,19 @@ To use the pre-commit hooks, first [install poetry](https://python-poetry.org/do
 poetry run pre-commit install
 ```
 
-Other django commands can be run by executing:
+Django commands should generally be executed locally with:
+
+```
+./manage [...args]
+```
+
+(`./manage` is our shortcut to `pipx run poetry run ./manage.py`)
+
+Django commands are also available in the container but don’t have write
+access to the application code. Execute:
 
 ```shell
-docker compose exec -it backend turtlemailctl
+docker compose exec -it backend turtlemailctl [...args]
 ```
 
 Once the server is started you can access the development environment
