@@ -3,10 +3,13 @@ from django.contrib.auth.views import LoginView as _LoginView
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.views.generic import CreateView, TemplateView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.urls import reverse, reverse_lazy
 
-from turtlemail.models import Packet, User
+from turtlemail.models import Packet, RouteStep, User
 
 from .forms import UserCreationForm, AuthenticationForm, PacketForm
 
@@ -73,7 +76,27 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
         return redirect(to=reverse("packet_detail", args=(packet.human_id,)))
 
 
-class PacketDetailView(LoginRequiredMixin, DetailView):
+class PacketDetailView(UserPassesTestMixin, DetailView):
     template_name = "turtlemail/packet_detail.jinja"
     model = Packet
     slug_field = "human_id"
+
+    def test_func(self) -> bool | None:
+        """Only allow users involved with a packet to view it:
+
+        a) Sender and Recipient
+        b) People that will carry out a route step
+        c) Superusers
+        """
+        packet: Packet = self.get_object()
+        is_part_of_route = RouteStep.objects.filter(
+            packet_id=packet.id, stay__user__id=self.request.user.id
+        ).exists()
+        is_sender_or_recipient = self.request.user.id in {
+            packet.recipient.id,
+            packet.sender.id,
+        }
+
+        return (
+            is_sender_or_recipient or is_part_of_route or self.request.user.is_superuser
+        )
