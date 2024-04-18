@@ -1,9 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,vue}",
-    "./turtlemail/**/*.{html,jinja,js,py}",
+    './src/**/*.{js,ts,jsx,tsx,vue}',
+    './turtlemail/**/*.{html,jinja,js,py}',
   ],
   theme: {},
-  plugins: [require("daisyui")],
-};
+  plugins: [require('daisyui')],
+}

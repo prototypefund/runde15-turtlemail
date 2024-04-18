@@ -1,5 +1,5 @@
-import htmx from "htmx.org";
+import htmx from 'htmx.org'
 
-htmx.on("htmx:responseError", (e) => {
-  console.error(e);
-});
+htmx.on('htmx:responseError', (e) => {
+  console.error(e)
+})
