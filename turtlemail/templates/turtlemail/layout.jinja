@@ -15,7 +15,7 @@
             <span class="btm-nav-label">{{ request.user.username }}</span>
         </a>
     </nav>
-    <div class="sticky top-0 hidden navbar bg-base-100 lg:flex">
+    <nav class="sticky top-0 hidden navbar bg-base-100 lg:flex">
         <div class="navbar-start">
             <a href="{{ url("deliveries") }}" class="text-xl btn btn-ghost">{{ _("turtlemail") }}</a>
         </div>
@@ -35,7 +35,7 @@
             <a href="{{ url("profile") }}"
                class="h-8 px-4 mr-4 badge hover:bg-base-200 {% if url_name == "profile" %}badge-neutral{% endif %}">{{ request.user.username }}</a>
         </div>
-    </div>
+    </nav>
     <div class="pt-8 pb-32 lg:pb-8" id="hx-nav-boost-content">
         {% block content %}{% endblock %}
     </div>
