@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView as _LoginView
 from django.shortcuts import redirect
 from django.views.generic import View, CreateView, TemplateView
@@ -11,15 +12,15 @@ class IndexView(View):
         return redirect(reverse("deliveries"), permanent=True)
 
 
-class DeliveriesView(TemplateView):
+class DeliveriesView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/deliveries.jinja"
 
 
-class StaysView(TemplateView):
+class StaysView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/stays.jinja"
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/profile.jinja"
 
 
