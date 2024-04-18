@@ -1,5 +1,5 @@
 import datetime
-from typing import ClassVar
+from typing import ClassVar, TYPE_CHECKING
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -10,6 +10,9 @@ from django.contrib.auth.models import (
 from django.core.validators import MinValueValidator
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
 
 
 class UserManager(BaseUserManager):
@@ -50,6 +53,16 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        # Relationships
+        location_set: RelatedManager["Location"]
+        stay_set: RelatedManager["Stay"]
+        sent_packets: RelatedManager["Packet"]
+        received_packets: RelatedManager["Packet"]
+
     email = models.EmailField(
         verbose_name=_("email address"),
         max_length=255,
@@ -90,6 +103,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Location(models.Model):
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        # Relationships
+        stay_set: RelatedManager["Stay"]
+
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     is_home = models.BooleanField(verbose_name=_("Home"))
     lat = models.DecimalField(
@@ -121,6 +141,12 @@ class Stay(models.Model):
         (ONCE, "Once"),
     ]
 
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        route_steps: RelatedManager["RouteStep"]
+
     location = models.ForeignKey(
         Location, verbose_name=_("Location"), on_delete=models.CASCADE
     )
@@ -147,6 +173,14 @@ class Stay(models.Model):
 
 
 class Packet(models.Model):
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        all_routes: RelatedManager["Route"]
+        route_step_set: RelatedManager["RouteStep"]
+        delivery_log_set: RelatedManager["DeliveryLog"]
+
     # Users with packets can't be deleted right now.
     # What if the packet is still being delivered?
     sender = models.ForeignKey(
@@ -184,6 +218,13 @@ class Route(models.Model):
 
     STATUS_CHOICES = [(CURRENT, "Current"), (CANCELLED, "Cancelled")]
 
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        steps: RelatedManager["RouteStep"]
+        delivery_log_set: RelatedManager["DeliveryLog"]
+
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     packet = models.ForeignKey(
         Packet,
@@ -214,6 +255,12 @@ class RouteStep(models.Model):
         (COMPLETED, "Completed"),
         (CANCELLED, "Cancelled"),
     ]
+
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
+
+        delivery_logs: RelatedManager["DeliveryLog"]
 
     stay = models.ForeignKey(
         Stay,
@@ -268,6 +315,10 @@ class DeliveryLog(models.Model):
         (ROUTE_STEP_CHANGE, "Route Step Changed"),
         (NEW_ROUTE, "New Route"),
     )
+
+    if TYPE_CHECKING:
+        # Automatically generated
+        id: int
 
     created_at = models.DateTimeField(verbose_name=_("Datetime"))
     route_step = models.ForeignKey(
