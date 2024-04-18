@@ -171,8 +171,8 @@ class Packet(models.Model):
             models.Index(fields=["recipient_id"]),
         ]
 
-        verbose_name = _("Packet")
-        verbose_name_plural = _("Packets")
+        verbose_name = _("Delivery")
+        verbose_name_plural = _("Deliveries")
 
     def __str__(self):
         return f'Packet "{self.human_id}"'
@@ -187,7 +187,7 @@ class Route(models.Model):
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     packet = models.ForeignKey(
         Packet,
-        verbose_name=_("Packet"),
+        verbose_name=_("Delivery"),
         on_delete=models.CASCADE,
         related_name="all_routes",
     )
@@ -248,7 +248,7 @@ class RouteStep(models.Model):
         null=True,
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Packet"), on_delete=models.CASCADE
+        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE
     )
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     route = models.ForeignKey(
@@ -277,7 +277,7 @@ class DeliveryLog(models.Model):
         related_name="delivery_logs",
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Packet"), on_delete=models.CASCADE, unique=False
+        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE, unique=False
     )
     route = models.ForeignKey(Route, verbose_name=_("Route"), on_delete=models.CASCADE)
     action = models.TextField(choices=ACTION_CHOICES, verbose_name=_("Action Choices"))
