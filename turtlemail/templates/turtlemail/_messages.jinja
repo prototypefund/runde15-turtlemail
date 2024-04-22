@@ -1,15 +1,17 @@
-<div>
+<ul hx-swap-oob="beforeend"
+    id="global_messages"
+    class="z-10 toast bottom-16 lg:bottom-0 min-w-64">
     {% if messages %}
-        <ul class="grid grid-cols w-full gap-y-2" id="messages">
-            {% for message in messages %}
-                <li class="alert {% if 'success' in message.tags %} alert-success {% elif 'error' in message.tags %} alert-error {% else %} alert-warning {% endif %} ">
-                    {% if 'safe' in message.tags %}
-                        {{ message|safe }}
-                    {% else %}
-                        {{ message }}
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        {% for message in messages %}
+            <li class="alert {% if 'success' in message.tags %} alert-success {% elif 'error' in message.tags %} alert-error {% elif 'warning' in message.tags %} alert-warning {% else %} alert-info {% endif %} ">
+                {% if 'safe' in message.tags %}
+                    {{ message|safe }}
+                {% else %}
+                    {{ message }}
+                {% endif %}
+                <button class="btn btn-ghost btn-square btn-sm justify-self-end"
+                        onclick="this.parentNode.remove()">{% include "turtlemail/icons/circle_x.jinja" %}</button>
+            </li>
+        {% endfor %}
     {% endif %}
-</div>
+</ul>
