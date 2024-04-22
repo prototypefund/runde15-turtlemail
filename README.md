@@ -59,7 +59,7 @@ vim pyproject.toml
 git add .
 git commit -m "bump: Release $VERSION"
 git tag $VERSION
-git push --all
+git push --tags
 ```
 
 This will update the version in `pyproject.toml`, **create a new commit**, add a tag to that commit, and re-generate `CHANGELOG.md`.
