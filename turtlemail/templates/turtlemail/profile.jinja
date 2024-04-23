@@ -3,9 +3,9 @@
     <div class="p-8 bg-base-100 rounded-box">
         <h2 class="text-2xl font-bold">
             {{ request.user.username }}
-            {% if not request.user.is_staff %}<span class="ml-1 badge">{{ _("staff") }}</span>{% endif %}
-            {% if not request.user.is_superuser %}<span class="ml-1 badge">{{ _("superuser") }}</span>{% endif %}
-            {% if request.user.is_active %}<span class="ml-1 badge badge-neutral">{{ _("deactivated") }}</span>{% endif %}
+            {% if request.user.is_staff %}<span class="ml-1 badge">{{ _("staff") }}</span>{% endif %}
+            {% if request.user.is_superuser %}<span class="ml-1 badge">{{ _("superuser") }}</span>{% endif %}
+            {% if not request.user.is_active %}<span class="ml-1 badge badge-neutral">{{ _("deactivated") }}</span>{% endif %}
         </h2>
         <h3 class="mt-4 text-sm text-base-content/80">{{ _("Email") }}</h3>
         <p>{{ request.user.email }}</p>
