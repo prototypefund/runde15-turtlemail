@@ -16,16 +16,27 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LogoutView
+from django.views.generic import RedirectView
 
 from turtlemail import views
 
 urlpatterns = [
     path("-/admin/", admin.site.urls),
-    path("", views.IndexView.as_view(), name="index"),
+    path(
+        "",
+        RedirectView.as_view(url=reverse_lazy("deliveries"), permanent=True),
+        name="index",
+    ),
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
     path("stays", views.StaysView.as_view(), name="stays"),
+    path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
+    path(
+        "delivery/<slug:slug>",
+        views.PacketDetailView.as_view(),
+        name="packet_detail",
+    ),
     path("profile", views.ProfileView.as_view(), name="profile"),
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("login", views.LoginView.as_view(), name="login"),

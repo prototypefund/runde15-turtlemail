@@ -1,0 +1,78 @@
+{% extends "turtlemail/layout.jinja" %}
+{% block content %}
+    <div class="w-full max-w-lg p-10 mx-auto my-auto bg-base-100 rounded-box">
+        <h1 class="text-2xl">{{ _("Place a delivery") }}</h1>
+        <form method="post"
+              hx-post=""
+              hx-target="#hx-nav-boost-content"
+              hx-select="#hx-nav-boost-content"
+              hx-swap="outerHTML"
+              hx-push-url="true"
+              class="mt-2">
+            {% csrf_token %}
+            {% if form.non_field_errors() %}
+                <div class="mb-6">
+                    <div class="alert alert-error">{{ form.non_field_errors() }}</div>
+                </div>
+            {% endif %}
+            {% if recipient is not defined %}
+                {% with field=form.recipient_username %}
+                    <label class="form-control">
+                        <span class="label">
+                            <span class="label-text">{{ form.recipient_username.label }}</span>
+                        </span>
+                        <input class="input input-bordered {{ "input-error" if field.errors|length > 0 }}"
+                               type="search"
+                               name="{{ field.html_name }}"
+                               placeholder="{{ _("Type to search by username...") }}"
+                               hx-post=""
+                               hx-trigger="input changed delay:500ms, search, load"
+                               hx-target="#search-results"
+                               hx-select="#search-results"
+                               hx-swap="outerHTML"
+                               {% if field.value() != None %}value="{{ field.value() }}"{% endif %}>
+                        {% for error in field.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
+                    </label>
+                {% endwith %}
+                <div id="search-results" aria-labelledby="search-results-heading">
+                    <h2 class="sr-only" id="search-results-heading">Search Results</h2>
+                    {% if search_results|length > 0 %}
+                        <ul class="mt-2 overflow-y-scroll menu bg-base-200 rounded-box max-h-36 flex-nowrap">
+                            {% for user in search_results %}
+                                <li>
+                                    <button name="{{ form.recipient_id.html_name }}"
+                                            value="{{ user.id }}"
+                                            type="submit">{{ user.username }}</button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% elif form.recipient_username.value() is not none and form.recipient_username.value()|length > 0 %}
+                        <p class="mt-2 ml-2">{{ _("No results found!") }}</p>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="form-control">
+                    <span class="label">
+                        <span class="label-text">{{ form.recipient_username.label }}</span>
+                    </span>
+                    <div class="flex items-stretch gap-1">
+                        <p class="flex items-center px-4 py-2 border rounded-btn bg-base-200 border-neutral/20">
+                            <span class="sr-only">selected user</span> <strong>{{ recipient.username }}</strong>
+                        </p>
+                        <button class="btn btn-ghost btn-square text-base-content/60"
+                                title="{{ form.clear_recipient_id.label }}"
+                                name="{{ form.clear_recipient_id.html_name }}"
+                                value="true"
+                                type="submit">{% include "turtlemail/icons/circle_x.jinja" %}</button>
+                    </div>
+                </div>
+                <input type="hidden"
+                       name="{{ form.recipient_id.html_name }}"
+                       value="{{ form.recipient_id.value() }}">
+                <button class="w-full mt-6 btn btn-primary"
+                        name="{{ form.confirm_recipient.html_name }}"
+                        value="true">{{ form.confirm_recipient.label }}</button>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

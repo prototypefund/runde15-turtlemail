@@ -1,0 +1,10 @@
+<label class="form-control">
+    <div class="label">
+        <span class="label-text">{{ field.label }}</span>
+    </div>
+    <input type="{{ field.type }}"
+           name="{{ field.html_name }}"
+           class="input input-bordered {{ "input-error" if field.errors|length > 0 }}"
+           {% if field.value() != None %}value="{{ field.value() }}"{% endif %}>
+    {% for error in field.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
+</label>

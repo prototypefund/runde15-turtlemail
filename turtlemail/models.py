@@ -1,4 +1,5 @@
 import datetime
+from typing import ClassVar
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -42,6 +43,11 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+    def search_for_recipient(self, username: str, searching_users_id: int):
+        return self.filter(
+            username__icontains=username,
+        ).exclude(id__exact=searching_users_id)
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
@@ -65,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
-    objects = UserManager()
+    objects: ClassVar[UserManager] = UserManager()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
@@ -149,7 +155,7 @@ class Packet(models.Model):
         on_delete=models.RESTRICT,
         related_name="sent_packets",
     )
-    receiver = models.ForeignKey(
+    recipient = models.ForeignKey(
         User,
         verbose_name=_("Recipient"),
         on_delete=models.RESTRICT,
@@ -157,23 +163,16 @@ class Packet(models.Model):
     )
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     human_id = models.TextField(verbose_name=_("Code"), unique=True)
-    current_route = models.OneToOneField(
-        "Route",
-        verbose_name=_("Current route"),
-        on_delete=models.RESTRICT,
-        # Don't create a field on the route pointing to this packet
-        related_name="+",
-    )
 
     class Meta:
         indexes = [
             models.Index(fields=["human_id"]),
             models.Index(fields=["sender_id"]),
-            models.Index(fields=["receiver_id"]),
+            models.Index(fields=["recipient_id"]),
         ]
 
-        verbose_name = _("Packet")
-        verbose_name_plural = _("Packets")
+        verbose_name = _("Delivery")
+        verbose_name_plural = _("Deliveries")
 
     def __str__(self):
         return f'Packet "{self.human_id}"'
@@ -188,7 +187,7 @@ class Route(models.Model):
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     packet = models.ForeignKey(
         Packet,
-        verbose_name=_("Packet"),
+        verbose_name=_("Delivery"),
         on_delete=models.CASCADE,
         related_name="all_routes",
     )
@@ -249,7 +248,7 @@ class RouteStep(models.Model):
         null=True,
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Packet"), on_delete=models.CASCADE
+        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE
     )
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     route = models.ForeignKey(
@@ -278,7 +277,7 @@ class DeliveryLog(models.Model):
         related_name="delivery_logs",
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Packet"), on_delete=models.CASCADE, unique=False
+        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE, unique=False
     )
     route = models.ForeignKey(Route, verbose_name=_("Route"), on_delete=models.CASCADE)
     action = models.TextField(choices=ACTION_CHOICES, verbose_name=_("Action Choices"))
