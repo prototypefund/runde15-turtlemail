@@ -10,6 +10,8 @@ services:
       DEBUG_SERVER: ${DEBUG_SERVER}
     volumes:
       - ./turtlemail/:/usr/share/turtlemail/turtlemail/
+      - ./pyproject.toml:/usr/share/turtlemail/pyproject.toml
+      - ./poetry.lock:/usr/share/turtlemail/poetry.lock
       - ./manage.py:/usr/share/turtlemail/manage.py
       - ./docker/entrypoint.sh:/usr/bin/turtlemailctl
 
