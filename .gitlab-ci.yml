@@ -1,9 +1,9 @@
 include:
-  - project: 'kmohrf/gitlabfilet'
-    ref: 'v1.3.0'
+  - project: "kmohrf/gitlabfilet"
+    ref: "v1.3.0"
     file:
-      - '/templates/python.gitlab-ci.yml'
-      - '/templates/container.gitlab-ci.yml'
+      - "/templates/python.gitlab-ci.yml"
+      - "/templates/container.gitlab-ci.yml"
 
 variables:
   GITLABFILET_IMAGE: git-registry.hack-hro.de:443/kmohrf/docker-recipes/debbuild-python-webdev:bookworm
@@ -41,3 +41,8 @@ test::js:
 deploy::container-image:
   variables:
     KANIKO_ARGS: --target production
+
+test::python:
+  before_script:
+    - apt update -y
+    - apt install -y binutils libproj-dev gdal-bin python3-psycopg2
