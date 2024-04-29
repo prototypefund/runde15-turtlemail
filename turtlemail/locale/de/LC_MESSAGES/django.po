@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 10:28+0200\n"
+"POT-Creation-Date: 2024-04-29 11:24+0200\n"
 "PO-Revision-Date: 2024-03-18 16:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -16,34 +16,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.15.0\n"
 
-#: turtlemail/forms.py:16
+#: turtlemail/forms.py:18
 msgid "Username"
 msgstr ""
 
-#: turtlemail/forms.py:22
+#: turtlemail/forms.py:24
 msgid "E-mail"
 msgstr ""
 
-#: turtlemail/forms.py:28
+#: turtlemail/forms.py:30
 msgid "Password"
 msgstr ""
 
-#: turtlemail/forms.py:38
+#: turtlemail/forms.py:40
 msgid "Password confirmation"
 msgstr ""
 
-#: turtlemail/forms.py:83
+#: turtlemail/forms.py:85
 msgid "Who would you like to send your delivery to?"
 msgstr ""
 
-#: turtlemail/forms.py:88
+#: turtlemail/forms.py:90
 msgid "Clear selected recipient"
 msgstr ""
 
-#: turtlemail/forms.py:91
+#: turtlemail/forms.py:93
 msgid "Proceed with this recipient"
+msgstr ""
+
+#: turtlemail/forms.py:118
+msgid "The start date must be at or before the end date."
+msgstr ""
+
+#: turtlemail/forms.py:121
+msgid "The end date is required."
+msgstr ""
+
+#: turtlemail/forms.py:123
+msgid "The start date is required."
 msgstr ""
 
 #: turtlemail/models.py:26
@@ -58,196 +70,228 @@ msgstr ""
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: turtlemail/models.py:61
+#: turtlemail/models.py:68
 msgid "email address"
 msgstr ""
 
-#: turtlemail/models.py:67
+#: turtlemail/models.py:74
 msgid "staff status"
 msgstr ""
 
-#: turtlemail/models.py:69
+#: turtlemail/models.py:76
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: turtlemail/models.py:72
+#: turtlemail/models.py:79
 msgid "active"
 msgstr ""
 
-#: turtlemail/models.py:74
+#: turtlemail/models.py:81
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: turtlemail/models.py:79
+#: turtlemail/models.py:86
 msgid "date joined"
 msgstr ""
 
-#: turtlemail/models.py:88
+#: turtlemail/models.py:95
 msgid "user"
 msgstr ""
 
-#: turtlemail/models.py:89
+#: turtlemail/models.py:96
 msgid "users"
 msgstr ""
 
-#: turtlemail/models.py:100
+#: turtlemail/models.py:114
 msgid "Name"
 msgstr ""
 
-#: turtlemail/models.py:101
+#: turtlemail/models.py:115
 msgid "Home"
 msgstr ""
 
-#: turtlemail/models.py:103
-msgid "Latitude"
-msgstr ""
-
-#: turtlemail/models.py:106
-msgid "Longitude"
-msgstr ""
-
-#: turtlemail/models.py:108 turtlemail/models.py:134
-msgid "User"
-msgstr ""
-
-#: turtlemail/models.py:111 turtlemail/models.py:132
+#: turtlemail/models.py:117 turtlemail/models.py:121 turtlemail/models.py:148
 msgid "Location"
 msgstr ""
 
-#: turtlemail/models.py:112
+#: turtlemail/models.py:118 turtlemail/models.py:150
+msgid "User"
+msgstr ""
+
+#: turtlemail/models.py:122
 msgid "Locations"
 msgstr ""
 
-#: turtlemail/models.py:136
+#: turtlemail/models.py:152
 msgid "Frequency"
 msgstr ""
 
-#: turtlemail/models.py:139 turtlemail/models.py:273
+#: turtlemail/models.py:155 turtlemail/models.py:310
 msgid "Start"
 msgstr ""
 
-#: turtlemail/models.py:145 turtlemail/models.py:279
+#: turtlemail/models.py:161 turtlemail/models.py:316
 msgid "End"
 msgstr ""
 
-#: turtlemail/models.py:152 turtlemail/models.py:268
+#: turtlemail/models.py:168 turtlemail/models.py:305
 msgid "Stay"
 msgstr ""
 
-#: turtlemail/models.py:153 turtlemail/templates/turtlemail/layout.jinja:11
-#: turtlemail/templates/turtlemail/layout.jinja:30
+#: turtlemail/models.py:169 turtlemail/templates/turtlemail/layout.jinja:12
+#: turtlemail/templates/turtlemail/layout.jinja:31
+#: turtlemail/templates/turtlemail/stays.jinja:4
 msgid "Stays"
 msgstr ""
 
-#: turtlemail/models.py:166
-msgid "The system is currently looking for people who can make this delivery."
-msgstr ""
-
-#: turtlemail/models.py:171
-msgid "This delivery is ready to begin its journey."
-msgstr ""
-
-#: turtlemail/models.py:173
-msgid "This delivery is currently traveling through the turtlemail network."
-msgstr ""
-
-#: turtlemail/models.py:177
-msgid "This delivery has reached its destination."
+#: turtlemail/models.py:182
+msgid "Calculating Route"
 msgstr ""
 
 #: turtlemail/models.py:183
+msgid "Ready to Ship"
+msgstr ""
+
+#: turtlemail/models.py:184
+msgid "Delivering"
+msgstr ""
+
+#: turtlemail/models.py:185
+msgid "Delivered"
+msgstr ""
+
+#: turtlemail/models.py:190
+msgid "The system is currently looking for people who can make this delivery."
+msgstr ""
+
+#: turtlemail/models.py:195
+msgid "This delivery is ready to begin its journey."
+msgstr ""
+
+#: turtlemail/models.py:197
+msgid "This delivery is currently traveling through the turtlemail network."
+msgstr ""
+
+#: turtlemail/models.py:201
+msgid "This delivery has reached its destination."
+msgstr ""
+
+#: turtlemail/models.py:207
 #: turtlemail/templates/turtlemail/packet_detail.jinja:13
 msgid "Sender"
 msgstr ""
 
-#: turtlemail/models.py:189
+#: turtlemail/models.py:213
 #: turtlemail/templates/turtlemail/packet_detail.jinja:7
 msgid "Recipient"
 msgstr ""
 
-#: turtlemail/models.py:193
+#: turtlemail/models.py:217
 msgid "Created at"
 msgstr ""
 
-#: turtlemail/models.py:194
+#: turtlemail/models.py:218
 msgid "Code"
 msgstr ""
 
-#: turtlemail/models.py:203 turtlemail/models.py:238 turtlemail/models.py:299
-#: turtlemail/models.py:345
+#: turtlemail/models.py:227 turtlemail/models.py:269 turtlemail/models.py:336
+#: turtlemail/models.py:386
 #: turtlemail/templates/turtlemail/packet_detail.jinja:4
 msgid "Delivery"
 msgstr ""
 
-#: turtlemail/models.py:204 turtlemail/templates/turtlemail/layout.jinja:7
-#: turtlemail/templates/turtlemail/layout.jinja:26
+#: turtlemail/models.py:228 turtlemail/templates/turtlemail/layout.jinja:8
+#: turtlemail/templates/turtlemail/layout.jinja:27
 msgid "Deliveries"
 msgstr ""
 
-#: turtlemail/models.py:235 turtlemail/models.py:301
+#: turtlemail/models.py:266 turtlemail/models.py:338
 #: turtlemail/templates/turtlemail/packet_detail.jinja:19
 msgid "Status"
 msgstr ""
 
-#: turtlemail/models.py:244 turtlemail/models.py:303 turtlemail/models.py:347
+#: turtlemail/models.py:275 turtlemail/models.py:340 turtlemail/models.py:388
 msgid "Route"
 msgstr ""
 
-#: turtlemail/models.py:245
+#: turtlemail/models.py:276
 msgid "Routes"
 msgstr ""
 
-#: turtlemail/models.py:286
+#: turtlemail/models.py:323
 msgid "Previous Step"
 msgstr ""
 
-#: turtlemail/models.py:293
+#: turtlemail/models.py:330
 msgid "Next Step"
 msgstr ""
 
-#: turtlemail/models.py:307 turtlemail/models.py:340
+#: turtlemail/models.py:344 turtlemail/models.py:381
 msgid "Route Step"
 msgstr ""
 
-#: turtlemail/models.py:308
+#: turtlemail/models.py:345
 msgid "Route Steps"
 msgstr ""
 
-#: turtlemail/models.py:337
+#: turtlemail/models.py:378
 msgid "Datetime"
 msgstr ""
 
-#: turtlemail/models.py:348
+#: turtlemail/models.py:389
 msgid "Action Choices"
 msgstr ""
 
-#: turtlemail/models.py:351
+#: turtlemail/models.py:392
 msgid "New Route Step Status"
 msgstr ""
 
-#: turtlemail/models.py:356
+#: turtlemail/models.py:397
 msgid "Delivery Log Entry"
 msgstr ""
 
-#: turtlemail/models.py:357
+#: turtlemail/models.py:398
 msgid "Delivery Log Entries"
 msgstr ""
 
-#: turtlemail/settings.py:141
+#: turtlemail/settings.py:147
 msgid "German"
 msgstr ""
 
-#: turtlemail/settings.py:141
+#: turtlemail/settings.py:147
 msgid "English"
+msgstr ""
+
+#: turtlemail/views.py:89
+msgid ""
+"There is a delivery relying on this stay. It can't be deleted at the "
+"moment."
+msgstr ""
+
+#: turtlemail/views.py:99
+msgid "Stay deleted."
+msgstr ""
+
+#: turtlemail/templates/turtlemail/_stay_detail.jinja:19
+msgid "Edit"
+msgstr ""
+
+#: turtlemail/templates/turtlemail/_stay_detail.jinja:23
+msgid "Delete"
+msgstr ""
+
+#: turtlemail/templates/turtlemail/_stays_create_form_success.jinja:7
+#: turtlemail/templates/turtlemail/stays.jinja:12
+msgid "Add stay"
 msgstr ""
 
 #: turtlemail/templates/turtlemail/deliveries.jinja:5
 msgid "Place a delivery"
 msgstr ""
 
-#: turtlemail/templates/turtlemail/layout.jinja:20
+#: turtlemail/templates/turtlemail/layout.jinja:21
 msgid "turtlemail"
 msgstr ""
 
@@ -312,4 +356,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Send packet to this recipient"
+#~ msgstr ""
+
+#~ msgid "Latitude"
+#~ msgstr ""
+
+#~ msgid "Longitude"
 #~ msgstr ""
