@@ -1,2 +1,41 @@
 {% extends "turtlemail/layout.jinja" %}
-{% block content %}packet {{ packet.human_id }}{% endblock %}
+{% block content %}
+    <div class="p-8 bg-base-100 rounded-box">
+        <h2 class="text-xl font-bold">{{ _("Delivery") }} "{{ packet.human_id }}"</h2>
+        {% if packet.is_sender_or_recipient(request.user) %}
+            {% if packet.sender.id == request.user.id %}
+                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Recipient") }}</h3>
+                <p>
+                    {{ _("You're sending this delivery to") }} <strong>{{ packet.recipient.username }}</strong>.
+                </p>
+            {% endif %}
+            {% if packet.recipient.id == request.user.id %}
+                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Sender") }}</h3>
+                <p>
+                    <strong>{{ packet.sender.username }}</strong> {{ _("is sending this delivery to you.") }}
+                </p>
+            {% endif %}
+        {% endif %}
+        <h3 class="mt-2 text-sm text-base-content/60">{{ _("Status") }}</h3>
+        <p>{{ packet.status().description() }}</p>
+        {% if users_route_steps|length > 0 %}
+            <h3 class="mt-2 text-sm text-base-content/60">{{ _("Your next steps") }}</h3>
+            <ul>
+                {% for step in users_route_steps %}
+                    <li>
+                        {% set pickup_range = step.get_overlapping_date_range(step.previous_step) %}
+                        {% if pickup_range is not none %}
+                            <strong>Between {{ pickup_range[0]|date }} and {{ pickup_range[1]|date }}</strong>: Pick up from {{ step.previous_step.stay.user.username }}
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% set dropoff_range = step.get_overlapping_date_range(step.next_step) %}
+                        {% if dropoff_range is not none %}
+                            <strong>Between {{ dropoff_range[0]|date }} and {{ dropoff_range[1]|date }}</strong>: Hand over to {{ step.next_step.stay.user.username }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -33,7 +33,7 @@ urlpatterns = [
     path("stays", views.StaysView.as_view(), name="stays"),
     path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
     path(
-        "delivery/<slug:slug>",
+        "deliveries/<slug:slug>",
         views.PacketDetailView.as_view(),
         name="packet_detail",
     ),

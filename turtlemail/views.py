@@ -1,12 +1,16 @@
 import secrets
+from typing import Any
 from django.contrib.auth.views import LoginView as _LoginView
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.views.generic import CreateView, TemplateView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.urls import reverse, reverse_lazy
 
-from turtlemail.models import Packet, User
+from turtlemail.models import Packet, RouteStep, User
 
 from .forms import UserCreationForm, AuthenticationForm, PacketForm
 
@@ -73,7 +77,38 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
         return redirect(to=reverse("packet_detail", args=(packet.human_id,)))
 
 
-class PacketDetailView(LoginRequiredMixin, DetailView):
+class PacketDetailView(UserPassesTestMixin, DetailView):
     template_name = "turtlemail/packet_detail.jinja"
     model = Packet
     slug_field = "human_id"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        cx = super().get_context_data(**kwargs)
+        packet: Packet = self.get_object()
+        cx["packet"] = packet
+        current_route = packet.current_route()
+        if current_route is not None:
+            cx["users_route_steps"] = current_route.steps.filter(
+                stay__user_id=self.request.user.id
+            )
+        else:
+            cx["users_route_steps"] = []
+        return cx
+
+    def test_func(self) -> bool | None:
+        """Only allow users involved with a packet to view it:
+
+        a) Sender and Recipient
+        b) People that will carry out a route step
+        c) Superusers
+        """
+        packet: Packet = self.get_object()
+        is_part_of_route = RouteStep.objects.filter(
+            packet_id=packet.id, stay__user__id=self.request.user.id
+        ).exists()
+
+        return (
+            packet.is_sender_or_recipient(self.request.user)
+            or is_part_of_route
+            or self.request.user.is_superuser
+        )
