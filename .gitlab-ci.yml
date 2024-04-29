@@ -43,6 +43,8 @@ deploy::container-image:
     KANIKO_ARGS: --target production
 
 test::python:
+  variables:
+    TOX_SKIP_ENV: lint-*
   before_script:
     - apt update -y
     - apt install -y binutils libproj-dev gdal-bin python3-psycopg2
