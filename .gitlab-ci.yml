@@ -47,10 +47,10 @@ test::python:
     TOX_SKIP_ENV: lint-*
   before_script:
     - apt update -y
-    - apt install -y binutils libproj-dev gdal-bin python3-psycopg2
+    - apt install -y binutils libproj-dev gdal-bin
 
 lint::python:
   before_script:
     - apt update -y
     # Needed to run the "check-migrations" pre-commit hook
-    - apt install -y binutils libproj-dev gdal-bin python3-psycopg2
+    - apt install -y binutils libproj-dev gdal-bin
