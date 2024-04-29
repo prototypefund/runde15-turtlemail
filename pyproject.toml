@@ -13,7 +13,9 @@ django-jinja = "^2.11.0"
 dj-database-url = "^2.1.0"
 whitenoise = "^6.6.0"
 python-dotenv = "^1.0.1"
-babel = "^2.14.0"
+# This is pinned to prevent different versions from
+# changing the header in .po files
+babel = "2.15.0"
 pyyaml = "^6.0.1"
 django-types = "^0.19.1"
 

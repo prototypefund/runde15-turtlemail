@@ -36,3 +36,11 @@ repos:
       #   files: "models"
       #   require_serial: true
       #   pass_filenames: false
+      - id: outdated-translations
+        name: Check for outdated .PO files
+        description: This hook checks if the automatically generated .PO files need updating.
+        entry: make update-translations
+        language: system
+        types_or: [jinja, python, directory, pofile]
+        require_serial: true
+        pass_filenames: false
