@@ -18,3 +18,21 @@ repos:
     hooks:
       - id: djlint-jinja
       - id: djlint-reformat-jinja
+  - repo: local
+    hooks:
+      # This hook would need to be run inside a docker
+      # container or somewhere with access to the database.
+      # Due to time constraints, we haven't implemented
+      # that at the moment.
+      # We're only running this in the CI via tox.ini
+      # instead.
+      # - id: missing-migrations
+      #   name: Check missing Django migrations
+      #   description: This hook checks if changes has been made to models but not reflected into a migration.
+      #   entry: ./manage makemigrations
+      #   args: [--check, --dry-run, --no-input]
+      #   language: system
+      #   types_or: [python, directory]
+      #   files: "models"
+      #   require_serial: true
+      #   pass_filenames: false
