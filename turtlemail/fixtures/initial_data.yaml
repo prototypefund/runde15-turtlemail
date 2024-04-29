@@ -32,40 +32,35 @@
     user: 2
     name: Zuhause
     is_home: True
-    lat: 52.592879
-    lon: 13.431700
+    point: "POINT(13.431700 52.592879)"
 - model: turtlemail.location
   pk: 2
   fields:
     user: 2
     name: Büro
     is_home: False
-    lat: 52.530644
-    lon: 13.383068
+    point: "POINT(13.383068 52.530644)"
 - model: turtlemail.location
   pk: 3
   fields:
     user: 2
     name: Fitness-Studio
     is_home: False
-    lat: 52.520007
-    lon: 13.404954
+    point: "POINT(13.404954 52.520007)"
 - model: turtlemail.location
   pk: 4
   fields:
     user: 2
     name: Hotel im Harz
     is_home: False
-    lat: 51.762023294608895
-    lon: 10.67179715126023
+    point: "POINT(10.67179715126023 51.762023294608895)"
 - model: turtlemail.location
   pk: 5
   fields:
     user: 2
     name: Beziehungsmensch
     is_home: False
-    lat: 52.474145410871834
-    lon: 13.424565608461442
+    point: "POINT(13.424565608461442 52.474145410871834)"
 - model: turtlemail.stay
   pk: 1
   fields:

@@ -1,6 +1,7 @@
 import datetime
 from typing import ClassVar, TYPE_CHECKING
 
+from django.contrib.gis.db.models import PointField
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -112,12 +113,8 @@ class Location(models.Model):
 
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     is_home = models.BooleanField(verbose_name=_("Home"))
-    lat = models.DecimalField(
-        verbose_name=_("Latitude"), max_digits=17, decimal_places=15
-    )
-    lon = models.DecimalField(
-        verbose_name=_("Longitude"), max_digits=17, decimal_places=15
-    )
+    # Order: longitude, latitude (!)
+    point = PointField(verbose_name=_("Location"), geography=True)
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
 
     class Meta:

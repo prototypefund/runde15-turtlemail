@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.gis",
     "django_jinja",
     "turtlemail.apps.TurtlemailConfig",
 ]
@@ -111,7 +112,9 @@ SESSION_COOKIE_AGE = get_env("SESSION_TIMEOUT_SECONDS", cast=int, default=120960
 
 DATABASES = {
     "default": dj_database_url.config(
-        "DATABASE_URL", f"sqlite:///{DATA_DIR / 'db.sqlite'}"
+        "DATABASE_URL",
+        f"sqlite:///{DATA_DIR / 'db.sqlite'}",
+        engine="django.contrib.gis.db.backends.postgis",
     )
 }
 

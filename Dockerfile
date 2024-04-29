@@ -37,6 +37,10 @@ RUN apt update -y && \
       python3 \
       python3-poetry \
       python3-psycopg2 \
+      # GeoDjango Dependencies
+      binutils \
+      libproj-dev \
+      gdal-bin \
       && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
