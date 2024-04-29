@@ -80,7 +80,7 @@ class AuthenticationForm(_AuthenticationForm):
 class PacketForm(forms.Form):
     recipient_username = forms.CharField(
         widget=widgets.TextInput(),
-        label=_("Who would you like to send your packet to?"),
+        label=_("Who would you like to send your delivery to?"),
         required=False,
     )
     recipient_id = forms.IntegerField(widget=forms.HiddenInput, required=False)

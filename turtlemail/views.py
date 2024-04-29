@@ -1,4 +1,5 @@
 import secrets
+from typing import Any
 from django.contrib.auth.views import LoginView as _LoginView
 from django.http import HttpRequest
 from django.shortcuts import redirect
@@ -81,6 +82,19 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
     model = Packet
     slug_field = "human_id"
 
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        cx = super().get_context_data(**kwargs)
+        packet: Packet = self.get_object()
+        cx["packet"] = packet
+        current_route = packet.current_route()
+        if current_route is not None:
+            cx["users_route_steps"] = current_route.steps.filter(
+                stay__user_id=self.request.user.id
+            )
+        else:
+            cx["users_route_steps"] = []
+        return cx
+
     def test_func(self) -> bool | None:
         """Only allow users involved with a packet to view it:
 
@@ -92,11 +106,9 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
         is_part_of_route = RouteStep.objects.filter(
             packet_id=packet.id, stay__user__id=self.request.user.id
         ).exists()
-        is_sender_or_recipient = self.request.user.id in {
-            packet.recipient.id,
-            packet.sender.id,
-        }
 
         return (
-            is_sender_or_recipient or is_part_of_route or self.request.user.is_superuser
+            packet.is_sender_or_recipient(self.request.user)
+            or is_part_of_route
+            or self.request.user.is_superuser
         )

@@ -1,5 +1,5 @@
 import datetime
-from typing import ClassVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar, Self, Tuple
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -181,6 +181,28 @@ class Packet(models.Model):
         route_step_set: RelatedManager["RouteStep"]
         delivery_log_set: RelatedManager["DeliveryLog"]
 
+    class Status(models.TextChoices):
+        CALCULATING_ROUTE = "CALCULATING_ROUTE", _("Calculating Route")
+        READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
+        DELIVERING = "DELIVERING", _("Delivering")
+        DELIVERED = "DELIVERED", _("Delivered")
+
+        def description(self):
+            match self:
+                case self.CALCULATING_ROUTE:
+                    return _(
+                        "The system is currently looking for people who can make this delivery."
+                    )
+
+                case self.READY_TO_SHIP:
+                    return _("This delivery is ready to begin its journey.")
+                case self.DELIVERING:
+                    return _(
+                        "This delivery is currently traveling through the turtlemail network."
+                    )
+                case self.DELIVERED:
+                    return _("This delivery has reached its destination.")
+
     # Users with packets can't be deleted right now.
     # What if the packet is still being delivered?
     sender = models.ForeignKey(
@@ -208,8 +230,27 @@ class Packet(models.Model):
         verbose_name = _("Delivery")
         verbose_name_plural = _("Deliveries")
 
+    if TYPE_CHECKING:
+        all_routes: "RelatedManager[Route]"
+
     def __str__(self):
         return f'Packet "{self.human_id}"'
+
+    def is_sender_or_recipient(self, user: User):
+        return user.id in [
+            self.recipient.id,
+            self.sender.id,
+        ]
+
+    def current_route(self):
+        return self.all_routes.filter(status=Route.CURRENT).first()
+
+    def status(self):
+        if self.current_route() is None:
+            return self.Status.CALCULATING_ROUTE
+
+        # TODO add rest of status checks once the routing is implemented
+        return self.Status.READY_TO_SHIP
 
 
 class Route(models.Model):
@@ -305,6 +346,23 @@ class RouteStep(models.Model):
     class Meta:
         verbose_name = _("Route Step")
         verbose_name_plural = _("Route Steps")
+
+    def get_overlapping_date_range(
+        self, other: Self | None
+    ) -> Tuple[datetime.date, datetime.date] | None:
+        if (
+            self.start is None
+            or self.end is None
+            or other is None
+            or other.start is None
+            or other.end is None
+        ):
+            return None
+
+        start = max(self.start, other.start)
+        end = min(self.end, other.end)
+
+        return (start, end)
 
 
 class DeliveryLog(models.Model):
