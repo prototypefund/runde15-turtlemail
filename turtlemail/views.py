@@ -1,5 +1,4 @@
 import datetime
-import secrets
 from typing import Any
 from django.db.models import Q
 from urllib.parse import urlencode
@@ -29,6 +28,7 @@ from django.views.generic import (
 )
 
 from turtlemail import routing
+from turtlemail.human_id import human_id
 from turtlemail.models import DeliveryLog, Packet, RouteStep, User
 
 from .forms import (
@@ -269,11 +269,10 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
         if not form.cleaned_data["confirm_recipient"]:
             return self.render_to_response(context)
 
-        human_id = secrets.token_hex(8)
         packet = Packet.objects.create(
             sender=request.user,
-            human_id=human_id,
             recipient=context["recipient"],
+            human_id=human_id.generate_id(),
         )
 
         DeliveryLog.objects.create(packet=packet, action=DeliveryLog.SEARCHING_ROUTE)
