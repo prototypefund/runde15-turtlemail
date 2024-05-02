@@ -370,6 +370,7 @@ class RouteStep(models.Model):
     def get_overlapping_date_range(
         self, other: Self | None
     ) -> Tuple[datetime.date, datetime.date] | None:
+        # Some dates are missing
         if (
             self.start is None
             or self.end is None
@@ -377,6 +378,10 @@ class RouteStep(models.Model):
             or other.start is None
             or other.end is None
         ):
+            return None
+
+        # Intervals don't overlap at all
+        if self.start > other.end or self.end < other.start:
             return None
 
         start = max(self.start, other.start)
