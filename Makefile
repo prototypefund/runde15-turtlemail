@@ -68,3 +68,7 @@ update-translations:
 .PHONY: fixtures
 fixtures:
 	$(COMPOSE) exec -it backend turtlemailctl initdata
+
+.PHONY: test
+test:
+	$(COMPOSE) exec backend turtlemailctl test turtlemail
