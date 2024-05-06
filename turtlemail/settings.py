@@ -218,3 +218,27 @@ AUTH_USER_MODEL = "turtlemail.User"
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    # Show debug logs when DEBUG is True.
+    # This is also intended to show logs in tests.
+    # Unfortunately, they're mixed with the test runner's output
+    # for now.
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "filters": ["require_debug_true"],
+    },
+}
