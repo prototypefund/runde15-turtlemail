@@ -191,6 +191,14 @@ class Stay(models.Model):
         verbose_name = _("Stay")
         verbose_name_plural = _("Stays")
 
+    def __str__(self) -> str:
+        time = (
+            f"{self.start} - {self.end}"
+            if self.start is not None and self.end is not None
+            else f"{self.frequency}"
+        )
+        return f"Stay: {self.user.username} in {self.location.name} {time}"
+
 
 class Packet(models.Model):
     if TYPE_CHECKING:
