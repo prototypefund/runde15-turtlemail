@@ -85,6 +85,9 @@ TEMPLATES = [
                 *DEFAULT_EXTENSIONS,
             ],
             "auto_reload": DEBUG,
+            "context_processors": [
+                "django.contrib.messages.context_processors.messages",
+            ],
         },
     },
     {

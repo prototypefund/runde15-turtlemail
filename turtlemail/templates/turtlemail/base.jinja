@@ -11,7 +11,7 @@
         {{ vite_assets("src/style.css") }}
         {{ vite_assets("src/main.ts") }}
     </head>
-    <body>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block body %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,20 @@
+<script type="module">
+    // show date pickers if frequency "once" is selected
+
+    const select = document.getElementById("{{form.frequency.auto_id}}");
+    const startDate = document.getElementById("{{ form.start.id_for_label}}_elem");
+    const endDate = document.getElementById("{{ form.end.id_for_label}}_elem");
+
+    function updateInputVisibility() {
+        const datesVisible = select.options[select.selectedIndex].value == "ONCE";
+
+        startDate.classList.toggle("hidden", !datesVisible);
+        startDate.getElementsByTagName("input")[0].toggleAttribute("disabled", !datesVisible);
+        endDate.classList.toggle("hidden", !datesVisible);
+        endDate.getElementsByTagName("input")[0].toggleAttribute("disabled", !datesVisible);
+    }
+
+    select.addEventListener('change', updateInputVisibility);
+    // When injecting this form, instantly set the correct visibility
+    updateInputVisibility()
+</script>

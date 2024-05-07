@@ -41,4 +41,17 @@ urlpatterns = [
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("login", views.LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),
+    path(
+        "htmx/create-stay/", views.HtmxCreateStayView.as_view(), name="htmx-create-stay"
+    ),
+    path(
+        "htmx/update-stay/<int:pk>",
+        views.HtmxUpdateStayView.as_view(),
+        name="htmx-update-stay",
+    ),
+    path(
+        "htmx/delete-stay/<int:pk>",
+        views.HtmxDeleteStayView.as_view(),
+        name="htmx-delete-stay",
+    ),
 ]

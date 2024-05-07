@@ -1,18 +1,28 @@
 import secrets
 from typing import Any
-from django.contrib.auth.views import LoginView as _LoginView
-from django.http import HttpRequest
-from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView, DetailView
+
+from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin,
 )
+from django.contrib.auth.views import LoginView as _LoginView
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    TemplateView,
+    UpdateView,
+)
 
 from turtlemail.models import Packet, RouteStep, User
 
-from .forms import UserCreationForm, AuthenticationForm, PacketForm
+from .forms import AuthenticationForm, PacketForm, StayForm, UserCreationForm
+from .models import Stay
 
 
 class DeliveriesView(LoginRequiredMixin, TemplateView):
@@ -21,6 +31,74 @@ class DeliveriesView(LoginRequiredMixin, TemplateView):
 
 class StaysView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/stays.jinja"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["stays"] = Stay.objects.filter(user=self.request.user)
+        return context
+
+
+class HtmxCreateStayView(LoginRequiredMixin, CreateView):
+    model = Stay
+    template_name = "turtlemail/_stays_create_form.jinja"
+    form_class = StayForm
+    prefix = "create_stay"
+    success_url = reverse_lazy("stays")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        stay = form.save()
+        return render(
+            self.request, "turtlemail/_stays_create_form_success.jinja", {"stay": stay}
+        )
+
+
+class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
+    model = Stay
+    template_name = "turtlemail/_stays_update_form.jinja"
+    form_class = StayForm
+    success_url = reverse_lazy("stays")
+
+    def get_prefix(self):
+        return f"edit_stay_{self.get_object().id}"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        stay = form.save()
+        return render(
+            self.request,
+            "turtlemail/_stay_detail.jinja",
+            {"stay": stay, "include_messages": True},
+        )
+
+
+class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
+    model = Stay
+    success_url = reverse_lazy("stays")
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then refresh + display message
+        """
+
+        self.object = self.get_object()
+        if self.object.route_steps.exists():
+            messages.add_message(
+                request,
+                messages.ERROR,
+                _(
+                    "There is a delivery relying on this stay. It can't be deleted at the moment."
+                ),
+            )
+            return render(
+                self.request,
+                "turtlemail/_stay_detail.jinja",
+                {"stay": self.object, "include_messages": True},
+            )
+        self.object.delete()
+        messages.add_message(request, messages.INFO, _("Stay deleted."))
+
+        return render(self.request, "turtlemail/htmx_response.jinja")
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
