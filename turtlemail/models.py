@@ -206,11 +206,12 @@ class Packet(models.Model):
         id: int
 
         all_routes: RelatedManager["Route"]
-        route_step_set: RelatedManager["RouteStep"]
-        delivery_log_set: RelatedManager["DeliveryLog"]
+        routestep_set: RelatedManager["RouteStep"]
+        delivery_logs: RelatedManager["DeliveryLog"]
 
     class Status(models.TextChoices):
         CALCULATING_ROUTE = "CALCULATING_ROUTE", _("Calculating Route")
+        NO_ROUTE_FOUND = "NO_ROUTE_FOUND", _("No Route Found")
         READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
         DELIVERING = "DELIVERING", _("Delivering")
         DELIVERED = "DELIVERED", _("Delivered")
@@ -221,6 +222,9 @@ class Packet(models.Model):
                     return _(
                         "The system is currently looking for people who can make this delivery."
                     )
+
+                case self.NO_ROUTE_FOUND:
+                    return _("The system found no way to reach the recipient.")
 
                 case self.READY_TO_SHIP:
                     return _("This delivery is ready to begin its journey.")
@@ -274,7 +278,15 @@ class Packet(models.Model):
         return self.all_routes.filter(status=Route.CURRENT).first()
 
     def status(self):
-        if self.current_route() is None:
+        route = self.current_route()
+        if route is None:
+            newest_log = self.delivery_logs.first()
+            if (
+                newest_log is not None
+                and newest_log.action == DeliveryLog.NO_ROUTE_FOUND
+            ):
+                return self.Status.NO_ROUTE_FOUND
+
             return self.Status.CALCULATING_ROUTE
 
         # TODO add rest of status checks once the routing is implemented
@@ -292,7 +304,7 @@ class Route(models.Model):
         id: int
 
         steps: RelatedManager["RouteStep"]
-        delivery_log_set: RelatedManager["DeliveryLog"]
+        deliverylog_set: RelatedManager["DeliveryLog"]
 
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     packet = models.ForeignKey(
@@ -400,28 +412,39 @@ class RouteStep(models.Model):
 
 class DeliveryLog(models.Model):
     ROUTE_STEP_CHANGE = "ROUTE_STEP_CHANGE"
+    SEARCHING_ROUTE = "SEARCHING_ROUTE"
     NEW_ROUTE = "NEW_ROUTE"
+    NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
 
     ACTION_CHOICES = (
         (ROUTE_STEP_CHANGE, "Route Step Changed"),
+        (SEARCHING_ROUTE, "Looking for new Route"),
         (NEW_ROUTE, "New Route"),
+        (NO_ROUTE_FOUND, "No Route Found"),
     )
 
     if TYPE_CHECKING:
         # Automatically generated
         id: int
 
-    created_at = models.DateTimeField(verbose_name=_("Datetime"))
+    created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
     route_step = models.ForeignKey(
         RouteStep,
         verbose_name=_("Route Step"),
         on_delete=models.CASCADE,
         related_name="delivery_logs",
+        null=True,
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE, unique=False
+        Packet,
+        verbose_name=_("Delivery"),
+        on_delete=models.CASCADE,
+        unique=False,
+        related_name="delivery_logs",
     )
-    route = models.ForeignKey(Route, verbose_name=_("Route"), on_delete=models.CASCADE)
+    route = models.ForeignKey(
+        Route, verbose_name=_("Route"), on_delete=models.CASCADE, null=True
+    )
     action = models.TextField(choices=ACTION_CHOICES, verbose_name=_("Action Choices"))
     new_step_status = models.TextField(
         choices=RouteStep.STATUS_CHOICES,
@@ -432,3 +455,5 @@ class DeliveryLog(models.Model):
     class Meta:
         verbose_name = _("Delivery Log Entry")
         verbose_name_plural = _("Delivery Log Entries")
+
+        ordering = ["-created_at"]

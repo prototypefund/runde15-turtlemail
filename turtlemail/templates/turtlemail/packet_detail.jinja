@@ -37,5 +37,26 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        {% if packet.delivery_logs.all()|length > 0 %}
+            <h3 class="mt-2 text-sm text-base-content/60">{{ _("Activity") }}</h3>
+            <ul class="mt-1">
+                {% for log in packet.delivery_logs.all() %}
+                    <li class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+                            <div class="text-base-content/80">{{ log.created_at|date }}</div>
+                        </div>
+                        <div class="px-3 pb-2 ml-1 border-l border-base-300">{{ log.get_action_display() }}</div>
+                    </li>
+                {% endfor %}
+                <li class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+                        <div class="text-base-content/80">{{ packet.created_at|date }}</div>
+                    </div>
+                    <div class="px-3 pb-2 ml-1">{{ _("Delivery created") }}</div>
+                </li>
+            </ul>
+        {% endif %}
     </div>
 {% endblock %}
