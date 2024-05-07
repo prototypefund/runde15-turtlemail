@@ -24,7 +24,8 @@ from django.views.generic import (
     UpdateView,
 )
 
-from turtlemail.models import Packet, RouteStep, User
+from turtlemail import routing
+from turtlemail.models import DeliveryLog, Packet, RouteStep, User
 
 from .forms import (
     AuthenticationForm,
@@ -162,12 +163,23 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
             return self.render_to_response(context)
 
         human_id = secrets.token_hex(8)
-        packet = Packet(
+        packet = Packet.objects.create(
             sender=request.user,
             human_id=human_id,
             recipient=context["recipient"],
         )
-        packet.save()
+
+        DeliveryLog.objects.create(packet=packet, action=DeliveryLog.SEARCHING_ROUTE)
+
+        routing_nodes = routing.find_route(packet)
+        if routing_nodes is not None:
+            route = routing.create_route_model(packet, routing_nodes)
+            DeliveryLog.objects.create(
+                packet=packet, route=route, action=DeliveryLog.NEW_ROUTE
+            )
+        else:
+            DeliveryLog.objects.create(packet=packet, action=DeliveryLog.NO_ROUTE_FOUND)
+
         return redirect(to=reverse("packet_detail", args=(packet.human_id,)))
 
 
