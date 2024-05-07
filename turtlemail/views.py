@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import (
 from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
 from django.db import transaction
+from django.forms import BaseModelForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -53,9 +54,11 @@ class StaysView(LoginRequiredMixin, TemplateView):
 class HtmxCreateStayView(LoginRequiredMixin, CreateView):
     model = Stay
     template_name = "turtlemail/_stays_create_form.jinja"
-    form_class = StayForm
     prefix = "create_stay"
     success_url = reverse_lazy("stays")
+
+    def get_form(self) -> BaseModelForm:
+        return StayForm(self.request.user, **self.get_form_kwargs())
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -68,8 +71,10 @@ class HtmxCreateStayView(LoginRequiredMixin, CreateView):
 class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
     model = Stay
     template_name = "turtlemail/_stays_update_form.jinja"
-    form_class = StayForm
     success_url = reverse_lazy("stays")
+
+    def get_form(self) -> BaseModelForm:
+        return StayForm(self.request.user, **self.get_form_kwargs())
 
     def get_prefix(self):
         return f"edit_stay_{self.get_object().id}"

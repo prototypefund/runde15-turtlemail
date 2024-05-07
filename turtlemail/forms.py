@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
 
-from .models import Invite, Stay, User
+from .models import Invite, Stay, User, Location
 
 
 class UserCreationForm(BaseUserCreationForm):
@@ -113,6 +113,10 @@ class InviteUserForm(forms.ModelForm):
 
 
 class StayForm(forms.ModelForm):
+    def __init__(self, user, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.fields["location"].queryset = Location.objects.filter(user=user)
+
     class Meta:
         model = Stay
         fields = ("location", "frequency", "start", "end")
