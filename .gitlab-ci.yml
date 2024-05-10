@@ -43,8 +43,15 @@ deploy::container-image:
     KANIKO_ARGS: --target production
 
 test::python:
+  services:
+    - postgis/postgis:15-3.4-alpine
   variables:
     TOX_SKIP_ENV: lint-*
+    POSTGRES_DB: turtlemail
+    POSTGRES_USER: turtlemail
+    POSTGRES_PASSWORD: "turtlemail"
+    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis-postgis/$POSTGRES_DB"
+    TOX_TESTENV_PASSENV: DATABASE_URL
   before_script:
     - apt update -y
     - apt install -y binutils libproj-dev gdal-bin
