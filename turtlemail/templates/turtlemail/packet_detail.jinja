@@ -1,7 +1,7 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
     <div class="p-8 bg-base-100 rounded-box">
-        <h2 class="text-xl font-bold">{{ _("Delivery") }} "{{ packet.human_id }}"</h2>
+        <h2 class="text-xl font-bold">📦 {{ packet.human_id }}</h2>
         {% if packet.is_sender_or_recipient(request.user) %}
             {% if packet.sender.id == request.user.id %}
                 <h3 class="mt-2 text-sm text-base-content/60">{{ _("Recipient") }}</h3>
@@ -23,15 +23,19 @@
             <ul>
                 {% for step in users_route_steps %}
                     <li>
-                        {% set pickup_range = step.get_overlapping_date_range(step.previous_step) %}
-                        {% if pickup_range is not none %}
-                            <strong>Between {{ pickup_range[0]|date }} and {{ pickup_range[1]|date }}</strong>: Pick up from {{ step.previous_step.stay.user.username }}
+                        {% if step.previous_step is not none %}
+                            {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
+                            <strong>{{ date_description }}</strong>,
+                            {{ step.stay.location.name }}:
+                            {{ _("Pick up from %(name)s", name=step.previous_step.stay.user.username) }}
                         {% endif %}
                     </li>
                     <li>
-                        {% set dropoff_range = step.get_overlapping_date_range(step.next_step) %}
-                        {% if dropoff_range is not none %}
-                            <strong>Between {{ dropoff_range[0]|date }} and {{ dropoff_range[1]|date }}</strong>: Hand over to {{ step.next_step.stay.user.username }}
+                        {% if step.next_step is not none %}
+                            {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
+                            <strong>{{ date_description }}</strong>,
+                            {{ step.stay.location.name }}:
+                            {{ _("Hand over to %(name)s", name=step.next_step.stay.user.username) }}
                         {% endif %}
                     </li>
                 {% endfor %}

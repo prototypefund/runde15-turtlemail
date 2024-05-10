@@ -134,6 +134,12 @@ msgstr ""
 msgid "Calculating Route"
 msgstr ""
 
+msgid "No Route Found"
+msgstr ""
+
+msgid "Confirming Route"
+msgstr ""
+
 msgid "Ready to Ship"
 msgstr ""
 
@@ -144,6 +150,12 @@ msgid "Delivered"
 msgstr ""
 
 msgid "The system is currently looking for people who can make this delivery."
+msgstr ""
+
+msgid "The system found no way to reach the recipient."
+msgstr ""
+
+msgid "Waiting for everyone involved to confirm the planned journeys."
 msgstr ""
 
 msgid "This delivery is ready to begin its journey."
@@ -192,6 +204,21 @@ msgid "Route Step"
 msgstr ""
 
 msgid "Route Steps"
+msgstr ""
+
+#, python-format
+msgid "Between %(start_date)s and %(end_date)s"
+msgstr ""
+
+#, python-format
+msgid "After %(date)s"
+msgstr ""
+
+#, python-format
+msgid "Before %(date)sdate"
+msgstr ""
+
+msgid "At some point"
 msgstr ""
 
 msgid "Datetime"
@@ -254,6 +281,20 @@ msgid "is sending this delivery to you."
 msgstr ""
 
 msgid "Your next steps"
+msgstr ""
+
+#, python-format
+msgid "Pick up from %(name)s"
+msgstr ""
+
+#, python-format
+msgid "Hand over to %(name)s"
+msgstr ""
+
+msgid "Activity"
+msgstr ""
+
+msgid "Delivery created"
 msgstr ""
 
 msgid "staff"

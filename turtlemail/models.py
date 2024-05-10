@@ -10,6 +10,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.core.validators import MinValueValidator
+from django.template.defaultfilters import date
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -217,6 +218,7 @@ class Packet(models.Model):
     class Status(models.TextChoices):
         CALCULATING_ROUTE = "CALCULATING_ROUTE", _("Calculating Route")
         NO_ROUTE_FOUND = "NO_ROUTE_FOUND", _("No Route Found")
+        CONFIRMING_ROUTE = "CONFIRMING_ROUTE", _("Confirming Route")
         READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
         DELIVERING = "DELIVERING", _("Delivering")
         DELIVERED = "DELIVERED", _("Delivered")
@@ -230,6 +232,11 @@ class Packet(models.Model):
 
                 case self.NO_ROUTE_FOUND:
                     return _("The system found no way to reach the recipient.")
+
+                case self.CONFIRMING_ROUTE:
+                    return _(
+                        "Waiting for everyone involved to confirm the planned journeys."
+                    )
 
                 case self.READY_TO_SHIP:
                     return _("This delivery is ready to begin its journey.")
@@ -299,8 +306,16 @@ class Packet(models.Model):
 
             return self.Status.CALCULATING_ROUTE
 
-        # TODO add rest of status checks once the routing is implemented
-        return self.Status.READY_TO_SHIP
+        if any([step.status == RouteStep.SUGGESTED for step in route.steps]):
+            return self.Status.CONFIRMING_ROUTE
+
+        if all([step.status == RouteStep.ACCEPTED for step in route.steps]):
+            return self.Status.READY_TO_SHIP
+
+        if all([step.status == RouteStep.COMPLETED for step in route.steps]):
+            return self.Status.DELIVERED
+
+        return self.Status.DELIVERING
 
 
 class Route(models.Model):
@@ -399,25 +414,36 @@ class RouteStep(models.Model):
 
     def get_overlapping_date_range(
         self, other: Self | None
-    ) -> Tuple[datetime.date, datetime.date] | None:
+    ) -> Tuple[datetime.date | None, datetime.date | None]:
         # Some dates are missing
-        if (
-            self.start is None
-            or self.end is None
-            or other is None
-            or other.start is None
-            or other.end is None
-        ):
-            return None
+        if other is None:
+            return (None, None)
 
-        # Intervals don't overlap at all
-        if self.start > other.end or self.end < other.start:
-            return None
+        start = self.start if self.start is not None else other.start
+        end = self.end if self.end is not None else other.end
 
-        start = max(self.start, other.start)
-        end = min(self.end, other.end)
+        if self.start is not None and other.start is not None:
+            start = max(self.start, other.start)
+
+        if self.end is not None and other.end is not None:
+            end = min(self.end, other.end)
 
         return (start, end)
+
+    def describe_overlapping_date_range(self, other: Self | None) -> str:
+        start, end = self.get_overlapping_date_range(other)
+
+        if start is not None and end is not None:
+            return _("Between %(start_date)s and %(end_date)s") % {
+                "start_date": date(start),
+                "end_date": date(end),
+            }
+        elif start is not None:
+            return _("After %(date)s") % {"date": date(start)}
+        elif end is not None:
+            return _("Before %(date)s" % {"date": date(end)})
+        else:
+            return _("At some point")
 
 
 class DeliveryLog(models.Model):
