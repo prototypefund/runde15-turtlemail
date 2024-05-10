@@ -200,6 +200,11 @@ class Stay(models.Model):
         return f"Stay: {self.user.username} in {self.location.name} {time}"
 
 
+class PacketManager(models.Manager):
+    def get_by_natural_key(self, human_id):
+        return self.get(human_id=human_id)
+
+
 class Packet(models.Model):
     if TYPE_CHECKING:
         # Automatically generated
@@ -252,6 +257,8 @@ class Packet(models.Model):
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     human_id = models.TextField(verbose_name=_("Code"), unique=True)
 
+    objects = PacketManager()
+
     class Meta:
         indexes = [
             models.Index(fields=["human_id"]),
@@ -267,6 +274,9 @@ class Packet(models.Model):
 
     def __str__(self):
         return f'Packet "{self.human_id}"'
+
+    def natural_key(self):
+        return (self.human_id,)
 
     def is_sender_or_recipient(self, user: User):
         return user.id in [
