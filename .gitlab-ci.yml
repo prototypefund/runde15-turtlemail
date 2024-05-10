@@ -43,13 +43,6 @@ deploy::container-image:
     KANIKO_ARGS: --target production
 
 test::python:
-  services:
-    - postgis/postgis:15-3.4-alpine
-  variables:
-    POSTGRES_DB: turtlemail
-    POSTGRES_USER: turtlemail
-    POSTGRES_PASSWORD: ""
-    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis-postgis/$POSTGRES_DB"
   before_script:
     - apt update -y
     - apt install -y binutils libproj-dev gdal-bin python3-psycopg2
