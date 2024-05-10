@@ -8,5 +8,5 @@ class Command(BaseCommand):
 
         call_command("loaddata", "initial_data.yaml")
         for user in User.objects.all():
-            user.set_password(user.password)
+            user.set_password("testpassword")
             user.save()

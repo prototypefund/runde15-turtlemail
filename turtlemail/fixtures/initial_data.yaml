@@ -1,71 +1,85 @@
-- model: turtlemail.User
-  pk: 1
+- model: turtlemail.user
   fields:
-    email: "admin@mail.local"
-    username: "admin"
-    is_staff: True
-    is_active: True
-    is_superuser: True
+    password: pbkdf2_sha256$600000$zsXZMzxNYvT96G3GMslHr6$zz58I/HhmYCVF/nhPSdv3L4RP449zPOp918hq06zkVo=
+    last_login: null
+    is_superuser: true
+    email: admin@mail.local
+    username: admin
+    is_staff: true
+    is_active: true
     date_joined: 2024-04-08 13:34:35.764288+00:00
-    password: admin!
-- model: turtlemail.User
-  pk: 2
+    groups: []
+    user_permissions: []
+- model: turtlemail.user
   fields:
-    email: "turtle@mail.local"
-    username: "turtle"
-    is_staff: False
-    is_active: True
+    password: pbkdf2_sha256$600000$PUEfVyXVF5LFt3xWPzNjFU$rkGQganDTkN9si73PVnyMEjzSBLywSiTdBnA8Rd29Q4=
+    last_login: null
+    is_superuser: false
+    email: turtle@mail.local
+    username: turtle
+    is_staff: false
+    is_active: true
     date_joined: 2024-04-02 13:34:35.764288+00:00
-    password: fasterthanrabbits!
-- model: turtlemail.User
-  pk: 3
+    groups: []
+    user_permissions: []
+- model: turtlemail.user
   fields:
-    email: "rabbit@mail.local"
-    username: "rabbit"
-    is_staff: False
-    is_active: True
+    password: pbkdf2_sha256$600000$MXjYYwtH80MMB1A6jiSf5X$zqtyaT5T6KsLg7NRPj2PbULgRNhOr/ZCMKiqpzvhgDs=
+    last_login: 2024-05-10 12:01:03.715174+00:00
+    is_superuser: false
+    email: rabbit@mail.local
+    username: rabbit
+    is_staff: false
+    is_active: true
     date_joined: 2024-01-06 14:54:35.764288+00:00
-    password: turtlesarewhack!
+    groups: []
+    user_permissions: []
 - model: turtlemail.location
   pk: 1
   fields:
-    user: 2
     name: Zuhause
-    is_home: True
-    point: "POINT(13.431700 52.592879)"
+    is_home: true
+    point: SRID=4326;POINT (13.4317 52.592879)
+    user:
+      - turtle@mail.local
 - model: turtlemail.location
   pk: 2
   fields:
-    user: 2
     name: Büro
-    is_home: False
-    point: "POINT(13.383068 52.530644)"
+    is_home: false
+    point: SRID=4326;POINT (13.383068 52.530644)
+    user:
+      - turtle@mail.local
 - model: turtlemail.location
   pk: 3
   fields:
-    user: 2
     name: Fitness-Studio
-    is_home: False
-    point: "POINT(13.404954 52.520007)"
+    is_home: false
+    point: SRID=4326;POINT (13.404954 52.520007)
+    user:
+      - rabbit@mail.local
 - model: turtlemail.location
   pk: 4
   fields:
-    user: 2
     name: Hotel im Harz
-    is_home: False
-    point: "POINT(10.67179715126023 51.762023294608895)"
+    is_home: false
+    point: SRID=4326;POINT (10.67179715126023 51.762023294608895)
+    user:
+      - rabbit@mail.local
 - model: turtlemail.location
   pk: 5
   fields:
-    user: 2
     name: Beziehungsmensch
-    is_home: False
-    point: "POINT(13.424565608461442 52.474145410871834)"
+    is_home: false
+    point: SRID=4326;POINT (13.424565608461442 52.474145410871834)
+    user:
+      - rabbit@mail.local
 - model: turtlemail.stay
   pk: 1
   fields:
     location: 2
-    user: 2
+    user:
+      - turtle@mail.local
     frequency: DAILY
     start: null
     end: null
@@ -73,123 +87,160 @@
   pk: 2
   fields:
     location: 3
-    user: 2
-    frequency: "WEEKLY"
+    user:
+      - turtle@mail.local
+    frequency: WEEKLY
     start: null
     end: null
 - model: turtlemail.stay
   pk: 3
   fields:
     location: 4
-    user: 2
-    frequency: "ONCE"
+    user:
+      - turtle@mail.local
+    frequency: ONCE
     start: 2024-06-01
     end: 2024-06-15
 - model: turtlemail.stay
   pk: 4
   fields:
     location: 5
-    user: 2
-    frequency: "SOMETIMES"
+    user:
+      - turtle@mail.local
+    frequency: SOMETIMES
     start: null
     end: null
-- model: turtlemail.Packet
-  pk: 1
+- model: turtlemail.stay
+  pk: 7
   fields:
-    human_id: cute-polar-bear
+    location: 3
+    user:
+      - rabbit@mail.local
+    frequency: DAILY
+    start: null
+    end: null
+- model: turtlemail.stay
+  pk: 8
+  fields:
+    location: 4
+    user:
+      - rabbit@mail.local
+    frequency: WEEKLY
+    start: null
+    end: null
+- model: turtlemail.packet
+  fields:
+    sender:
+      - turtle@mail.local
+    recipient:
+      - rabbit@mail.local
     created_at: 2024-01-06 14:54:35.764288+00:00
-    sender: 2
-    recipient: 3
-- model: turtlemail.Packet
-  pk: 2
+    human_id: cute-polar-bear
+- model: turtlemail.packet
   fields:
-    human_id: fancy-palm-squirrel
+    sender:
+      - rabbit@mail.local
+    recipient:
+      - admin@mail.local
     created_at: 2024-02-06 19:24:35.764288+00:00
-    sender: 3
-    recipient: 1
-- model: turtlemail.Route
+    human_id: fancy-palm-squirrel
+- model: turtlemail.route
   pk: 1
   fields:
     status: CURRENT
-    packet: 1
-- model: turtlemail.RouteStep
+    packet:
+      - cute-polar-bear
+- model: turtlemail.route
+  pk: 2
+  fields:
+    status: CURRENT
+    packet:
+      - cute-polar-bear
+- model: turtlemail.routestep
   pk: 1
   fields:
-    route: 1
     stay: 1
     start: 2024-01-08
     end: 2024-01-10
+    previous_step: null
     next_step: 2
-    packet: 1
+    packet:
+      - cute-polar-bear
     status: COMPLETED
-- model: turtlemail.RouteStep
+    route: 1
+- model: turtlemail.routestep
   pk: 2
   fields:
-    route: 1
     stay: 2
     start: 2024-01-10
     end: 2024-01-15
     previous_step: 1
-    packet: 1
+    next_step: null
+    packet:
+      - cute-polar-bear
     status: COMPLETED
-- model: turtlemail.DeliveryLog
-  pk: 1
-  fields:
-    created_at: 2024-01-08 19:24:35.764288+00:00
-    route_step: 1
-    packet: 1
     route: 1
-    action: ROUTE_STEP_CHANGE
-    new_step_status: ACCEPTED
-- model: turtlemail.DeliveryLog
-  pk: 2
-  fields:
-    created_at: 2024-01-09 08:24:35.764288+00:00
-    route_step: 1
-    packet: 1
-    route: 1
-    action: ROUTE_STEP_CHANGE
-    new_step_status: COMPLETED
-- model: turtlemail.Route
-  pk: 2
-  fields:
-    status: CURRENT
-    packet: 1
-- model: turtlemail.RouteStep
+- model: turtlemail.routestep
   pk: 3
   fields:
-    route: 2
     stay: 1
     start: 2024-01-08
     end: 2024-01-10
+    previous_step: null
     next_step: 4
-    packet: 2
+    packet:
+      - fancy-palm-squirrel
     status: COMPLETED
-- model: turtlemail.RouteStep
+    route: 2
+- model: turtlemail.routestep
   pk: 4
   fields:
-    route: 2
     stay: 2
     start: 2024-01-10
     end: 2024-01-15
     previous_step: 3
-    packet: 2
+    next_step: null
+    packet:
+      - fancy-palm-squirrel
     status: COMPLETED
-- model: turtlemail.DeliveryLog
+    route: 2
+- model: turtlemail.deliverylog
+  pk: 1
+  fields:
+    created_at: 2024-01-08 19:24:35.764288+00:00
+    route_step: 1
+    packet:
+      - cute-polar-bear
+    route: 1
+    action: ROUTE_STEP_CHANGE
+    new_step_status: ACCEPTED
+- model: turtlemail.deliverylog
+  pk: 2
+  fields:
+    created_at: 2024-01-09 08:24:35.764288+00:00
+    route_step: 1
+    packet:
+      - cute-polar-bear
+    route: 1
+    action: ROUTE_STEP_CHANGE
+    new_step_status: COMPLETED
+- model: turtlemail.deliverylog
   pk: 3
   fields:
     created_at: 2024-01-08 19:24:35.764288+00:00
     route_step: 2
-    packet: 2
+    packet:
+      - fancy-palm-squirrel
     route: 2
     action: ROUTE_STEP_CHANGE
     new_step_status: ACCEPTED
-- model: turtlemail.DeliveryLog
+- model: turtlemail.deliverylog
   pk: 4
   fields:
     created_at: 2024-01-09 08:24:35.764288+00:00
     route_step: 2
-    packet: 2
+    packet:
+      - fancy-palm-squirrel
     route: 2
     action: ROUTE_STEP_CHANGE
     new_step_status: COMPLETED
