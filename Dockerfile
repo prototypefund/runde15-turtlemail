@@ -36,7 +36,6 @@ RUN apt update -y && \
       uvicorn \
       python3 \
       python3-poetry \
-      python3-psycopg2 \
       # GeoDjango Dependencies
       binutils \
       libproj-dev \
