@@ -33,6 +33,11 @@ urlpatterns = [
     # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
     path("stays", views.StaysView.as_view(), name="stays"),
+    path(
+        "htmx/update-request/<int:pk>",
+        views.HtmxUpdateRouteStepRequestView.as_view(),
+        name="update_request",
+    ),
     path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
     path(
         "deliveries/<slug:slug>",

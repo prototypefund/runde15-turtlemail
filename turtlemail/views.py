@@ -1,3 +1,4 @@
+import datetime
 import secrets
 from typing import Any
 from urllib.parse import urlencode
@@ -34,12 +35,70 @@ from .forms import (
     PacketForm,
     StayForm,
     UserCreationForm,
+    RouteStepRequestForm,
 )
-from .models import Invite, Stay
+from .models import Invite, Stay, Route
 
 
 class DeliveriesView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/deliveries.jinja"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        steps = RouteStep.objects.filter(
+            status=RouteStep.SUGGESTED,
+            stay__user=self.request.user,
+            route__status=Route.CURRENT,
+        ).all()
+        context["request_forms"] = [RouteStepRequestForm(step) for step in steps]
+        return context
+
+
+# TODO only allow route step owners to edit them
+class HtmxUpdateRouteStepRequestView(LoginRequiredMixin, TemplateView):
+    template_name = "turtlemail/route_request_form.jinja"
+    success_url = reverse_lazy("requests")
+
+    def get(self, _request, pk):
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=pk)
+        form = RouteStepRequestForm(step)
+        context = {
+            "form": form,
+            "from_rejected_request": self.request.GET.get("from_rejected_request"),
+        }
+        return self.render_to_response(context)
+
+    def post(self, request, pk):
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=pk)
+        form = RouteStepRequestForm(step, data=request.POST)
+        if form.is_valid():
+            form.save()
+            old_route = step.route
+            maybe_new_route = routing.check_and_recalculate_route(
+                old_route, starting_date=datetime.date.today()
+            )
+            new_proposed_step = RouteStep.objects.filter(
+                status=RouteStep.SUGGESTED,
+                stay__user=self.request.user,
+                route__status=Route.CURRENT,
+                packet=step.packet,
+            ).first()
+            # The algorithm proposed a new route step for the same packet,
+            # directly show that proposal to the user.
+            if maybe_new_route != old_route and new_proposed_step is not None:
+                path = reverse("update_request", args=(new_proposed_step.id,))
+                query = urlencode({"from_rejected_request": True})
+                target_url = f"{path}?{query}"
+                return redirect(to=target_url)
+
+            previous_url = request.GET.get("previous_url", reverse("deliveries"))
+            return redirect(to=previous_url)
+        else:
+            return self.render_to_response({"form": form})
 
 
 class StaysView(LoginRequiredMixin, TemplateView):
@@ -81,6 +140,7 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        # TODO recalculate routes depending on this stay
         stay = form.save()
         return render(
             self.request,
@@ -176,14 +236,7 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
 
         DeliveryLog.objects.create(packet=packet, action=DeliveryLog.SEARCHING_ROUTE)
 
-        routing_nodes = routing.find_route(packet)
-        if routing_nodes is not None:
-            route = routing.create_route_model(packet, routing_nodes)
-            DeliveryLog.objects.create(
-                packet=packet, route=route, action=DeliveryLog.NEW_ROUTE
-            )
-        else:
-            DeliveryLog.objects.create(packet=packet, action=DeliveryLog.NO_ROUTE_FOUND)
+        routing.create_new_route(packet, starting_date=datetime.date.today())
 
         return redirect(to=reverse("packet_detail", args=(packet.human_id,)))
 

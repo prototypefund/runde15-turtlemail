@@ -22,4 +22,7 @@
                 hx-swap="outerHtml"
                 class="btn btn-secondary btn-xs">{{ _("Delete") }}</button>
     </div>
+    {% if stay.inactive_until is not none %}
+        {{ _("Inactive until %(date)s", date=stay.inactive_until|date) }}
+    {% endif %}
 </div>

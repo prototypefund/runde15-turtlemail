@@ -187,6 +187,12 @@ class Stay(models.Model):
         null=True,
         blank=True,
     )
+    inactive_until = models.DateField(
+        verbose_name=_("Inactive until"),
+        validators=[MinValueValidator(limit_value=datetime.date.today)],
+        null=True,
+    )
+    "If set, this stay will not be included in any routes until this date has passed."
 
     class Meta:
         verbose_name = _("Stay")
@@ -219,6 +225,7 @@ class Packet(models.Model):
         CALCULATING_ROUTE = "CALCULATING_ROUTE", _("Calculating Route")
         NO_ROUTE_FOUND = "NO_ROUTE_FOUND", _("No Route Found")
         CONFIRMING_ROUTE = "CONFIRMING_ROUTE", _("Confirming Route")
+        ROUTE_OUTDATED = "ROUTE_OUTDATED", _("Route is Outdated")
         READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
         DELIVERING = "DELIVERING", _("Delivering")
         DELIVERED = "DELIVERED", _("Delivered")
@@ -238,6 +245,10 @@ class Packet(models.Model):
                         "Waiting for everyone involved to confirm the planned journeys."
                     )
 
+                case self.ROUTE_OUTDATED:
+                    return _(
+                        "Some people making this delivery don't have matching travel plans. The system will look for a new way to make this delivery."
+                    )
                 case self.READY_TO_SHIP:
                     return _("This delivery is ready to begin its journey.")
                 case self.DELIVERING:
@@ -306,13 +317,18 @@ class Packet(models.Model):
 
             return self.Status.CALCULATING_ROUTE
 
-        if any([step.status == RouteStep.SUGGESTED for step in route.steps]):
+        steps = route.steps.all()
+
+        if any([step.status == RouteStep.REJECTED for step in steps]):
+            return self.Status.ROUTE_OUTDATED
+
+        if any([step.status == RouteStep.SUGGESTED for step in steps]):
             return self.Status.CONFIRMING_ROUTE
 
-        if all([step.status == RouteStep.ACCEPTED for step in route.steps]):
+        if all([step.status == RouteStep.ACCEPTED for step in steps]):
             return self.Status.READY_TO_SHIP
 
-        if all([step.status == RouteStep.COMPLETED for step in route.steps]):
+        if all([step.status == RouteStep.COMPLETED for step in steps]):
             return self.Status.DELIVERED
 
         return self.Status.DELIVERING
@@ -350,6 +366,7 @@ class Route(models.Model):
 class RouteStep(models.Model):
     SUGGESTED = "SUGGESTED"
     ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
     ONGOING = "ONGOING"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
@@ -357,6 +374,7 @@ class RouteStep(models.Model):
     STATUS_CHOICES = [
         (SUGGESTED, "Suggested"),
         (ACCEPTED, "Accepted"),
+        (REJECTED, "Rejected"),
         (ONGOING, "Ongoing"),
         (COMPLETED, "Completed"),
         (CANCELLED, "Cancelled"),
@@ -445,6 +463,16 @@ class RouteStep(models.Model):
         else:
             return _("At some point")
 
+    def set_status(self, new_status: str):
+        DeliveryLog.objects.create(
+            route_step=self,
+            packet=self.packet,
+            route=self.route,
+            action=DeliveryLog.ROUTE_STEP_CHANGE,
+            new_step_status=new_status,
+        )
+        self.status = new_status
+
 
 class DeliveryLog(models.Model):
     ROUTE_STEP_CHANGE = "ROUTE_STEP_CHANGE"
@@ -455,7 +483,7 @@ class DeliveryLog(models.Model):
     ACTION_CHOICES = (
         (ROUTE_STEP_CHANGE, "Route Step Changed"),
         (SEARCHING_ROUTE, "Looking for new Route"),
-        (NEW_ROUTE, "New Route"),
+        (NEW_ROUTE, "New Route Found"),
         (NO_ROUTE_FOUND, "No Route Found"),
     )
 

@@ -63,6 +63,25 @@ msgstr ""
 msgid "The start date is required."
 msgstr ""
 
+msgid "From"
+msgstr ""
+
+msgid "Until"
+msgstr ""
+
+#, python-format
+msgid "This request is already %(status)s."
+msgstr ""
+
+msgid "The travel plans for this step have been cancelled."
+msgstr ""
+
+msgid "This date must be at or before the end date."
+msgstr ""
+
+msgid "This date is required."
+msgstr ""
+
 msgid "The email must be set."
 msgstr ""
 
@@ -125,6 +144,9 @@ msgstr ""
 msgid "End"
 msgstr ""
 
+msgid "Inactive until"
+msgstr ""
+
 msgid "Stay"
 msgstr ""
 
@@ -138,6 +160,9 @@ msgid "No Route Found"
 msgstr ""
 
 msgid "Confirming Route"
+msgstr ""
+
+msgid "Route is Outdated"
 msgstr ""
 
 msgid "Ready to Ship"
@@ -156,6 +181,11 @@ msgid "The system found no way to reach the recipient."
 msgstr ""
 
 msgid "Waiting for everyone involved to confirm the planned journeys."
+msgstr ""
+
+msgid ""
+"Some people making this delivery don't have matching travel plans. The "
+"system will look for a new way to make this delivery."
 msgstr ""
 
 msgid "This delivery is ready to begin its journey."
@@ -256,10 +286,17 @@ msgstr ""
 msgid "Invite sent!"
 msgstr ""
 
+msgid "Dismiss"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
 msgid "Delete"
+msgstr ""
+
+#, python-format
+msgid "Inactive until %(date)s"
 msgstr ""
 
 msgid "Add stay"
