@@ -6,6 +6,7 @@ from django.contrib.auth.forms import (
     BaseUserCreationForm,
     UsernameField,
 )
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
@@ -55,7 +56,9 @@ class UserCreationForm(BaseUserCreationForm):
         super().__init__(*args, **kwargs)
         for fieldname in ["username", "password1", "password2"]:
             self.fields[fieldname].help_text = None
-        self.action = "Sign Up"
+        self.action = _("Sign Up")
+        self.other_form_url = reverse("login")
+        self.other_form_link_text = _("Log into an existing account")
 
 
 class AuthenticationForm(_AuthenticationForm):
@@ -76,7 +79,9 @@ class AuthenticationForm(_AuthenticationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.action = "Log In"
+        self.action = _("Log In")
+        self.other_form_url = reverse("signup")
+        self.other_form_link_text = _("Create a new account")
 
 
 class PacketForm(forms.Form):
