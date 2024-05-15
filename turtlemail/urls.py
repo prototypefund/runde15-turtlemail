@@ -29,6 +29,8 @@ urlpatterns = [
         RedirectView.as_view(url=reverse_lazy("deliveries"), permanent=True),
         name="index",
     ),
+    # TODO this route should be named "packets" to stay consistent with
+    # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
     path("stays", views.StaysView.as_view(), name="stays"),
     path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
@@ -36,6 +38,14 @@ urlpatterns = [
         "deliveries/<slug:slug>",
         views.PacketDetailView.as_view(),
         name="packet_detail",
+    ),
+    path(
+        "accept_invite/<str:token>",
+        views.AcceptInviteView.as_view(),
+        name="accept_invite",
+    ),
+    path(
+        "htmx/invite-user", views.HtmxInviteUserView.as_view(), name="htmx_invite_user"
     ),
     path("profile", views.ProfileView.as_view(), name="profile"),
     path("signup/", views.SignUpView.as_view(), name="signup"),

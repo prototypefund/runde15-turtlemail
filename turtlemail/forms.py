@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
 
-from .models import Stay, User
+from .models import Invite, Stay, User
 
 
 class UserCreationForm(BaseUserCreationForm):
@@ -101,6 +101,15 @@ class PacketForm(forms.Form):
     def clean(self):
         if self.cleaned_data["clear_recipient_id"]:
             self.cleaned_data["recipient_id"] = None
+
+
+class InviteUserForm(forms.ModelForm):
+    class Meta:
+        model = Invite
+        fields = ("email",)
+        labels = {
+            "email": _("Please enter the email of the person you'd like to invite:")
+        }
 
 
 class StayForm(forms.ModelForm):
