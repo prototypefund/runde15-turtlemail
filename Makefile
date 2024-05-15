@@ -59,7 +59,7 @@ migrate:
 
 .PHONY: update-translations
 update-translations:
-	poetry run pybabel extract -F babel.cfg -o turtlemail/locale/django.pot .
+	poetry run pybabel extract -F babel.cfg -o turtlemail/locale/django.pot --no-location .
 	poetry run pybabel update -i turtlemail/locale/django.pot --domain django --output-dir turtlemail/locale --ignore-pot-creation-date
 	# Remove extra newline at end of file to make pre-commit checks happy
 	truncate -s -1 turtlemail/locale/de/LC_MESSAGES/django.po
