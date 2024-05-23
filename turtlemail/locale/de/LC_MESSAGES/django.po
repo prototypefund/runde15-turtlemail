@@ -30,6 +30,18 @@ msgstr ""
 msgid "Password confirmation"
 msgstr ""
 
+msgid "Sign Up"
+msgstr ""
+
+msgid "Log into an existing account"
+msgstr ""
+
+msgid "Log In"
+msgstr ""
+
+msgid "Create a new account"
+msgstr ""
+
 msgid "Who would you like to send your delivery to?"
 msgstr ""
 
