@@ -1,0 +1,16 @@
+{% extends "turtlemail/layout.jinja" %}
+{% block content %}
+    <form hx-boost="true"
+          hx-target="#hx-nav-boost-content"
+          hx-select="#hx-nav-boost-content"
+          hx-swap="outerHTML"
+          method="post"
+          class="flex flex-col gap-2 p-8 rounded-box bg-base-100">
+        <label class="form-control">
+            {% with field = form.email %}
+                {% include "turtlemail/fields/_email_field.jinja" %}
+            {% endwith %}
+        </label>
+        <button class="btn btn-primary">{{ _("Send Invitation") }}</button>
+    </form>
+{% endblock %}

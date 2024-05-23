@@ -51,6 +51,9 @@ msgstr ""
 msgid "Proceed with this recipient"
 msgstr ""
 
+msgid "Please enter the email of the person you'd like to invite:"
+msgstr ""
+
 msgid "The start date must be at or before the end date."
 msgstr ""
 
@@ -93,6 +96,9 @@ msgid "user"
 msgstr ""
 
 msgid "users"
+msgstr ""
+
+msgid "This user has already been invited."
 msgstr ""
 
 msgid "Name"
@@ -217,6 +223,12 @@ msgstr ""
 msgid "Stay deleted."
 msgstr ""
 
+msgid "You've been invited to turtlemail!"
+msgstr ""
+
+msgid "Invite sent!"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -227,6 +239,9 @@ msgid "Add stay"
 msgstr ""
 
 msgid "Place a delivery"
+msgstr ""
+
+msgid "Send Invitation"
 msgstr ""
 
 msgid "turtlemail"
@@ -257,6 +272,28 @@ msgid "Joined"
 msgstr ""
 
 msgid "Log Out"
+msgstr ""
+
+msgid "Hello!"
+msgstr ""
+
+#, python-format
+msgid "You've been invited to turtlemail by %(user)s!"
+msgstr ""
+
+msgid ""
+"On turtlemail, people help each other out by taking things from one place"
+" to another. You can send deliveries, receive them, and help others by "
+"taking their deliveries on journeys you make."
+msgstr ""
+
+#, python-format
+msgid "To accept the invitation, click here: %(url)s"
+msgstr ""
+
+msgid ""
+"Cheers,\n"
+"the turtlemail team"
 msgstr ""
 
 #~ msgid "Trips"
@@ -290,4 +327,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Longitude"
+#~ msgstr ""
+
+#~ msgid "rabbit@turtlemail.app"
 #~ msgstr ""

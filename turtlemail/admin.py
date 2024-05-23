@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as _UserAdmin
 
 from .forms import UserCreationForm
-from .models import Location, Packet, Route, RouteStep, User
+from .models import Invite, Location, Packet, Route, RouteStep, User
 
 
 class UserAdmin(_UserAdmin):
@@ -56,3 +56,4 @@ admin.site.register(Packet)
 admin.site.register(Route)
 admin.site.register(RouteStep)
 admin.site.register(Location)
+admin.site.register(Invite)

@@ -1,0 +1,11 @@
+<label class="form-control">
+    <div class="label">
+        <span class="label-text">{{ field.label }}</span>
+    </div>
+    <input class="input input-bordered {{ "input-error" if field.errors|length > 0 }}"
+           type="email"
+           name="{{ field.html_name }}"
+           placeholder="rabbit@turtlemail.app"
+           {% if field.value() != None %}value="{{ field.value() }}"{% endif %}>
+    {% for error in field.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
+</label>

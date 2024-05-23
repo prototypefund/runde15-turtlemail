@@ -47,7 +47,14 @@
                             {% endfor %}
                         </ul>
                     {% elif form.recipient_username.value() is not none and form.recipient_username.value()|length > 0 %}
-                        <p class="mt-2 ml-2">{{ _("No results found!") }}</p>
+                        <div class="p-8 mt-2 rounded-box bg-base-200">
+                            <p>
+                                {{ _("There's no turtlemail user with this username yet. But you can still send your delivery - just invite them!") }}
+                            </p>
+                            <a hx-boost="true"
+                               href="{{ url("htmx_invite_user") }}?email={{ form.recipient_username.value() }}@"
+                               class="mt-4 btn btn-primary">{{ _("Invite %(name)s to turtlemail", name=form.recipient_username.value() ) }}</a>
+                        </div>
                     {% endif %}
                 </div>
             {% else %}

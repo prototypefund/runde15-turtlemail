@@ -1,4 +1,5 @@
 import datetime
+import secrets
 from typing import TYPE_CHECKING, ClassVar, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
@@ -101,6 +102,28 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+def default_invite_token():
+    return secrets.token_urlsafe(32)
+
+
+class Invite(models.Model):
+    invited_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    email = models.EmailField(
+        max_length=255,
+        unique=True,
+        error_messages={"unique": _("This user has already been invited.")},
+    )
+
+    token = models.TextField(default=default_invite_token)
+
+    class Meta:
+        indexes = [models.Index(fields=["token"])]
+
+    def __str__(self):
+        return f"{self.email} (from {self.invited_by.username})"
 
 
 class Location(models.Model):

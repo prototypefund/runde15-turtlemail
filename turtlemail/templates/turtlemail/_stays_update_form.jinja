@@ -6,16 +6,16 @@
         {{ form.non_field_errors() }}
         {% csrf_token %}
         {% with field=form.location, label=True %}
-            {% include "turtlemail/_select_field.jinja" %}
+            {% include "turtlemail/fields/_select_field.jinja" %}
         {% endwith %}
         {% with field=form.frequency, label=True %}
-            {% include "turtlemail/_select_field.jinja" %}
+            {% include "turtlemail/fields/_select_field.jinja" %}
         {% endwith %}
         {% with field=form.start, label=True, hidden=True %}
-            {% include "turtlemail/_date_field.jinja" %}
+            {% include "turtlemail/fields/_date_field.jinja" %}
         {% endwith %}
         {% with field=form.end, label=True, hidden=True %}
-            {% include "turtlemail/_date_field.jinja" %}
+            {% include "turtlemail/fields/_date_field.jinja" %}
         {% endwith %}
         <button class="self-end col-start-2 mt-4 btn btn-primary">
             {# Add an invisible indicator to keep the save text centered... #}

@@ -1,5 +1,6 @@
 import secrets
 from typing import Any
+from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.contrib.auth.mixins import (
@@ -7,10 +8,14 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.contrib.auth.views import LoginView as _LoginView
+from django.core.mail import send_mail
+from django.db import transaction
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -21,8 +26,14 @@ from django.views.generic import (
 
 from turtlemail.models import Packet, RouteStep, User
 
-from .forms import AuthenticationForm, PacketForm, StayForm, UserCreationForm
-from .models import Stay
+from .forms import (
+    AuthenticationForm,
+    InviteUserForm,
+    PacketForm,
+    StayForm,
+    UserCreationForm,
+)
+from .models import Invite, Stay
 
 
 class DeliveriesView(LoginRequiredMixin, TemplateView):
@@ -110,6 +121,11 @@ class SignUpView(CreateView):
     success_url = reverse_lazy("login")
     template_name = "registration/signup_and_login.jinja"
 
+    def get_initial(self) -> dict[str, Any]:
+        initial = super().get_initial()
+        initial["email"] = self.request.GET.get("email") or None
+        return initial
+
 
 class LoginView(_LoginView):
     authentication_form = AuthenticationForm
@@ -190,3 +206,45 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
             or is_part_of_route
             or self.request.user.is_superuser
         )
+
+
+class HtmxInviteUserView(LoginRequiredMixin, CreateView):
+    model = Invite
+    template_name = "turtlemail/invite_user.jinja"
+    form_class = InviteUserForm
+    success_url = reverse_lazy("deliveries")
+
+    def get_initial(self) -> dict[str, Any]:
+        initial = super().get_initial()
+        initial["email"] = self.request.GET.get("email", "")
+        return initial
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            form.instance.invited_by = self.request.user
+            invite = form.save()
+            mail_text = render_to_string(
+                "turtlemail/emails/invitation.jinja",
+                {
+                    "invited_by": self.request.user,
+                    "invite_url": self.request.build_absolute_uri(
+                        reverse("accept_invite", args=[invite.token])
+                    ),
+                },
+            )
+            send_mail(
+                subject=_("You've been invited to turtlemail!"),
+                message=mail_text,
+                from_email=None,
+                recipient_list=[form.cleaned_data["email"]],
+            )
+            messages.add_message(self.request, messages.SUCCESS, _("Invite sent!"))
+            return super().form_valid(form)
+
+
+class AcceptInviteView(View):
+    def get(self, _request, token: str):
+        invite = Invite.objects.get(token=token)
+        url = reverse("signup")
+        query_params = urlencode({"email": invite.email})
+        return redirect(f"{url}?{query_params}")
