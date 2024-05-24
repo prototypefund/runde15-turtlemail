@@ -328,6 +328,12 @@ msgstr ""
 msgid "Hand over to %(name)s"
 msgstr ""
 
+msgid "Respond to this suggestion"
+msgstr ""
+
+msgid "You're not involved in the current travel plans for this delivery."
+msgstr ""
+
 msgid "Activity"
 msgstr ""
 

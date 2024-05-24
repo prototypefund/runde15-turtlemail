@@ -95,8 +95,9 @@ class HtmxUpdateRouteStepRequestView(LoginRequiredMixin, TemplateView):
                 target_url = f"{path}?{query}"
                 return redirect(to=target_url)
 
-            previous_url = request.GET.get("previous_url", reverse("deliveries"))
-            return redirect(to=previous_url)
+            response = render(request, "turtlemail/htmx_response.jinja")
+            response["HX-Refresh"] = "true"
+            return response
         else:
             return self.render_to_response({"form": form})
 

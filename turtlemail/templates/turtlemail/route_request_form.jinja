@@ -14,10 +14,11 @@
 {% block content %}
     {% set step = form.step %}
     <form method="post"
-          action="{{ url("update_request", pk=form.step.id) }}"
-          hx-post="{{ url("update_request", pk=form.step.id) }}"
+          action="{{ url("update_request", pk=step.id) }}"
+          hx-boost="true"
+          hx-push-url="false"
+          hx-target="this"
           hx-swap="outerHTML"
-          hx-push-url="true"
           class="bg-base-100 rounded-box">
         {% csrf_token %}
         {% if from_rejected_request %}
@@ -28,7 +29,8 @@
         <div class="p-8">
             <h2 class="text-lg font-bold">
                 {{ _("Delivery Request: ") }}
-                <a href="{{ url("packet_detail", slug=step.packet.human_id) }}">"{{ step.packet.human_id }}"</a>
+                <a hx-boost="false"
+                   href="{{ url("packet_detail", slug=step.packet.human_id) }}">"{{ step.packet.human_id }}"</a>
             </h2>
             <div class="my-4 text-primary">
                 <p>📍 {{ step.stay.location.name }}</p>
