@@ -372,12 +372,12 @@ class RouteStep(models.Model):
     CANCELLED = "CANCELLED"
 
     STATUS_CHOICES = [
-        (SUGGESTED, "Suggested"),
-        (ACCEPTED, "Accepted"),
-        (REJECTED, "Rejected"),
-        (ONGOING, "Ongoing"),
-        (COMPLETED, "Completed"),
-        (CANCELLED, "Cancelled"),
+        (SUGGESTED, _("Suggested")),
+        (ACCEPTED, _("Accepted")),
+        (REJECTED, _("Rejected")),
+        (ONGOING, _("Ongoing")),
+        (COMPLETED, _("Completed")),
+        (CANCELLED, _("Cancelled")),
     ]
 
     if TYPE_CHECKING:
@@ -486,10 +486,10 @@ class DeliveryLog(models.Model):
     NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
 
     ACTION_CHOICES = (
-        (ROUTE_STEP_CHANGE, "Route Step Changed"),
-        (SEARCHING_ROUTE, "Looking for new Route"),
-        (NEW_ROUTE, "New Route Found"),
-        (NO_ROUTE_FOUND, "No Route Found"),
+        (ROUTE_STEP_CHANGE, "Travel Step Changed"),
+        (SEARCHING_ROUTE, "Updating Travel Plans"),
+        (NEW_ROUTE, "Travel Plans Changed"),
+        (NO_ROUTE_FOUND, "Unable to find Travel Plans"),
     )
 
     if TYPE_CHECKING:
@@ -520,6 +520,17 @@ class DeliveryLog(models.Model):
         verbose_name=_("New Route Step Status"),
         null=True,
     )
+
+    def description(self):
+        description = self.get_action_display()  # type: ignore
+
+        if self.action == self.ROUTE_STEP_CHANGE:
+            description = _(
+                "Travel step changed: %(status)s"
+                % {"status": self.get_new_step_status_display()}
+            )
+
+        return description
 
     class Meta:
         verbose_name = _("Delivery Log Entry")

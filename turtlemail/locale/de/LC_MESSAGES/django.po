@@ -224,6 +224,24 @@ msgstr ""
 msgid "Routes"
 msgstr ""
 
+msgid "Suggested"
+msgstr ""
+
+msgid "Accepted"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Ongoing"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
 msgid "Previous Step"
 msgstr ""
 
@@ -258,6 +276,10 @@ msgid "Action Choices"
 msgstr ""
 
 msgid "New Route Step Status"
+msgstr ""
+
+#, python-format
+msgid "Travel step changed: %(status)sstatus"
 msgstr ""
 
 msgid "Delivery Log Entry"
