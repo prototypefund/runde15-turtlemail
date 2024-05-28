@@ -191,6 +191,7 @@ class Stay(models.Model):
         verbose_name=_("Inactive until"),
         validators=[MinValueValidator(limit_value=datetime.date.today)],
         null=True,
+        blank=True,
     )
     "If set, this stay will not be included in any routes until this date has passed."
 

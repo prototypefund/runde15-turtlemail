@@ -311,14 +311,14 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
+#, python-format
+msgid "Will not be included in any deliveries until %(date)s"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
-
-#, python-format
-msgid "Inactive until %(date)s"
 msgstr ""
 
 msgid "Add stay"
@@ -436,4 +436,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "rabbit@turtlemail.app"
+#~ msgstr ""
+
+#~ msgid "Inactive until %(date)s"
 #~ msgstr ""

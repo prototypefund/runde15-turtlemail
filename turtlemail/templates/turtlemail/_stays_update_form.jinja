@@ -17,6 +17,9 @@
         {% with field=form.end, label=True, hidden=True %}
             {% include "turtlemail/fields/_date_field.jinja" %}
         {% endwith %}
+        {% with field=form.inactive_until, label=True %}
+            {% include "turtlemail/fields/_date_field.jinja" %}
+        {% endwith %}
         <button class="self-end col-start-2 mt-4 btn btn-primary">
             {# Add an invisible indicator to keep the save text centered... #}
             <span class="invisible loading"></span>

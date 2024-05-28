@@ -121,7 +121,7 @@ class StayForm(forms.ModelForm):
 
     class Meta:
         model = Stay
-        fields = ("location", "frequency", "start", "end")
+        fields = ("location", "frequency", "start", "end", "inactive_until")
         widgets = {
             "start": forms.DateInput(attrs={"type": "date"}),
             "end": forms.DateInput(attrs={"type": "date"}),
