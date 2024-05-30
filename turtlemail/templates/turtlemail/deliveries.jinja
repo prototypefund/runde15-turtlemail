@@ -3,7 +3,7 @@
     <a href="{{ url("create_packet") }}" class="mb-8 btn btn-primary">{{ _("Place a delivery") }}</a>
     <div class="flex flex-col gap-4">
         {% for form in request_forms %}
-            {% include "turtlemail/route_request_form.jinja" %}
+            {% include "turtlemail/route_step_request_form.jinja" %}
         {% endfor %}
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@
 {% block content %}
     {% set step = form.step %}
     <form method="post"
-          action="{{ url("update_request", pk=step.id) }}"
+          action="{{ url("update_route_step_request", pk=step.id) }}"
           hx-boost="true"
           hx-push-url="false"
           hx-target="this"

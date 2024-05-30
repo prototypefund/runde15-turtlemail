@@ -41,8 +41,8 @@
                         {% endif %}
                     </div>
                     {% if step.status == step.SUGGESTED %}
-                        <a href="{{ url("update_request", pk=step.id) }}"
-                           hx-target="#step_request_box"
+                        <a href="{{ url("update_route_step_request", pk=step.id) }}"
+                           hx-target="#route_step_request_box"
                            hx-boost="true"
                            hx-push-url="false"
                            class="join-item btn">{{ _("Respond to this suggestion") }}</a>
@@ -74,6 +74,6 @@
                 </ul>
             {% endif %}
         </div>
-        <div id="step_request_box"></div>
+        <div id="route_step_request_box"></div>
     </div>
 {% endblock %}

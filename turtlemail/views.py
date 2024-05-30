@@ -56,7 +56,7 @@ class DeliveriesView(LoginRequiredMixin, TemplateView):
 
 # TODO only allow route step owners to edit them
 class HtmxUpdateRouteStepRequestView(LoginRequiredMixin, TemplateView):
-    template_name = "turtlemail/route_request_form.jinja"
+    template_name = "turtlemail/route_step_request_form.jinja"
     success_url = reverse_lazy("requests")
 
     def get(self, _request, pk):
@@ -90,7 +90,9 @@ class HtmxUpdateRouteStepRequestView(LoginRequiredMixin, TemplateView):
             # The algorithm proposed a new route step for the same packet,
             # directly show that proposal to the user.
             if maybe_new_route != old_route and new_proposed_step is not None:
-                path = reverse("update_request", args=(new_proposed_step.id,))
+                path = reverse(
+                    "update_route_step_request", args=(new_proposed_step.id,)
+                )
                 query = urlencode({"from_rejected_request": True})
                 target_url = f"{path}?{query}"
                 return redirect(to=target_url)

@@ -36,7 +36,7 @@ urlpatterns = [
     path(
         "htmx/update-request/<int:pk>",
         views.HtmxUpdateRouteStepRequestView.as_view(),
-        name="update_request",
+        name="update_route_step_request",
     ),
     path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
     path(
