@@ -241,22 +241,20 @@ class FindRouteTestCase(TestCase):
         expected_stays = []
         expected_handover_dates = []
         calculation_date = date(2024, 1, 1)
-        expected_stays.append(self.stay_for(user=self.sender, name="Hamburg"))
-        expected_handover_dates.append((date(2024, 1, 1), date(2024, 1, 11)))
         expected_stays.append(self.stay_for(user=self.sender, name="Berlin"))
-        expected_handover_dates.append((date(2024, 1, 4), date(2024, 1, 18)))
+        expected_handover_dates.append((date(2024, 1, 1), date(2024, 1, 11)))
 
         intermediate_user = User.objects.create(
             email="intermediate@turtlemail.app", username="intermediate"
         )
         expected_stays.append(self.stay_for(user=intermediate_user, name="Berlin"))
-        expected_handover_dates.append((date(2024, 1, 11), date(2024, 1, 25)))
+        expected_handover_dates.append((date(2024, 1, 4), date(2024, 1, 18)))
         expected_stays.append(self.stay_for(user=intermediate_user, name="Munich"))
-        expected_handover_dates.append((date(2024, 1, 18), date(2024, 2, 1)))
+        expected_handover_dates.append((date(2024, 1, 11), date(2024, 1, 25)))
         self.stay_for(user=intermediate_user, name="Bremen")
 
         expected_stays.append(self.stay_for(user=self.recipient, name="Munich"))
-        expected_handover_dates.append((date(2024, 1, 25), date(2024, 2, 5)))
+        expected_handover_dates.append((date(2024, 1, 18), date(2024, 1, 29)))
 
         nodes: List[routing.RoutingNode] = routing.find_route(
             self.packet, calculation_date=calculation_date
@@ -267,6 +265,27 @@ class FindRouteTestCase(TestCase):
 
         handover_dates = routing.calculate_routestep_dates(stays, calculation_date)
         self.assertEqual(expected_handover_dates, handover_dates)
+
+    def test_find_route_trim_starting_stays(self):
+        expected_stays = []
+        calculation_date = date(2024, 1, 1)
+        # This stay should be trimmed.
+        # The algorithm will start looking here because it's most likely
+        # that the user is currently at this location.
+        # But the route should start in Berlin, since telling users
+        # to transport their packet between their own stays
+        # is confusing.
+        self.stay_for(user=self.sender, name="Hamburg", frequency=Stay.DAILY)
+        expected_stays.append(self.stay_for(user=self.sender, name="Berlin"))
+
+        expected_stays.append(self.stay_for(user=self.recipient, name="Berlin"))
+
+        nodes: List[routing.RoutingNode] = routing.find_route(
+            self.packet, calculation_date=calculation_date
+        )  # type: ignore
+        self.assertIsNotNone(nodes)
+        stays = self.stays_from_nodes(nodes)
+        self.assertEqual(expected_stays, stays)
 
     def test_find_no_route_max_duration(self):
         calculation_date = date(2024, 1, 1)
@@ -288,7 +307,7 @@ class FindRouteTestCase(TestCase):
 
     def test_find_route_prioritize_faster_stays(self):
         expected_stays = []
-        expected_stays.append(self.stay_for(user=self.sender, name="Hamburg"))
+        self.stay_for(user=self.sender, name="Hamburg")
         # There's a Direct route from Hamburg to Munich, but it's only a SOMETIMES
         # frequency. We'd expect the system to choose the indirect connection
         # with the DAILY frequency because it's faster.

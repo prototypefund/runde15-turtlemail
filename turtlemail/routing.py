@@ -237,9 +237,40 @@ def find_route(packet: Packet, calculation_date: date) -> List[RoutingNode] | No
         reverse_route.append(next_node)
         next_node = next_node.previous_node
 
+    route = list(reversed(reverse_route))
+
+    route = trim_sender_stays_at_start(route)
+
     logger.debug("Found a route with %s steps", len(reverse_route))
 
-    return list(reversed(reverse_route))
+    return route
+
+
+def trim_sender_stays_at_start(
+    route: List[RoutingNode],
+) -> List[RoutingNode]:
+    """
+    We don't want routes to start with multiple of the sender's stays:
+
+    - We don't actually know where the packet is at the moment
+    - It's confusing to senders
+
+    So we remove these stays from the start of any route we calculate.
+    """
+    if len(route) == 0:
+        return route
+
+    sender = route[0].stay.user
+    new_starting_node_index = 0
+    # Iterate the start of the route until we hit the end of
+    # the stays belonging to our sender.
+    for i, node in enumerate(route):
+        if node.stay.user == sender:
+            new_starting_node_index = i
+        else:
+            break
+
+    return route[new_starting_node_index:]
 
 
 def middle_of_date_range(date_range: Tuple[date, date]) -> date:
