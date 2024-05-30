@@ -74,11 +74,13 @@ def get_reachable_stays(
     is_active = models.Q(inactive_until__isnull=True) | models.Q(
         inactive_until__lt=calculation_date
     )
+    not_deleted = models.Q(deleted=False)
     return Stay.objects.filter(
         (time_matches & is_near_location) | is_from_same_user,
         is_unvisited,
         is_other_stay,
         is_active,
+        not_deleted,
     )
 
 
@@ -441,6 +443,8 @@ def check_and_recalculate_route(route: Route, starting_date: date) -> Route | No
     if status != Packet.Status.ROUTE_OUTDATED:
         # everything's fine
         return route
+
+    logger.info("Route %s is outdated. Looking for a new one", route)
 
     # We need a new route!
     # TODO handle packets that have already completed some route steps

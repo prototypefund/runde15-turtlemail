@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import (
 )
 from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
-from django.db import transaction
+from django.db import models, transaction
 from django.forms import BaseModelForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
@@ -109,7 +109,7 @@ class StaysView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["stays"] = Stay.objects.filter(user=self.request.user)
+        context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
         return context
 
 
@@ -161,8 +161,10 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
         Call the delete() method on the fetched object and then refresh + display message
         """
 
-        self.object = self.get_object()
-        if self.object.route_steps.exists():
+        self.object: Stay = self.get_object()  # type: ignore
+        if self.object.route_steps.filter(
+            ~models.Q(status=RouteStep.SUGGESTED)
+        ).exists():
             messages.add_message(
                 request,
                 messages.ERROR,
@@ -175,10 +177,21 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
                 "turtlemail/_stay_detail.jinja",
                 {"stay": self.object, "include_messages": True},
             )
-        self.object.delete()
-        messages.add_message(request, messages.INFO, _("Stay deleted."))
+        # TODO recalculcate routes here
+        with transaction.atomic():
+            self.object.mark_deleted()
 
-        return render(self.request, "turtlemail/htmx_response.jinja")
+            messages.add_message(request, messages.INFO, _("Stay deleted."))
+
+            involved_routes = (
+                Route.objects.filter(steps__stay=self.object).distinct().all()
+            )
+            for route in involved_routes:
+                routing.check_and_recalculate_route(
+                    route, starting_date=datetime.date.today()
+                )
+
+            return render(self.request, "turtlemail/htmx_response.jinja")
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):

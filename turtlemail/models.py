@@ -3,7 +3,7 @@ import secrets
 from typing import TYPE_CHECKING, ClassVar, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
@@ -195,6 +195,8 @@ class Stay(models.Model):
     )
     "If set, this stay will not be included in any routes until this date has passed."
 
+    deleted = models.BooleanField(default=False)
+
     class Meta:
         verbose_name = _("Stay")
         verbose_name_plural = _("Stays")
@@ -206,6 +208,17 @@ class Stay(models.Model):
             else f"{self.frequency}"
         )
         return f"Stay: {self.user.username} in {self.location.name} {time}"
+
+    def mark_deleted(self):
+        """
+        Set this stay as deleted, and reject its suggested route steps.
+        """
+        with transaction.atomic():
+            self.deleted = True
+            self.save()
+            self.route_steps.filter(status=RouteStep.SUGGESTED).update(
+                status=RouteStep.REJECTED
+            )
 
 
 class PacketManager(models.Manager):
