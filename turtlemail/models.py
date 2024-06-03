@@ -220,6 +220,12 @@ class Stay(models.Model):
                 status=RouteStep.REJECTED
             )
 
+    def accepted_route_steps_triggering_route_recalculation(self):
+        """If their stay is edited, these route steps will cause their routes to be recalculated."""
+        return self.route_steps.filter(
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING]
+        )
+
 
 class PacketManager(models.Manager):
     def get_by_natural_key(self, human_id):

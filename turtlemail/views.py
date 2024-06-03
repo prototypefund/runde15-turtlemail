@@ -155,14 +155,28 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
         return f"edit_stay_{self.get_object().id}"
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        # TODO recalculate routes depending on this stay
-        stay = form.save()
-        return render(
-            self.request,
-            "turtlemail/_stay_detail.jinja",
-            {"stay": stay, "include_messages": True},
-        )
+        with transaction.atomic():
+            form.instance.user = self.request.user
+            stay: Stay = form.save()
+
+            for step in stay.accepted_route_steps_triggering_route_recalculation():
+                step.set_status(RouteStep.CANCELLED)
+                step.save()
+                routing.check_and_recalculate_route(
+                    step.route, starting_date=datetime.date.today()
+                )
+            for step in stay.route_steps.filter(status=RouteStep.SUGGESTED):
+                step.set_status(RouteStep.REJECTED)
+                step.save()
+                routing.check_and_recalculate_route(
+                    step.route, starting_date=datetime.date.today()
+                )
+
+            return render(
+                self.request,
+                "turtlemail/_stay_detail.jinja",
+                {"stay": stay, "include_messages": True},
+            )
 
 
 class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):

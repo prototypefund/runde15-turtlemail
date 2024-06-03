@@ -3,6 +3,11 @@
     <form class="grid grid-cols-2 p-2 gap-x-8"
           hx-post="{{ url("htmx-update-stay", pk=stay.id) }}"
           hx-target="#stay_{{ stay.id }}">
+        {% if stay.accepted_route_steps_triggering_route_recalculation().count() > 0 %}
+            <div class="col-span-2 alert alert-warning">
+                {{ _("This stay is planned for some of your deliveries. Making changes will cancel these plans.") }}
+            </div>
+        {% endif %}
         {{ form.non_field_errors() }}
         {% csrf_token %}
         {% with field=form.location, label=True %}
