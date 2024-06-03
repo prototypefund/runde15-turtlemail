@@ -351,6 +351,10 @@ msgid "Your next steps"
 msgstr ""
 
 #, python-format
+msgid "Near %(location)s"
+msgstr ""
+
+#, python-format
 msgid "Pick up from %(name)s"
 msgstr ""
 

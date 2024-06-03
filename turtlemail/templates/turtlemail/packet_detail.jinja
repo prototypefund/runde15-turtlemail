@@ -43,7 +43,7 @@
                 <div class="mt-2 border rounded shadow-sm join join-vertical border-neutral-300">
                     <div class="px-4 pt-3 pb-5 join-item">
                         <div class="mb-1 text-xs text-base-content/80">{{ step.get_status_display() }}</div>
-                        <p>{{ step.stay.location.name }}</p>
+                        <p>{{ _("Near %(location)s", location = step.stay.location.name) }}</p>
                         {% if step.previous_step is not none %}
                             <p>
                                 {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
