@@ -376,6 +376,12 @@ class Route(models.Model):
     def __str__(self):
         return f"{self.status} Route"
 
+    def accepted_steps(self):
+        return self.steps.filter(status=RouteStep.ACCEPTED)
+
+    def completed_steps(self):
+        return self.steps.filter(status=RouteStep.COMPLETED)
+
 
 class RouteStep(models.Model):
     SUGGESTED = "SUGGESTED"

@@ -19,6 +19,25 @@
             {% endif %}
             <h3 class="mt-2 text-sm text-base-content/60">{{ _("Status") }}</h3>
             <p>{{ packet.status().description() }}</p>
+            {% if packet.status() == packet.Status.CONFIRMING_ROUTE %}
+                <label class="flex flex-col items-end mt-4">
+                    <progress class="progress progress-primary"
+                              value="{{ packet.current_route().accepted_steps().count() }}"
+                              max="{{ packet.current_route().steps.count() }}"></progress>
+                    <div>
+                        {{ _("%(current)d of %(total)d journeys confirmed", current = packet.current_route().accepted_steps().count(), total = packet.current_route().steps.count()) }}
+                    </div>
+                </label>
+            {% elif packet.status() == packet.Status.DELIVERING %}
+                <label class="flex flex-col items-end mt-4">
+                    <progress class="progress progress-primary"
+                              value="{{ packet.current_route().completed_steps().count() }}"
+                              max="{{ packet.current_route().steps.count() }}"></progress>
+                    <div>
+                        {{ _("%(current)d of %(total)d journeys completed", current = packet.current_route().completed_steps().count(), total = packet.current_route().steps.count()) }}
+                    </div>
+                </label>
+            {% endif %}
             <h3 class="mt-2 text-sm text-base-content/60">{{ _("Your next steps") }}</h3>
             {% for step in users_route_steps %}
                 <div class="mt-2 border rounded shadow-sm join join-vertical border-neutral-300">

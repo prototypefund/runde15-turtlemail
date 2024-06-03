@@ -339,6 +339,14 @@ msgstr ""
 msgid "is sending this delivery to you."
 msgstr ""
 
+#, python-format
+msgid "%(current)d of %(total)d journeys confirmed"
+msgstr ""
+
+#, python-format
+msgid "%(current)d of %(total)d journeys completed"
+msgstr ""
+
 msgid "Your next steps"
 msgstr ""
 
