@@ -182,7 +182,6 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
                 "turtlemail/_stay_detail.jinja",
                 {"stay": self.object, "include_messages": True},
             )
-        # TODO recalculcate routes here
         with transaction.atomic():
             self.object.mark_deleted()
 
