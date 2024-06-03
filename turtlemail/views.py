@@ -135,6 +135,14 @@ class HtmxCreateStayView(LoginRequiredMixin, CreateView):
         )
 
 
+class HtmxStayDetailView(UserPassesTestMixin, DetailView):
+    model = Stay
+    template_name = "turtlemail/_stay_detail.jinja"
+
+    def test_func(self):
+        return self.get_object().user == self.request.user
+
+
 class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
     model = Stay
     template_name = "turtlemail/_stays_update_form.jinja"

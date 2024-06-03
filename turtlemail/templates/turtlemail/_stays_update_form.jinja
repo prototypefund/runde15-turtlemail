@@ -20,6 +20,13 @@
         {% with field=form.inactive_until, label=True %}
             {% include "turtlemail/fields/_date_field.jinja" %}
         {% endwith %}
+        <button class="self-end col-start-1 mt-4 btn btn-neutral btn-outline"
+                hx-get="{{ url("htmx-stay-detail", pk=stay.id) }}">
+            {# Add an invisible indicator to keep the save text centered... #}
+            <span class="invisible loading"></span>
+            {{ _("Cancel") }}
+            <span class="loading htmx-indicator"></span>
+        </button>
         <button class="self-end col-start-2 mt-4 btn btn-primary">
             {# Add an invisible indicator to keep the save text centered... #}
             <span class="invisible loading"></span>

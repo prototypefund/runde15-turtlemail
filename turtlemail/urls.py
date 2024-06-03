@@ -60,6 +60,11 @@ urlpatterns = [
         "htmx/create-stay/", views.HtmxCreateStayView.as_view(), name="htmx-create-stay"
     ),
     path(
+        "htmx/stay-detail/<int:pk>",
+        views.HtmxStayDetailView.as_view(),
+        name="htmx-stay-detail",
+    ),
+    path(
         "htmx/update-stay/<int:pk>",
         views.HtmxUpdateStayView.as_view(),
         name="htmx-update-stay",
