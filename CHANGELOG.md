@@ -2,7 +2,54 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2024-06-03
+
+### Bug Fixes
+
+- Do not push all branches when releasing new version ([34f7282](34f7282fbe9d782a4eeeab619028caaa068b1a0f))
+- Use nav element for desktop navigation ([1a2068b](1a2068b6c6052fbcb098ad6a58f3375a820ded98))
+- Use h1 in login/signup form ([3682da5](3682da56dec2a588fe14e087a8f17dadf722640e))
+- Badges on profile showing wrong data ([273e04b](273e04ba164453e3e532bf9fd0d4edaa30116177))
+- Only allow some users to view packets ([bb3c830](bb3c830e85f4622c642fed69801ddf5fa92d8ce2))
+- Skip lint task in CI test pipeline ([e1970f4](e1970f4b680b364a774269bf660dd691f9cdbf0b))
+
+### Features
+
+- Add packet creation form ([5d53b6f](5d53b6f70cf691c5af61405eb63283cd9e5c2e6c))
+- Added human readable id generator with custom dictionary ([6a5410c](6a5410cc7b59526c4085debf6a7be0529e19c48c))
+- Show info on packet detail page ([f20593c](f20593cf2a11caf057cc5c6edfc698985e7f710c))
+- Stays list and creation form ([0934c80](0934c8001e940576b02f349d56e4b8bca03f3750))
+- Edit and delete stays ([e9ec10b](e9ec10b191612bc88d55eabc7ede53758f993ad1))
+- Swap django messages into the page with htmx ([7dfda3f](7dfda3f86cb682509712755452b0d743f30fc60b))
+- Link to signup from login and vice versa ([52d3cc8](52d3cc85eca0b87d80f1c27120c41d25730545c3))
+- Add user invitations ([6603aa5](6603aa5ec2d888da54f10a3fa40b04cd5ec84478))
+
+### Miscellaneous Tasks
+
+- Reload template changes when debugging ([8ff792d](8ff792d5b0c1432cef13c30ee7c5f45fc60f6128))
+- Rename packet receiver to recipient ([d013760](d0137600c34267abbfd30cc0ad6b5248d8cfbc9f))
+- Change packets verbose name to delivery ([23d7ae3](23d7ae337b9e63a3ad686c42672c48bf2f7ae3d3))
+- Add django-types for better IDE support ([aa1727f](aa1727facca9a5d2420883dd2cd1ea65d695baa5))
+- Add GeoDjango app and PostGIS database extension ([7422539](74225392edcfae90e6f87c575c1aeba4bbac7b84))
+- Allow modifying dependency versions in dev container ([60c3474](60c3474a9871a439e0e7c281abc59c92082a7885))
+- Move location model coordinates to geography type ([f2d012a](f2d012a61d324f17f6d1461bfb5b8e2b76fd3ba9))
+- Run database for tests in CI ([73722b0](73722b0fc37d12feef01d8d2f047f35cbbbdc491))
+- Add pre-commit hook for missing migrations ([e511ad4](e511ad45ff92dcae65f57071a3c253828dc74441))
+- Add pre-commit hook for outdated translations ([a0e7075](a0e70754300aa7003911e0ee3ee427754638b540))
+- Update translation file ([024a49d](024a49dc8f2f8efcd12e70b7fb75e7a9637adf3c))
+- Install psycopg from pip instead of system package manager ([7fb9075](7fb90751a1a8941a13271a6aab2ef083f95c93cc))
+- Show git diff for failing lints in CI ([0ee89ea](0ee89ea6c920a8989bed7eb2a992b3580b60fb70))
+- Remove location markers from .po files ([30420ff](30420ff48ee183ade62839483c4fbe55dfb56780))
+- Change default from email address ([39976bc](39976bc374551ac4d7b30a62fd450787412709c4))
+- Move field templates to field directory ([a18465c](a18465cf7c2513bd3fc4e9bcde961a5993fbd874))
+
+### Refactor
+
+- Move stay form js into its own partial ([3172754](31727541f048541accf7484c56d68b54d48183f4))
+
 ## [0.3.0] - 2024-04-22
+
+[8efca92](8efca9261ca66f43290fecf1bfa00ad457fec209)...[da1ca88](da1ca880473b366ba92adf708f13e2a920dccfb1)
 
 ### Bug Fixes
 
@@ -35,13 +82,16 @@ All notable changes to this project will be documented in this file.
 
 - Enable vue support ([fa5c8a8](fa5c8a8d958ea07da3b2effff1e280c34f880142))
 
+### Bump
+
+- Release v0.3.0 ([da1ca88](da1ca880473b366ba92adf708f13e2a920dccfb1))
+
 ## [0.2.0] - 2024-04-08
+
+[d377a94](d377a94f99e98a1dea1f46fbf6f155a05d9de052)...[8efca92](8efca9261ca66f43290fecf1bfa00ad457fec209)
 
 ### Bug Fixes
 
-- Wait for database to accept connections before starting backend ([486326c](486326c89c2bbffecd3a717afa24870cd83b6a2a))
-- Fix environment variable syntax for database healthcheck ([40a0f28](40a0f28fe358d8d9ea7f4b184164da009420d1e1))
-- Make docker-compose.yml work with older versions of docker compose ([34bc674](34bc674a865fddd647816c783b095de72f082e2a))
 - Changelog failing to render sometimes ([c13b876](c13b876a1e0b06e565ca8b59d74a394d164456ee))
 - Make fixtures command ([e730b1e](e730b1e478caa359c2606e1efaf2c72333f370db))
 
@@ -50,6 +100,32 @@ All notable changes to this project will be documented in this file.
 - Add layout with navigation ([b718d92](b718d92ba1ba966b53bb9576054b41cc6e24ad89))
 - Add user model, signup and login ([ed83a6d](ed83a6d9669eb194025a944dcff4feaa01dd14f6))
 - Location and stay model ([468d9e0](468d9e09973ee1618a7707ea6405a9c98347e1b6))
+
+### Miscellaneous Tasks
+
+- Remove commitizen pre-commit hooks ([78b8a08](78b8a08c811b0ef7e6bd107928e44bd1ffb3e298))
+- Replace commitizen with 3 shell commands ([43c693f](43c693f0fda8d615d234a09c84a8339e5b1213d0))
+- Add formatting for jinja files ([502ec09](502ec09d3d45f264b054cd71d26a3a2a25b4afd3))
+- Add note for updating pyproject.toml on release ([e7f3395](e7f3395e2203da849fff8c249a81e73053eaf0f7))
+- Add django user admin ([1f3ebe9](1f3ebe91f797a8506da5c71feefe3940742b74d1))
+- Fixtures for user, location, stay ([c4a3d72](c4a3d7225a72073778a0f90fb244c0a2b7cc0d5c))
+- Add superuser fixture ([2c1a4f8](2c1a4f8a36248771339f911e341b68158e62cc94))
+
+### Refactor
+
+- Function-based views ([9b8e3b7](9b8e3b7fcf7f88c4823f8e71df26b1d25798f53e))
+
+### Bump
+
+- Release v0.2.0 ([8efca92](8efca9261ca66f43290fecf1bfa00ad457fec209))
+
+## [0.1.1] - 2024-03-24
+
+### Bug Fixes
+
+- Wait for database to accept connections before starting backend ([486326c](486326c89c2bbffecd3a717afa24870cd83b6a2a))
+- Fix environment variable syntax for database healthcheck ([40a0f28](40a0f28fe358d8d9ea7f4b184164da009420d1e1))
+- Make docker-compose.yml work with older versions of docker compose ([34bc674](34bc674a865fddd647816c783b095de72f082e2a))
 
 ### Miscellaneous Tasks
 
@@ -66,21 +142,9 @@ All notable changes to this project will be documented in this file.
 - Add basic translation extraction and display ([c498d88](c498d88a1449752f87bef2529613527e0755c163))
 - Add commitizen package and pre-commit hook ([5a253ea](5a253ea4f2a21dddf89e679d1f4a41ad936be57f))
 - Include all commit types in changelog ([95ec2d3](95ec2d30c00d49d78ab11a3984d659844ab5eb9c))
-- Remove commitizen pre-commit hooks ([78b8a08](78b8a08c811b0ef7e6bd107928e44bd1ffb3e298))
-- Replace commitizen with 3 shell commands ([43c693f](43c693f0fda8d615d234a09c84a8339e5b1213d0))
-- Add formatting for jinja files ([502ec09](502ec09d3d45f264b054cd71d26a3a2a25b4afd3))
-- Add note for updating pyproject.toml on release ([e7f3395](e7f3395e2203da849fff8c249a81e73053eaf0f7))
-- Add django user admin ([1f3ebe9](1f3ebe91f797a8506da5c71feefe3940742b74d1))
-- Fixtures for user, location, stay ([c4a3d72](c4a3d7225a72073778a0f90fb244c0a2b7cc0d5c))
-- Add superuser fixture ([2c1a4f8](2c1a4f8a36248771339f911e341b68158e62cc94))
-
-### Refactor
-
-- Function-based views ([9b8e3b7](9b8e3b7fcf7f88c4823f8e71df26b1d25798f53e))
 
 ### Bump
 
 - Version 0.1.0 → 0.1.1 ([d377a94](d377a94f99e98a1dea1f46fbf6f155a05d9de052))
-- Release v0.2.0 ([8efca92](8efca9261ca66f43290fecf1bfa00ad457fec209))
 
 <!-- generated by git-cliff -->
