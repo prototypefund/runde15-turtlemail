@@ -336,6 +336,9 @@ class Packet(models.Model):
         if any([step.status == RouteStep.REJECTED for step in steps]):
             return self.Status.ROUTE_OUTDATED
 
+        if any([step.status == RouteStep.CANCELLED for step in steps]):
+            return self.Status.ROUTE_OUTDATED
+
         if any([step.status == RouteStep.SUGGESTED for step in steps]):
             return self.Status.CONFIRMING_ROUTE
 
