@@ -508,10 +508,10 @@ class DeliveryLog(models.Model):
     NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
 
     ACTION_CHOICES = (
-        (ROUTE_STEP_CHANGE, "Travel Step Changed"),
-        (SEARCHING_ROUTE, "Updating Travel Plans"),
-        (NEW_ROUTE, "Travel Plans Changed"),
-        (NO_ROUTE_FOUND, "Unable to find Travel Plans"),
+        (ROUTE_STEP_CHANGE, _("User's journey changed")),
+        (SEARCHING_ROUTE, _("Making new travel plans")),
+        (NEW_ROUTE, _("Found new travel plans")),
+        (NO_ROUTE_FOUND, _("Unable to find travel plans")),
     )
 
     if TYPE_CHECKING:
@@ -548,9 +548,15 @@ class DeliveryLog(models.Model):
 
         if self.action == self.ROUTE_STEP_CHANGE:
             description = _(
-                "Travel step changed: %(status)s"
+                "A journey involved in this delivery changed: %(status)s"
                 % {"status": self.get_new_step_status_display()}
             )
+            if self.new_step_status == RouteStep.CANCELLED:
+                description = _("A user cancelled their journey for this delivery")
+            elif self.new_step_status == RouteStep.REJECTED:
+                description = _("A user rejected a proposed journey for this delivery")
+            elif self.new_step_status == RouteStep.ACCEPTED:
+                description = _("A user confirmed their journey for this delivery")
 
         return description
 

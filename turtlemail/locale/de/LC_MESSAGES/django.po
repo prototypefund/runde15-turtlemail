@@ -269,6 +269,18 @@ msgstr ""
 msgid "At some point"
 msgstr ""
 
+msgid "User's journey changed"
+msgstr ""
+
+msgid "Making new travel plans"
+msgstr ""
+
+msgid "Found new travel plans"
+msgstr ""
+
+msgid "Unable to find travel plans"
+msgstr ""
+
 msgid "Datetime"
 msgstr ""
 
@@ -279,7 +291,16 @@ msgid "New Route Step Status"
 msgstr ""
 
 #, python-format
-msgid "Travel step changed: %(status)sstatus"
+msgid "A journey involved in this delivery changed: %(status)sstatus"
+msgstr ""
+
+msgid "A user cancelled their journey for this delivery"
+msgstr ""
+
+msgid "A user rejected a proposed journey for this delivery"
+msgstr ""
+
+msgid "A user confirmed their journey for this delivery"
 msgstr ""
 
 msgid "Delivery Log Entry"
@@ -451,4 +472,22 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Inactive until %(date)s"
+#~ msgstr ""
+
+#~ msgid "Travel step changed: %(status)sstatus"
+#~ msgstr ""
+
+#~ msgid "A user cancelled their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user rejected a proposed journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user confirmed their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "Looking for travel plans"
+#~ msgstr ""
+
+#~ msgid "Travel plans changed"
 #~ msgstr ""
