@@ -40,18 +40,18 @@
             {% endif %}
             <h3 class="mt-2 text-sm text-base-content/60">{{ _("Your next steps") }}</h3>
             {% for step in users_route_steps %}
-                <div class="mt-2 border rounded shadow-sm join join-vertical border-neutral-300">
+                <div class="mt-2 border rounded-lg shadow-sm join join-vertical border-neutral-300">
                     <div class="px-4 pt-3 pb-5 join-item">
                         <div class="mb-1 text-xs text-base-content/80">{{ step.get_status_display() }}</div>
                         <p>{{ _("Near %(location)s", location = step.stay.location.name) }}</p>
-                        {% if step.previous_step is not none %}
+                        {% if step.previous_step and step.previous_step.stay.user != step.stay.user %}
                             <p>
                                 {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
                                 <strong>{{ date_description }}</strong>:
                                 {{ _("Pick up from %(name)s", name=step.previous_step.stay.user.username) }}
                             </p>
                         {% endif %}
-                        {% if step.next_step is not none %}
+                        {% if step.next_step and step.next_step.stay.user != step.stay.user %}
                             <p>
                                 {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
                                 <strong>{{ date_description }}</strong>:
@@ -64,7 +64,7 @@
                            hx-target="#route_step_request_box"
                            hx-boost="true"
                            hx-push-url="false"
-                           class="join-item btn">{{ _("Respond to this suggestion") }}</a>
+                           class="join-item btn btn-secondary">{{ _("Respond to this suggestion") }}</a>
                     {% endif %}
                 </div>
             {% endfor %}
