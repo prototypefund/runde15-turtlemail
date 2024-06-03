@@ -51,9 +51,24 @@ class UserAdmin(_UserAdmin):
     ordering = ("email",)
 
 
+class RouteStepInline(admin.TabularInline):
+    model = RouteStep
+
+    exclude = ["previous_step", "next_step", "packet"]
+
+
+class PacketAdmin(admin.ModelAdmin):
+    list_display = ("human_id", "sender", "recipient")
+
+
+class RouteAdmin(admin.ModelAdmin):
+    list_display = ("id", "packet", "status")
+    inlines = [RouteStepInline]
+
+
 admin.site.register(User, UserAdmin)
-admin.site.register(Packet)
-admin.site.register(Route)
+admin.site.register(Packet, PacketAdmin)
+admin.site.register(Route, RouteAdmin)
 admin.site.register(RouteStep)
 admin.site.register(Location)
 admin.site.register(Invite)
