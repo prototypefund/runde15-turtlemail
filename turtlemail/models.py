@@ -450,6 +450,8 @@ class RouteStep(models.Model):
         verbose_name = _("Route Step")
         verbose_name_plural = _("Route Steps")
 
+        ordering = ["start"]
+
     def get_overlapping_date_range(
         self, other: Self | None
     ) -> Tuple[datetime.date | None, datetime.date | None]:
