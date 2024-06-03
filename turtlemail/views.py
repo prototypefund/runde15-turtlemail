@@ -54,10 +54,15 @@ class DeliveriesView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# TODO only allow route step owners to edit them
-class HtmxUpdateRouteStepRequestView(LoginRequiredMixin, TemplateView):
+class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
     template_name = "turtlemail/route_step_request_form.jinja"
     success_url = reverse_lazy("requests")
+
+    def test_func(self) -> bool | None:
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=self.kwargs.get("pk"))
+        return step.stay.user == self.request.user
 
     def get(self, _request, pk):
         step = RouteStep.objects.select_related(
