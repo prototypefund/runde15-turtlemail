@@ -141,7 +141,8 @@ class HtmxStayDetailView(UserPassesTestMixin, DetailView):
     template_name = "turtlemail/_stay_detail.jinja"
 
     def test_func(self):
-        return self.get_object().user == self.request.user
+        stay: Stay = self.get_object()  # type: ignore
+        return stay.user == self.request.user
 
 
 class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
@@ -274,7 +275,7 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         cx = super().get_context_data(**kwargs)
-        packet: Packet = self.get_object()
+        packet: Packet = self.get_object()  # type: ignore
         cx["packet"] = packet
         current_route = packet.current_route()
         if current_route is not None:
@@ -292,7 +293,7 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
         b) People that will carry out a route step
         c) Superusers
         """
-        packet: Packet = self.get_object()
+        packet: Packet = self.get_object()  # type: ignore
         is_part_of_route = RouteStep.objects.filter(
             packet_id=packet.id, stay__user__id=self.request.user.id
         ).exists()

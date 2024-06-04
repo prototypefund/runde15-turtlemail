@@ -582,7 +582,7 @@ class DeliveryLog(models.Model):
         if self.action == self.ROUTE_STEP_CHANGE:
             description = _(
                 "A journey involved in this delivery changed: %(status)s"
-                % {"status": self.get_new_step_status_display()}
+                % {"status": self.get_new_step_status_display()}  # type: ignore
             )
             if self.new_step_status == RouteStep.CANCELLED:
                 description = _("A user cancelled their journey for this delivery")
