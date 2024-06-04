@@ -110,7 +110,10 @@ def get_starting_stay(packet: Packet, calculation_date: date) -> Stay | None:
         inactive_until__lt=calculation_date
     )
     time_matches = ~models.Q(frequency=Stay.ONCE) | models.Q(end__gte=calculation_date)
-    starting_stays = packet.sender.stay_set.filter(is_active, time_matches).all()
+    not_deleted = models.Q(deleted=False)
+    starting_stays = packet.sender.stay_set.filter(
+        is_active, time_matches, not_deleted
+    ).all()
     if len(starting_stays) == 0:
         return None
 
