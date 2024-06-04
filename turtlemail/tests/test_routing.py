@@ -343,6 +343,48 @@ class FindRouteTestCase(TestCase):
         self.assertIsNotNone(nodes)
         self.assertEqual(expected_stays, self.stays_from_nodes(nodes))
 
+    def test_find_route_once_stays_in_correct_order(self):
+        # Make sure that multiple once stays from the same user are after
+        # one another, as otherwise people would have to travel into the past.
+        expected_stays = []
+        expected_stays.append(self.stay_for(user=self.sender, name="Hamburg"))
+
+        intermediate = User.objects.create(
+            email="intermediate@turtlemail.app", username="intermediate"
+        )
+        expected_stays.append(
+            self.stay_for(
+                user=intermediate,
+                name="Hamburg",
+                frequency=Stay.ONCE,
+                start=date(2024, 2, 1),
+                end=date(2024, 2, 10),
+            )
+        )
+        # This is the stay we don't want to see in the route!
+        self.stay_for(
+            user=intermediate,
+            name="Munich",
+            frequency=Stay.ONCE,
+            start=date(2024, 1, 1),
+            end=date(2024, 1, 10),
+        )
+        expected_stays.append(
+            self.stay_for(
+                user=intermediate,
+                name="Munich",
+                frequency=Stay.ONCE,
+                start=date(2024, 2, 20),
+                end=date(2024, 2, 25),
+            )
+        )
+
+        expected_stays.append(self.stay_for(user=self.recipient, name="Munich"))
+
+        nodes = routing.find_route(self.packet, calculation_date=date.today())
+        self.assertIsNotNone(nodes)
+        self.assertEqual(expected_stays, self.stays_from_nodes(nodes))
+
     def test_impossible_route_no_stays(self):
         route = routing.find_route(self.packet, calculation_date=date.today())
         self.assertEqual(None, route)

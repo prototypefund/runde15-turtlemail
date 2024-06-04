@@ -53,23 +53,32 @@ def get_reachable_stays(
     stay: Stay, visited_stay_ids: Set[int], calculation_date: date
 ) -> models.QuerySet[Stay]:
     time_matches = models.Q(models.Value(True))
+    is_from_same_user = models.Q(user__id=stay.user.id)
     # TODO take estimated handover dates into account here
     # to make sure we don't get a ONCE stay that's
     # earlier than the previous handover dates
-    # TODO multiple "once" stays from the same user should be after one another
     if stay.start is not None and stay.end is not None:
         # The previous stay is limited to a certain
         # date range.
         # Make sure we only select stays matching this
         # range.
-        time_matches = ~models.Q(frequency=Stay.ONCE) | models.Q(
+        once_time_overlaps = ~models.Q(frequency=Stay.ONCE) | models.Q(
             start__lte=stay.end, end__gte=stay.start
         )
+
+        # For stays from the same user, we just have to make sure
+        # they're not before the previous one. They don't have to overlap, though.
+        once_is_after_previous_once = ~models.Q(frequency=Stay.ONCE) | models.Q(
+            end__gte=stay.start
+        )
+
+        time_matches = (
+            is_from_same_user & once_is_after_previous_once
+        ) | once_time_overlaps
 
     is_near_location = models.Q(
         location__point__distance_lte=(stay.location.point, RADIUS),
     )
-    is_from_same_user = models.Q(user__id=stay.user.id)
     is_unvisited = ~models.Q(id__in=visited_stay_ids)
     is_other_stay = ~models.Q(id=stay.id)
     is_active = models.Q(inactive_until__isnull=True) | models.Q(
@@ -77,7 +86,8 @@ def get_reachable_stays(
     )
     not_deleted = models.Q(deleted=False)
     return Stay.objects.filter(
-        (time_matches & is_near_location) | is_from_same_user,
+        time_matches,
+        (is_near_location | is_from_same_user),
         is_unvisited,
         is_other_stay,
         is_active,
