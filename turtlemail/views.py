@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import (
 )
 from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
-from django.db import models, transaction
+from django.db import transaction
 from django.forms import BaseModelForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
@@ -158,19 +158,9 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
         with transaction.atomic():
             form.instance.user = self.request.user
             stay: Stay = form.save()
-
-            for step in stay.accepted_route_steps_triggering_route_recalculation():
-                step.set_status(RouteStep.CANCELLED)
-                step.save()
-                routing.check_and_recalculate_route(
-                    step.route, starting_date=datetime.date.today()
-                )
-            for step in stay.route_steps.filter(status=RouteStep.SUGGESTED):
-                step.set_status(RouteStep.REJECTED)
-                step.save()
-                routing.check_and_recalculate_route(
-                    step.route, starting_date=datetime.date.today()
-                )
+            routes_to_recalculate = stay.cancel_dependent_route_steps()
+            for route in routes_to_recalculate:
+                routing.check_and_recalculate_route(route, datetime.date.today())
 
             return render(
                 self.request,
@@ -188,35 +178,28 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
         Call the delete() method on the fetched object and then refresh + display message
         """
 
-        self.object: Stay = self.get_object()  # type: ignore
-        if self.object.route_steps.filter(
-            ~models.Q(status=RouteStep.SUGGESTED)
-        ).exists():
-            messages.add_message(
-                request,
-                messages.ERROR,
-                _(
-                    "There is a delivery relying on this stay. It can't be deleted at the moment."
-                ),
-            )
-            return render(
-                self.request,
-                "turtlemail/_stay_detail.jinja",
-                {"stay": self.object, "include_messages": True},
-            )
         with transaction.atomic():
-            self.object.mark_deleted()
-
-            messages.add_message(request, messages.INFO, _("Stay deleted."))
-
-            involved_routes = (
-                Route.objects.filter(steps__stay=self.object).distinct().all()
-            )
-            for route in involved_routes:
-                routing.check_and_recalculate_route(
-                    route, starting_date=datetime.date.today()
+            stay: Stay = self.get_object()  # type: ignore
+            if stay.accepted_dependent_route_steps().exists():
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    _(
+                        "There is a delivery relying on this stay. It can't be deleted at the moment."
+                    ),
+                )
+                return render(
+                    self.request,
+                    "turtlemail/_stay_detail.jinja",
+                    {"stay": stay, "include_messages": True},
                 )
 
+            stay.mark_deleted()
+            routes_to_recalculate = stay.cancel_dependent_route_steps()
+            for route in routes_to_recalculate:
+                routing.check_and_recalculate_route(route, datetime.date.today())
+
+            messages.add_message(request, messages.INFO, _("Stay deleted."))
             return render(self.request, "turtlemail/htmx_response.jinja")
 
 

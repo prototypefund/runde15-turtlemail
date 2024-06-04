@@ -1,6 +1,6 @@
 import datetime
 import secrets
-from typing import TYPE_CHECKING, ClassVar, Self, Tuple
+from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
 from django.db import models, transaction
@@ -10,6 +10,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.core.validators import MinValueValidator
+from django.db.models import QuerySet
 from django.template.defaultfilters import date
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -216,14 +217,37 @@ class Stay(models.Model):
         with transaction.atomic():
             self.deleted = True
             self.save()
-            self.route_steps.filter(status=RouteStep.SUGGESTED).update(
-                status=RouteStep.REJECTED
-            )
 
-    def accepted_route_steps_triggering_route_recalculation(self):
+    def cancel_dependent_route_steps(self) -> Set["Route"]:
+        """Cancel all route steps with active routes that depend on this stay. Return the set of routes that will need to be recalculated."""
+        routes_to_recalculate = set()
+        for step in self.accepted_dependent_route_steps():
+            step.set_status(RouteStep.CANCELLED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        for step in self.suggested_dependent_route_steps():
+            step.set_status(RouteStep.REJECTED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        return routes_to_recalculate
+
+    def accepted_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
+        """If their stay is edited, these route steps will cause their routes to be recalculated. These steps should additionally show a warning before being edited."""
+        return self.route_steps.filter(
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+        )
+
+    def suggested_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
         """If their stay is edited, these route steps will cause their routes to be recalculated."""
         return self.route_steps.filter(
-            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING]
+            status=RouteStep.SUGGESTED, route__status=Route.CURRENT
         )
 
 

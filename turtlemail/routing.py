@@ -397,10 +397,6 @@ def create_new_route(packet: Packet, starting_date: date) -> Route | None:
 
             route = Route.objects.create(status=Route.CURRENT, packet=packet)
 
-            DeliveryLog.objects.create(
-                packet=packet, route=route, action=DeliveryLog.NEW_ROUTE
-            )
-
             step_dates = calculate_routestep_dates(
                 [node.stay for node in nodes], calculation_date=starting_date
             )
@@ -430,6 +426,10 @@ def create_new_route(packet: Packet, starting_date: date) -> Route | None:
                 next_step = step
 
             RouteStep.objects.bulk_update(steps, ["next_step"])
+
+            DeliveryLog.objects.create(
+                packet=packet, route=route, action=DeliveryLog.NEW_ROUTE
+            )
 
             return route
     except Exception as e:
