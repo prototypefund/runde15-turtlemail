@@ -71,6 +71,7 @@ class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
         form = RouteStepRequestForm(step)
         context = {
             "form": form,
+            "on_packet_detail_page": self.request.GET.get("on_packet_detail_page"),
             "from_rejected_request": self.request.GET.get("from_rejected_request"),
         }
         return self.render_to_response(context)

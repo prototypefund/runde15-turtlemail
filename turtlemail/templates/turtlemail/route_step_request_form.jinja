@@ -73,7 +73,13 @@
                     {% include "turtlemail/icons/information_circle.jinja" %}
                     {{ _("We'll create a new stay for these dates.") }}
                 </p>
-                <button class="mt-8 btn btn-success btn-wide" type="submit">{{ _("Send") }}</button>
+                <div class="flex gap-2 mt-8">
+                    {% if on_packet_detail_page %}
+                        <button class="basis-32 btn btn-neutral btn-outline"
+                                onclick="this.closest('form').remove()">{{ _("Cancel") }}</button>
+                    {% endif %}
+                    <button class="btn btn-success grow" type="submit">{{ _("Send") }}</button>
+                </div>
             </fieldset>
         </div>
     </form>

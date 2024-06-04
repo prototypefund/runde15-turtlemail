@@ -60,7 +60,7 @@
                         {% endif %}
                     </div>
                     {% if step.status == step.SUGGESTED %}
-                        <a href="{{ url("update_route_step_request", pk=step.id) }}"
+                        <a href="{{ url("update_route_step_request", pk=step.id) }}?on_packet_detail_page=true"
                            hx-target="#route_step_request_box"
                            hx-boost="true"
                            hx-push-url="false"
