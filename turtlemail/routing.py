@@ -50,13 +50,16 @@ class RoutingNode:
 # Given an origin stay, we build a query for finding other stays
 # where the delivery could be handed over to another person.
 def get_reachable_stays(
-    stay: Stay, visited_stay_ids: Set[int], calculation_date: date
+    stay: Stay,
+    visited_stay_ids: Set[int],
+    calculation_date: date,
+    earliest_estimated_handover: date,
 ) -> models.QuerySet[Stay]:
-    time_matches = models.Q(models.Value(True))
+    # If it's a once stay, make sure users can reach it in time
+    time_matches = ~models.Q(frequency=Stay.ONCE) | models.Q(
+        end__gte=earliest_estimated_handover
+    )
     is_from_same_user = models.Q(user__id=stay.user.id)
-    # TODO take estimated handover dates into account here
-    # to make sure we don't get a ONCE stay that's
-    # earlier than the previous handover dates
     if stay.start is not None and stay.end is not None:
         # The previous stay is limited to a certain
         # date range.
@@ -72,7 +75,7 @@ def get_reachable_stays(
             end__gte=stay.start
         )
 
-        time_matches = (
+        time_matches &= (
             is_from_same_user & once_is_after_previous_once
         ) | once_time_overlaps
 
@@ -183,7 +186,10 @@ def find_route(packet: Packet, calculation_date: date) -> List[RoutingNode] | No
 
         # Find neighbors of the node we're visiting
         reachable_stays = get_reachable_stays(
-            current_node.stay, visited_stay_ids, calculation_date
+            current_node.stay,
+            visited_stay_ids,
+            calculation_date,
+            current_node.earliest_estimated_handover,
         )
         logger.debug("- visiting %s, reachable stays:", current_node.stay)
         for stay in reachable_stays:

@@ -96,7 +96,7 @@ class ReachableStaysTestCase(TestCase):
 
     def test_reachable_stays(self):
         reachable = routing.get_reachable_stays(
-            self.start_stay, set(), date(2024, 1, 1)
+            self.start_stay, set(), date(2024, 1, 1), date(2024, 1, 1)
         )
         self.assertEqual(
             set(reachable),
@@ -109,7 +109,10 @@ class ReachableStaysTestCase(TestCase):
 
     def test_exclude_visited_stays(self):
         reachable = routing.get_reachable_stays(
-            self.start_stay, {self.reachable_stay_time_overlaps.id}, date(2024, 1, 1)
+            self.start_stay,
+            {self.reachable_stay_time_overlaps.id},
+            date(2024, 1, 1),
+            date(2024, 1, 1),
         )
         self.assertFalse(self.reachable_stay_time_overlaps in set(reachable))
 
@@ -339,7 +342,7 @@ class FindRouteTestCase(TestCase):
 
         expected_stays.append(self.stay_for(user=self.recipient, name="Munich"))
 
-        nodes = routing.find_route(self.packet, calculation_date=date.today())
+        nodes = routing.find_route(self.packet, calculation_date=date(2024, 1, 1))
         self.assertIsNotNone(nodes)
         self.assertEqual(expected_stays, self.stays_from_nodes(nodes))
 
@@ -381,12 +384,70 @@ class FindRouteTestCase(TestCase):
 
         expected_stays.append(self.stay_for(user=self.recipient, name="Munich"))
 
-        nodes = routing.find_route(self.packet, calculation_date=date.today())
+        nodes = routing.find_route(self.packet, calculation_date=date(2024, 1, 1))
+        self.assertIsNotNone(nodes)
+        self.assertEqual(expected_stays, self.stays_from_nodes(nodes))
+
+    def test_find_route_once_stays_not_in_past(self):
+        # Make sure that once stays that happen before previous stays
+        # don't get picked.
+        calculation_date = date(2024, 1, 1)
+        expected_stays = []
+        expected_stays.append(
+            self.stay_for(
+                user=self.sender,
+                name="Hamburg",
+                frequency=Stay.ONCE,
+                start=date(2024, 2, 1),
+                end=date(2024, 2, 10),
+            )
+        )
+
+        intermediate = User.objects.create(
+            email="intermediate@turtlemail.app", username="intermediate"
+        )
+        expected_stays.append(
+            self.stay_for(
+                user=intermediate,
+                name="Hamburg",
+                frequency=Stay.WEEKLY,
+            )
+        )
+        expected_stays.append(
+            self.stay_for(
+                user=intermediate,
+                name="Munich",
+                frequency=Stay.WEEKLY,
+            )
+        )
+
+        # These stays are before the sender's initial stay in Hamburg,
+        # so they shouldn't be picked.
+        self.stay_for(
+            user=intermediate,
+            name="Munich",
+            frequency=Stay.ONCE,
+            start=date(2024, 1, 1),
+            end=date(2024, 1, 10),
+        )
+        self.stay_for(
+            user=self.recipient,
+            name="Munich",
+            frequency=Stay.ONCE,
+            start=date(2024, 1, 1),
+            end=date(2024, 1, 10),
+        )
+
+        expected_stays.append(
+            self.stay_for(user=self.recipient, name="Munich", frequency=Stay.SOMETIMES)
+        )
+
+        nodes = routing.find_route(self.packet, calculation_date=calculation_date)
         self.assertIsNotNone(nodes)
         self.assertEqual(expected_stays, self.stays_from_nodes(nodes))
 
     def test_impossible_route_no_stays(self):
-        route = routing.find_route(self.packet, calculation_date=date.today())
+        route = routing.find_route(self.packet, calculation_date=date(2024, 1, 1))
         self.assertEqual(None, route)
 
     def test_impossible_route_disconnected_stays(self):
@@ -397,7 +458,7 @@ class FindRouteTestCase(TestCase):
 
         self.stay_for(user=self.recipient, name="Munich")
 
-        route = routing.find_route(self.packet, calculation_date=date.today())
+        route = routing.find_route(self.packet, calculation_date=date(2024, 1, 1))
         self.assertEqual(None, route)
 
     def test_find_route_with_inactive_stays_once(self):
