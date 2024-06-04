@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import sys
 
@@ -242,3 +243,10 @@ LOGGING = {
         "filters": ["require_debug_true"],
     },
 }
+
+TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
+    days=get_env(
+        "TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS",
+        default=60,
+    )
+)

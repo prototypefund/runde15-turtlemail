@@ -3,13 +3,14 @@ from datetime import date, timedelta
 import logging
 import math
 from typing import List, Set, Tuple
+from django.conf import settings
 from django.contrib.gis import measure
 from django.db import models, transaction
 from turtlemail.models import DeliveryLog, Packet, Route, RouteStep, Stay
 
 RADIUS = measure.Distance(km=10)
 # Only allow routes that take less than this time to complete.
-MAX_ROUTE_LENGTH = timedelta(days=60)
+MAX_ROUTE_LENGTH = settings.TURTLEMAIL_MAX_ROUTE_LENGTH
 
 logger = logging.getLogger(__name__)
 

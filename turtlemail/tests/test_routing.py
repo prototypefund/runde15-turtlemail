@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 from typing import List
+from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
@@ -292,12 +293,15 @@ class FindRouteTestCase(TestCase):
         self.stay_for(user=self.sender, name="Hamburg")
         self.stay_for(user=self.sender, name="Munich")
 
+        start = (
+            calculation_date + settings.TURTLEMAIL_MAX_ROUTE_LENGTH + timedelta(days=1)
+        )
         self.stay_for(
             user=self.recipient,
             name="Munich",
             frequency=Stay.ONCE,
-            start=date(2024, 4, 10),
-            end=date(2024, 4, 20),
+            start=start,
+            end=start + timedelta(days=10),
         )
 
         nodes: List[routing.RoutingNode] = routing.find_route(
