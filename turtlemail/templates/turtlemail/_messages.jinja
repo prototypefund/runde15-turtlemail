@@ -10,6 +10,7 @@
                     {{ message }}
                 {% endif %}
                 <button class="btn btn-ghost btn-square btn-sm justify-self-end"
+                        title="{{ _("Dismiss") }}"
                         onclick="this.parentNode.remove()">{% include "turtlemail/icons/circle_x.jinja" %}</button>
             </li>
         {% endfor %}

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import sys
 
@@ -218,3 +219,34 @@ AUTH_USER_MODEL = "turtlemail.User"
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "index"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    # Show debug logs when DEBUG is True.
+    # This is also intended to show logs in tests.
+    # Unfortunately, they're mixed with the test runner's output
+    # for now.
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "filters": ["require_debug_true"],
+    },
+}
+
+TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
+    days=get_env(
+        "TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS",
+        default=60,
+    )
+)

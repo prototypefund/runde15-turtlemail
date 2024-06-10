@@ -63,6 +63,25 @@ msgstr ""
 msgid "The start date is required."
 msgstr ""
 
+msgid "From"
+msgstr ""
+
+msgid "Until"
+msgstr ""
+
+#, python-format
+msgid "This request is already %(status)s."
+msgstr ""
+
+msgid "The travel plans for this step have been cancelled."
+msgstr ""
+
+msgid "This date must be at or before the end date."
+msgstr ""
+
+msgid "This date is required."
+msgstr ""
+
 msgid "The email must be set."
 msgstr ""
 
@@ -125,6 +144,9 @@ msgstr ""
 msgid "End"
 msgstr ""
 
+msgid "Inactive until"
+msgstr ""
+
 msgid "Stay"
 msgstr ""
 
@@ -132,6 +154,15 @@ msgid "Stays"
 msgstr ""
 
 msgid "Calculating Route"
+msgstr ""
+
+msgid "No Route Found"
+msgstr ""
+
+msgid "Confirming Route"
+msgstr ""
+
+msgid "Route is Outdated"
 msgstr ""
 
 msgid "Ready to Ship"
@@ -144,6 +175,17 @@ msgid "Delivered"
 msgstr ""
 
 msgid "The system is currently looking for people who can make this delivery."
+msgstr ""
+
+msgid "The system found no way to reach the recipient."
+msgstr ""
+
+msgid "Waiting for everyone involved to confirm the planned journeys."
+msgstr ""
+
+msgid ""
+"Some people making this delivery don't have matching travel plans. The "
+"system will look for a new way to make this delivery."
 msgstr ""
 
 msgid "This delivery is ready to begin its journey."
@@ -182,6 +224,24 @@ msgstr ""
 msgid "Routes"
 msgstr ""
 
+msgid "Suggested"
+msgstr ""
+
+msgid "Accepted"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Ongoing"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
 msgid "Previous Step"
 msgstr ""
 
@@ -194,6 +254,33 @@ msgstr ""
 msgid "Route Steps"
 msgstr ""
 
+#, python-format
+msgid "Between %(start_date)s and %(end_date)s"
+msgstr ""
+
+#, python-format
+msgid "After %(date)s"
+msgstr ""
+
+#, python-format
+msgid "Before %(date)sdate"
+msgstr ""
+
+msgid "At some point"
+msgstr ""
+
+msgid "User's journey changed"
+msgstr ""
+
+msgid "Making new travel plans"
+msgstr ""
+
+msgid "Found new travel plans"
+msgstr ""
+
+msgid "Unable to find travel plans"
+msgstr ""
+
 msgid "Datetime"
 msgstr ""
 
@@ -201,6 +288,19 @@ msgid "Action Choices"
 msgstr ""
 
 msgid "New Route Step Status"
+msgstr ""
+
+#, python-format
+msgid "A journey involved in this delivery changed: %(status)sstatus"
+msgstr ""
+
+msgid "A user cancelled their journey for this delivery"
+msgstr ""
+
+msgid "A user rejected a proposed journey for this delivery"
+msgstr ""
+
+msgid "A user confirmed their journey for this delivery"
 msgstr ""
 
 msgid "Delivery Log Entry"
@@ -229,6 +329,13 @@ msgstr ""
 msgid "Invite sent!"
 msgstr ""
 
+msgid "Dismiss"
+msgstr ""
+
+#, python-format
+msgid "Will not be included in any deliveries until %(date)s"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -253,7 +360,39 @@ msgstr ""
 msgid "is sending this delivery to you."
 msgstr ""
 
+#, python-format
+msgid "%(current)d of %(total)d journeys confirmed"
+msgstr ""
+
+#, python-format
+msgid "%(current)d of %(total)d journeys completed"
+msgstr ""
+
 msgid "Your next steps"
+msgstr ""
+
+#, python-format
+msgid "Near %(location)s"
+msgstr ""
+
+#, python-format
+msgid "Pick up from %(name)s"
+msgstr ""
+
+#, python-format
+msgid "Hand over to %(name)s"
+msgstr ""
+
+msgid "Respond to this suggestion"
+msgstr ""
+
+msgid "You're not involved in the current travel plans for this delivery."
+msgstr ""
+
+msgid "Activity"
+msgstr ""
+
+msgid "Delivery created"
 msgstr ""
 
 msgid "staff"
@@ -330,4 +469,25 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "rabbit@turtlemail.app"
+#~ msgstr ""
+
+#~ msgid "Inactive until %(date)s"
+#~ msgstr ""
+
+#~ msgid "Travel step changed: %(status)sstatus"
+#~ msgstr ""
+
+#~ msgid "A user cancelled their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user rejected a proposed journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user confirmed their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "Looking for travel plans"
+#~ msgstr ""
+
+#~ msgid "Travel plans changed"
 #~ msgstr ""

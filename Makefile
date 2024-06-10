@@ -66,5 +66,13 @@ update-translations:
 	rm turtlemail/locale/django.pot
 
 .PHONY: fixtures
-fixtures:
+fixtures: migrate
 	$(COMPOSE) exec -it backend turtlemailctl initdata
+
+.PHONY: test
+test:
+	$(COMPOSE) exec backend turtlemailctl test turtlemail
+
+.PHONY: dump-fixtures
+dump-fixtures:
+	$(COMPOSE) exec backend turtlemailctl dumpdata --format yaml --natural-foreign --natural-primary --exclude auth --exclude contenttypes --exclude sessions > turtlemail/fixtures/initial_data.yaml

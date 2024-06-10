@@ -1,0 +1,86 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% macro choice_radio(value, label) %}
+    <div class="form-control">
+        <label class="justify-start gap-2 label">
+            <input type="radio"
+                   name="{{ form.choice.html_name }}"
+                   value="{{ value }}"
+                   {% if form.choice.value() == value %}checked{% endif %}
+                   class="radio">
+            <span class="label-text">{{ label }}</span>
+        </label>
+    </div>
+{% endmacro %}
+{% block content %}
+    {% set step = form.step %}
+    <form method="post"
+          action="{{ url("update_route_step_request", pk=step.id) }}"
+          hx-boost="true"
+          hx-push-url="false"
+          hx-target="this"
+          hx-swap="outerHTML"
+          class="bg-base-100 rounded-box">
+        {% csrf_token %}
+        {% if from_rejected_request %}
+            <div class="p-8 bg-secondary text-secondary-content rounded-t-box">
+                {{ _("Thanks! Would this date and location work instead?") }}
+            </div>
+        {% endif %}
+        <div class="p-8">
+            <h2 class="text-lg font-bold">
+                {{ _("Delivery Request: ") }}
+                <a hx-boost="false"
+                   href="{{ url("packet_detail", slug=step.packet.human_id) }}">"{{ step.packet.human_id }}"</a>
+            </h2>
+            <div class="my-4 text-primary">
+                <p>📍 {{ _("Near %(location)s", location = step.stay.location.name) }}</p>
+                {% if step.previous_step and step.previous_step.stay.user != step.stay.user %}
+                    <p>
+                        🗓️ {{ step.describe_overlapping_date_range(step.previous_step) }}: {{ _("Take from %(person)s", person=step.previous_step.stay.user.username) }}
+                    </p>
+                {% endif %}
+                {% if step.next_step and step.next_step.stay.user != step.stay.user %}
+                    <p>
+                        🗓️ {{ step.describe_overlapping_date_range(step.next_step) }}: {{ _("Hand over to %(person)s", person=step.next_step.stay.user.username) }}
+                    </p>
+                {% endif %}
+            </div>
+            {{ form.non_field_errors() }}
+            <fieldset class="flex flex-col">
+                <legend class="mb-2">
+                    {% if step.stay.user == step.packet.sender %}
+                        {{ _("Can you hand over your packet at the above dates?") }}
+                    {% elif step.stay.user == step.packet.recipient %}
+                        {{ _("%(sender)s would like to send a packet to you. Can you take it from %(user)s at the above dates?", sender=step.packet.sender.username, user=step.previous_step.stay.user.username) }}
+                    {% else %}
+                        {{ _("Can you help make this delivery at the above dates?") }}
+                    {% endif %}
+                </legend>
+                {% for error in form.choice.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
+                {{ choice_radio(form.YES, _("Yes") ) }}
+                {{ choice_radio(form.NO, _("Not in the foreseeable future") ) }}
+                {{ choice_radio(form.ASK_LATER, _("I don't know right now, ask me again later") ) }}
+                {{ choice_radio(form.AT_OTHER_DATES, _("No, but I'll be at this location another time:") ) }}
+                <div class="flex flex-wrap gap-2 ml-8">
+                    {% with field=form.new_stay_start, label=True %}
+                        {% include "turtlemail/fields/_date_field.jinja" %}
+                    {% endwith %}
+                    {% with field=form.new_stay_end, label=True %}
+                        {% include "turtlemail/fields/_date_field.jinja" %}
+                    {% endwith %}
+                </div>
+                <p class="flex items-center gap-1 mt-2 ml-8 text-sm text-base-content/80">
+                    {% include "turtlemail/icons/information_circle.jinja" %}
+                    {{ _("We'll create a new stay for these dates.") }}
+                </p>
+                <div class="flex gap-2 mt-8">
+                    {% if on_packet_detail_page %}
+                        <button class="basis-32 btn btn-neutral btn-outline"
+                                onclick="this.closest('form').remove()">{{ _("Cancel") }}</button>
+                    {% endif %}
+                    <button class="btn btn-success grow" type="submit">{{ _("Send") }}</button>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+{% endblock %}

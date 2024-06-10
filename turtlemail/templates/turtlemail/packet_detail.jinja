@@ -1,41 +1,98 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div class="p-8 bg-base-100 rounded-box">
-        <h2 class="text-xl font-bold">{{ _("Delivery") }} "{{ packet.human_id }}"</h2>
-        {% if packet.is_sender_or_recipient(request.user) %}
-            {% if packet.sender.id == request.user.id %}
-                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Recipient") }}</h3>
-                <p>
-                    {{ _("You're sending this delivery to") }} <strong>{{ packet.recipient.username }}</strong>.
-                </p>
+    <div class="grid w-full max-w-lg gap-4">
+        <div class="grid p-8 bg-base-100 rounded-box">
+            <h2 class="text-xl font-bold">📦 {{ packet.human_id }}</h2>
+            {% if packet.is_sender_or_recipient(request.user) %}
+                {% if packet.sender.id == request.user.id %}
+                    <h3 class="mt-2 text-sm text-base-content/60">{{ _("Recipient") }}</h3>
+                    <p>
+                        {{ _("You're sending this delivery to") }} <strong>{{ packet.recipient.username }}</strong>.
+                    </p>
+                {% endif %}
+                {% if packet.recipient.id == request.user.id %}
+                    <h3 class="mt-2 text-sm text-base-content/60">{{ _("Sender") }}</h3>
+                    <p>
+                        <strong>{{ packet.sender.username }}</strong> {{ _("is sending this delivery to you.") }}
+                    </p>
+                {% endif %}
             {% endif %}
-            {% if packet.recipient.id == request.user.id %}
-                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Sender") }}</h3>
-                <p>
-                    <strong>{{ packet.sender.username }}</strong> {{ _("is sending this delivery to you.") }}
-                </p>
+            <h3 class="mt-2 text-sm text-base-content/60">{{ _("Status") }}</h3>
+            <p>{{ packet.status().description() }}</p>
+            {% if packet.status() == packet.Status.CONFIRMING_ROUTE %}
+                <label class="flex flex-col items-end mt-4">
+                    <progress class="progress progress-primary"
+                              value="{{ packet.current_route().accepted_steps().count() }}"
+                              max="{{ packet.current_route().steps.count() }}"></progress>
+                    <div>
+                        {{ _("%(current)d of %(total)d journeys confirmed", current = packet.current_route().accepted_steps().count(), total = packet.current_route().steps.count()) }}
+                    </div>
+                </label>
+            {% elif packet.status() == packet.Status.DELIVERING %}
+                <label class="flex flex-col items-end mt-4">
+                    <progress class="progress progress-primary"
+                              value="{{ packet.current_route().completed_steps().count() }}"
+                              max="{{ packet.current_route().steps.count() }}"></progress>
+                    <div>
+                        {{ _("%(current)d of %(total)d journeys completed", current = packet.current_route().completed_steps().count(), total = packet.current_route().steps.count()) }}
+                    </div>
+                </label>
             {% endif %}
-        {% endif %}
-        <h3 class="mt-2 text-sm text-base-content/60">{{ _("Status") }}</h3>
-        <p>{{ packet.status().description() }}</p>
-        {% if users_route_steps|length > 0 %}
             <h3 class="mt-2 text-sm text-base-content/60">{{ _("Your next steps") }}</h3>
-            <ul>
-                {% for step in users_route_steps %}
-                    <li>
-                        {% set pickup_range = step.get_overlapping_date_range(step.previous_step) %}
-                        {% if pickup_range is not none %}
-                            <strong>Between {{ pickup_range[0]|date }} and {{ pickup_range[1]|date }}</strong>: Pick up from {{ step.previous_step.stay.user.username }}
+            {% for step in users_route_steps %}
+                <div class="mt-2 border rounded-lg shadow-sm join join-vertical border-neutral-300">
+                    <div class="px-4 pt-3 pb-5 join-item">
+                        <div class="mb-1 text-xs text-base-content/80">{{ step.get_status_display() }}</div>
+                        <p>{{ _("Near %(location)s", location = step.stay.location.name) }}</p>
+                        {% if step.previous_step and step.previous_step.stay.user != step.stay.user %}
+                            <p>
+                                {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
+                                <strong>{{ date_description }}</strong>:
+                                {{ _("Pick up from %(name)s", name=step.previous_step.stay.user.username) }}
+                            </p>
                         {% endif %}
-                    </li>
-                    <li>
-                        {% set dropoff_range = step.get_overlapping_date_range(step.next_step) %}
-                        {% if dropoff_range is not none %}
-                            <strong>Between {{ dropoff_range[0]|date }} and {{ dropoff_range[1]|date }}</strong>: Hand over to {{ step.next_step.stay.user.username }}
+                        {% if step.next_step and step.next_step.stay.user != step.stay.user %}
+                            <p>
+                                {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
+                                <strong>{{ date_description }}</strong>:
+                                {{ _("Hand over to %(name)s", name=step.next_step.stay.user.username) }}
+                            </p>
                         {% endif %}
+                    </div>
+                    {% if step.status == step.SUGGESTED %}
+                        <a href="{{ url("update_route_step_request", pk=step.id) }}?on_packet_detail_page=true"
+                           hx-target="#route_step_request_box"
+                           hx-boost="true"
+                           hx-push-url="false"
+                           class="join-item btn btn-secondary">{{ _("Respond to this suggestion") }}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% if users_route_steps|length == 0 %}
+                <p>{{ _("You're not involved in the current travel plans for this delivery.") }}</p>
+            {% endif %}
+            {% if packet.delivery_logs.all()|length > 0 %}
+                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Activity") }}</h3>
+                <ul class="mt-1">
+                    {% for log in packet.delivery_logs.all() %}
+                        <li class="flex flex-col">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+                                <div class="text-base-content/80">{{ log.created_at|date }}</div>
+                            </div>
+                            <div class="px-3 pb-2 ml-1 border-l border-base-300">{{ log.description() }}</div>
+                        </li>
+                    {% endfor %}
+                    <li class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+                            <div class="text-base-content/80">{{ packet.created_at|date }}</div>
+                        </div>
+                        <div class="px-3 ml-1">{{ _("Delivery created") }}</div>
                     </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+        <div id="route_step_request_box"></div>
     </div>
 {% endblock %}

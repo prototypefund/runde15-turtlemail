@@ -1,15 +1,17 @@
 import datetime
 import secrets
-from typing import TYPE_CHECKING, ClassVar, Self, Tuple
+from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
     BaseUserManager,
 )
 from django.core.validators import MinValueValidator
+from django.db.models import QuerySet
+from django.template.defaultfilters import date
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -186,10 +188,72 @@ class Stay(models.Model):
         null=True,
         blank=True,
     )
+    inactive_until = models.DateField(
+        verbose_name=_("Inactive until"),
+        validators=[MinValueValidator(limit_value=datetime.date.today)],
+        null=True,
+        blank=True,
+    )
+    "If set, this stay will not be included in any routes until this date has passed."
+
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("Stay")
         verbose_name_plural = _("Stays")
+
+    def __str__(self) -> str:
+        time = (
+            f"{self.start} - {self.end}"
+            if self.start is not None and self.end is not None
+            else f"{self.frequency}"
+        )
+        return f"Stay: {self.user.username} in {self.location.name} {time}"
+
+    def mark_deleted(self):
+        """
+        Set this stay as deleted, and reject its suggested route steps.
+        """
+        with transaction.atomic():
+            self.deleted = True
+            self.save()
+
+    def cancel_dependent_route_steps(self) -> Set["Route"]:
+        """Cancel all route steps with active routes that depend on this stay. Return the set of routes that will need to be recalculated."""
+        routes_to_recalculate = set()
+        for step in self.accepted_dependent_route_steps():
+            step.set_status(RouteStep.CANCELLED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        for step in self.suggested_dependent_route_steps():
+            step.set_status(RouteStep.REJECTED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        return routes_to_recalculate
+
+    def accepted_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
+        """If their stay is edited, these route steps will cause their routes to be recalculated. These steps should additionally show a warning before being edited."""
+        return self.route_steps.filter(
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+        )
+
+    def suggested_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
+        """If their stay is edited, these route steps will cause their routes to be recalculated."""
+        return self.route_steps.filter(
+            status=RouteStep.SUGGESTED, route__status=Route.CURRENT
+        )
+
+
+class PacketManager(models.Manager):
+    def get_by_natural_key(self, human_id):
+        return self.get(human_id=human_id)
 
 
 class Packet(models.Model):
@@ -198,11 +262,14 @@ class Packet(models.Model):
         id: int
 
         all_routes: RelatedManager["Route"]
-        route_step_set: RelatedManager["RouteStep"]
-        delivery_log_set: RelatedManager["DeliveryLog"]
+        routestep_set: RelatedManager["RouteStep"]
+        delivery_logs: RelatedManager["DeliveryLog"]
 
     class Status(models.TextChoices):
         CALCULATING_ROUTE = "CALCULATING_ROUTE", _("Calculating Route")
+        NO_ROUTE_FOUND = "NO_ROUTE_FOUND", _("No Route Found")
+        CONFIRMING_ROUTE = "CONFIRMING_ROUTE", _("Confirming Route")
+        ROUTE_OUTDATED = "ROUTE_OUTDATED", _("Route is Outdated")
         READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
         DELIVERING = "DELIVERING", _("Delivering")
         DELIVERED = "DELIVERED", _("Delivered")
@@ -214,6 +281,18 @@ class Packet(models.Model):
                         "The system is currently looking for people who can make this delivery."
                     )
 
+                case self.NO_ROUTE_FOUND:
+                    return _("The system found no way to reach the recipient.")
+
+                case self.CONFIRMING_ROUTE:
+                    return _(
+                        "Waiting for everyone involved to confirm the planned journeys."
+                    )
+
+                case self.ROUTE_OUTDATED:
+                    return _(
+                        "Some people making this delivery don't have matching travel plans. The system will look for a new way to make this delivery."
+                    )
                 case self.READY_TO_SHIP:
                     return _("This delivery is ready to begin its journey.")
                 case self.DELIVERING:
@@ -240,6 +319,8 @@ class Packet(models.Model):
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     human_id = models.TextField(verbose_name=_("Code"), unique=True)
 
+    objects = PacketManager()
+
     class Meta:
         indexes = [
             models.Index(fields=["human_id"]),
@@ -256,6 +337,9 @@ class Packet(models.Model):
     def __str__(self):
         return f'Packet "{self.human_id}"'
 
+    def natural_key(self):
+        return (self.human_id,)
+
     def is_sender_or_recipient(self, user: User):
         return user.id in [
             self.recipient.id,
@@ -266,11 +350,35 @@ class Packet(models.Model):
         return self.all_routes.filter(status=Route.CURRENT).first()
 
     def status(self):
-        if self.current_route() is None:
+        route = self.current_route()
+        if route is None:
+            newest_log = self.delivery_logs.first()
+            if (
+                newest_log is not None
+                and newest_log.action == DeliveryLog.NO_ROUTE_FOUND
+            ):
+                return self.Status.NO_ROUTE_FOUND
+
             return self.Status.CALCULATING_ROUTE
 
-        # TODO add rest of status checks once the routing is implemented
-        return self.Status.READY_TO_SHIP
+        steps = route.steps.all()
+
+        if any([step.status == RouteStep.REJECTED for step in steps]):
+            return self.Status.ROUTE_OUTDATED
+
+        if any([step.status == RouteStep.CANCELLED for step in steps]):
+            return self.Status.ROUTE_OUTDATED
+
+        if any([step.status == RouteStep.SUGGESTED for step in steps]):
+            return self.Status.CONFIRMING_ROUTE
+
+        if all([step.status == RouteStep.ACCEPTED for step in steps]):
+            return self.Status.READY_TO_SHIP
+
+        if all([step.status == RouteStep.COMPLETED for step in steps]):
+            return self.Status.DELIVERED
+
+        return self.Status.DELIVERING
 
 
 class Route(models.Model):
@@ -284,7 +392,7 @@ class Route(models.Model):
         id: int
 
         steps: RelatedManager["RouteStep"]
-        delivery_log_set: RelatedManager["DeliveryLog"]
+        deliverylog_set: RelatedManager["DeliveryLog"]
 
     status = models.TextField(verbose_name=_("Status"), choices=STATUS_CHOICES)
     packet = models.ForeignKey(
@@ -301,20 +409,28 @@ class Route(models.Model):
     def __str__(self):
         return f"{self.status} Route"
 
+    def accepted_steps(self):
+        return self.steps.filter(status=RouteStep.ACCEPTED)
+
+    def completed_steps(self):
+        return self.steps.filter(status=RouteStep.COMPLETED)
+
 
 class RouteStep(models.Model):
     SUGGESTED = "SUGGESTED"
     ACCEPTED = "ACCEPTED"
+    REJECTED = "REJECTED"
     ONGOING = "ONGOING"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
 
     STATUS_CHOICES = [
-        (SUGGESTED, "Suggested"),
-        (ACCEPTED, "Accepted"),
-        (ONGOING, "Ongoing"),
-        (COMPLETED, "Completed"),
-        (CANCELLED, "Cancelled"),
+        (SUGGESTED, _("Suggested")),
+        (ACCEPTED, _("Accepted")),
+        (REJECTED, _("Rejected")),
+        (ONGOING, _("Ongoing")),
+        (COMPLETED, _("Completed")),
+        (CANCELLED, _("Cancelled")),
     ]
 
     if TYPE_CHECKING:
@@ -367,48 +483,92 @@ class RouteStep(models.Model):
         verbose_name = _("Route Step")
         verbose_name_plural = _("Route Steps")
 
+        ordering = ["start"]
+
     def get_overlapping_date_range(
         self, other: Self | None
-    ) -> Tuple[datetime.date, datetime.date] | None:
-        if (
-            self.start is None
-            or self.end is None
-            or other is None
-            or other.start is None
-            or other.end is None
-        ):
-            return None
+    ) -> Tuple[datetime.date | None, datetime.date | None]:
+        if other is None:
+            return (None, None)
 
-        start = max(self.start, other.start)
-        end = min(self.end, other.end)
+        if self.start is not None and other.start is not None:
+            start = max(self.start, other.start)
+        else:
+            start = self.start if self.start is not None else other.start
+
+        if self.end is not None and other.end is not None:
+            end = min(self.end, other.end)
+        else:
+            end = self.end if self.end is not None else other.end
+
+        # Check if the date ranges don't overlap. If so, return None instead
+        match start, end:
+            case datetime.date(), datetime.date() if start > end:
+                return (None, None)
 
         return (start, end)
+
+    def describe_overlapping_date_range(self, other: Self | None) -> str:
+        start, end = self.get_overlapping_date_range(other)
+
+        if start is not None and end is not None:
+            return _("Between %(start_date)s and %(end_date)s") % {
+                "start_date": date(start),
+                "end_date": date(end),
+            }
+        elif start is not None:
+            return _("After %(date)s") % {"date": date(start)}
+        elif end is not None:
+            return _("Before %(date)s" % {"date": date(end)})
+        else:
+            return _("At some point")
+
+    def set_status(self, new_status: str):
+        DeliveryLog.objects.create(
+            route_step=self,
+            packet=self.packet,
+            route=self.route,
+            action=DeliveryLog.ROUTE_STEP_CHANGE,
+            new_step_status=new_status,
+        )
+        self.status = new_status
 
 
 class DeliveryLog(models.Model):
     ROUTE_STEP_CHANGE = "ROUTE_STEP_CHANGE"
+    SEARCHING_ROUTE = "SEARCHING_ROUTE"
     NEW_ROUTE = "NEW_ROUTE"
+    NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
 
     ACTION_CHOICES = (
-        (ROUTE_STEP_CHANGE, "Route Step Changed"),
-        (NEW_ROUTE, "New Route"),
+        (ROUTE_STEP_CHANGE, _("User's journey changed")),
+        (SEARCHING_ROUTE, _("Making new travel plans")),
+        (NEW_ROUTE, _("Found new travel plans")),
+        (NO_ROUTE_FOUND, _("Unable to find travel plans")),
     )
 
     if TYPE_CHECKING:
         # Automatically generated
         id: int
 
-    created_at = models.DateTimeField(verbose_name=_("Datetime"))
+    created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
     route_step = models.ForeignKey(
         RouteStep,
         verbose_name=_("Route Step"),
         on_delete=models.CASCADE,
         related_name="delivery_logs",
+        null=True,
     )
     packet = models.ForeignKey(
-        Packet, verbose_name=_("Delivery"), on_delete=models.CASCADE, unique=False
+        Packet,
+        verbose_name=_("Delivery"),
+        on_delete=models.CASCADE,
+        unique=False,
+        related_name="delivery_logs",
     )
-    route = models.ForeignKey(Route, verbose_name=_("Route"), on_delete=models.CASCADE)
+    route = models.ForeignKey(
+        Route, verbose_name=_("Route"), on_delete=models.CASCADE, null=True
+    )
     action = models.TextField(choices=ACTION_CHOICES, verbose_name=_("Action Choices"))
     new_step_status = models.TextField(
         choices=RouteStep.STATUS_CHOICES,
@@ -416,6 +576,25 @@ class DeliveryLog(models.Model):
         null=True,
     )
 
+    def description(self):
+        description = self.get_action_display()  # type: ignore
+
+        if self.action == self.ROUTE_STEP_CHANGE:
+            description = _(
+                "A journey involved in this delivery changed: %(status)s"
+                % {"status": self.get_new_step_status_display()}  # type: ignore
+            )
+            if self.new_step_status == RouteStep.CANCELLED:
+                description = _("A user cancelled their journey for this delivery")
+            elif self.new_step_status == RouteStep.REJECTED:
+                description = _("A user rejected a proposed journey for this delivery")
+            elif self.new_step_status == RouteStep.ACCEPTED:
+                description = _("A user confirmed their journey for this delivery")
+
+        return description
+
     class Meta:
         verbose_name = _("Delivery Log Entry")
         verbose_name_plural = _("Delivery Log Entries")
+
+        ordering = ["-created_at"]

@@ -2,7 +2,14 @@
     {% include "turtlemail/_messages.jinja" %}
 {% endif %}
 <div class="grid grid-cols-2 p-4 md:grid-cols-3 gap-x-8 gap-y-4">
-    <div>{{ stay.location }}</div>
+    <div>
+        {{ stay.location }}
+        {% if stay.inactive_until is not none %}
+            <div class="text-base-content/60">
+                {{ _("Will not be included in any deliveries until %(date)s", date=stay.inactive_until|date) }}
+            </div>
+        {% endif %}
+    </div>
     <div>
         {{ stay.get_frequency_display() }}
         {% if stay.start %}

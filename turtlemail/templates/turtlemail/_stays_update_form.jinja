@@ -3,6 +3,11 @@
     <form class="grid grid-cols-2 p-2 gap-x-8"
           hx-post="{{ url("htmx-update-stay", pk=stay.id) }}"
           hx-target="#stay_{{ stay.id }}">
+        {% if stay.accepted_dependent_route_steps().count() > 0 %}
+            <div class="col-span-2 alert alert-warning">
+                {{ _("This stay is planned for some of your deliveries. Making changes will cancel these plans.") }}
+            </div>
+        {% endif %}
         {{ form.non_field_errors() }}
         {% csrf_token %}
         {% with field=form.location, label=True %}
@@ -17,6 +22,16 @@
         {% with field=form.end, label=True, hidden=True %}
             {% include "turtlemail/fields/_date_field.jinja" %}
         {% endwith %}
+        {% with field=form.inactive_until, label=True %}
+            {% include "turtlemail/fields/_date_field.jinja" %}
+        {% endwith %}
+        <button class="self-end col-start-1 mt-4 btn btn-neutral btn-outline"
+                hx-get="{{ url("htmx-stay-detail", pk=stay.id) }}">
+            {# Add an invisible indicator to keep the save text centered... #}
+            <span class="invisible loading"></span>
+            {{ _("Cancel") }}
+            <span class="loading htmx-indicator"></span>
+        </button>
         <button class="self-end col-start-2 mt-4 btn btn-primary">
             {# Add an invisible indicator to keep the save text centered... #}
             <span class="invisible loading"></span>

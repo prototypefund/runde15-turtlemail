@@ -1,8 +1,9 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div class="flex flex-col items-center justify-center gap-8">
-        <div class="p-4 bg-base-100 rounded-box">
-            <a href="{{ url("create_packet") }}" class="btn btn-primary">{{ _("Place a delivery") }}</a>
-        </div>
+    <a href="{{ url("create_packet") }}" class="mb-8 btn btn-primary">{{ _("Place a delivery") }}</a>
+    <div class="flex flex-col gap-4">
+        {% for form in request_forms %}
+            {% include "turtlemail/route_step_request_form.jinja" %}
+        {% endfor %}
     </div>
 {% endblock %}

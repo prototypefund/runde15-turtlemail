@@ -33,6 +33,11 @@ urlpatterns = [
     # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
     path("stays", views.StaysView.as_view(), name="stays"),
+    path(
+        "htmx/update-request/<int:pk>",
+        views.HtmxUpdateRouteStepRequestView.as_view(),
+        name="update_route_step_request",
+    ),
     path("create_packet", views.CreatePacketView.as_view(), name="create_packet"),
     path(
         "deliveries/<slug:slug>",
@@ -53,6 +58,11 @@ urlpatterns = [
     path("logout", LogoutView.as_view(), name="logout"),
     path(
         "htmx/create-stay/", views.HtmxCreateStayView.as_view(), name="htmx-create-stay"
+    ),
+    path(
+        "htmx/stay-detail/<int:pk>",
+        views.HtmxStayDetailView.as_view(),
+        name="htmx-stay-detail",
     ),
     path(
         "htmx/update-stay/<int:pk>",

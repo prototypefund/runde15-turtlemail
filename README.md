@@ -45,7 +45,11 @@ Work with your code as usual, adding or removing translation keys as needed. Aft
 
 ### Import sample data
 
-run `make fixtures` to populate database with sample data
+Run `make fixtures` to populate database with sample data.
+
+All sample users use the password **"testpassword"** by default.
+
+You can overwrite the sample data in `initial_data.yaml` with the contents of your local database by running `make dump-fixtures`.
 
 ## Versioning
 
