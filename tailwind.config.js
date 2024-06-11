@@ -5,7 +5,7 @@ export default {
     "./turtlemail/**/*.{html,jinja,js,py}",
   ],
   theme: {},
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     darkTheme: "turtlemail",
     themes: [
