@@ -1,4 +1,5 @@
 import datetime
+
 from django import forms
 from django.contrib.auth.forms import (
     AuthenticationForm as _AuthenticationForm,
@@ -13,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
 
-from .models import Invite, Route, Stay, User, Location, RouteStep
+from .models import Invite, Location, Route, RouteStep, Stay, User
 
 
 class UserCreationForm(BaseUserCreationForm):

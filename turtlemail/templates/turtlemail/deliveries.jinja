@@ -1,9 +1,42 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <a href="{{ url("create_packet") }}" class="mb-8 btn btn-primary">{{ _("Place a delivery") }}</a>
-    <div class="flex flex-col gap-4">
+    <div class="grid gap-8 w-full max-w-lg">
+        <a href="{{ url("create_packet") }}" class="btn btn-lg btn-primary">{{ _("Place a delivery") }}</a>
         {% for form in request_forms %}
             {% include "turtlemail/route_step_request_form.jinja" %}
         {% endfor %}
+        <div class="flex flex-col items-center justify-center gap-8">
+            {% for item in object_list %}
+                <a href="{{ url("packet_detail", item.human_id) }}"
+                   class="w-full p-8 rounded-box bg-white border-4 {% if item.recipient == request.user %} border-primary hover:border-primary/80 {% elif item.sender == request.user %} border-secondary hover:border-secondary/80 {% else %} border-accent hover:border-accent/80 {% endif %}">
+                    <div class="flex flex-col gap-2">
+                        <div>{{ item.human_id }}</div>
+                        <div>
+                            {% if item.recipient == request.user %}
+                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                    {% include "turtlemail/icons/receive.jinja" %}
+                                    {{ _("Receive from %(sender)s", sender = item.sender) }}
+                                </div>
+                            {% elif item.sender == request.user %}
+                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                    {% include "turtlemail/icons/send.jinja" %}
+                                    {{ _("Send to %(recipient)s", recipient = item.recipient) }}
+                                </div>
+                            {% else %}
+                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                    {% include "turtlemail/icons/carry.jinja" %}
+                                    Carry
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-row justify-start gap-1">
+                            {% set icon_path_status = "turtlemail/icons/" + item.status().lower() + ".jinja" %}
+                            {% include icon_path_status %}
+                            {{ item.status().label }}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

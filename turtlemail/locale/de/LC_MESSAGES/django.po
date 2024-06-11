@@ -348,6 +348,14 @@ msgstr ""
 msgid "Place a delivery"
 msgstr ""
 
+#, python-format
+msgid "Receive from %(sender)s"
+msgstr ""
+
+#, python-format
+msgid "Send to %(recipient)s"
+msgstr ""
+
 msgid "Send Invitation"
 msgstr ""
 
@@ -433,6 +441,18 @@ msgstr ""
 msgid ""
 "Cheers,\n"
 "the turtlemail team"
+msgstr ""
+
+msgid "Carry"
+msgstr ""
+
+msgid "Ready to ship"
+msgstr ""
+
+msgid "Receive"
+msgstr ""
+
+msgid "Send"
 msgstr ""
 
 #~ msgid "Trips"

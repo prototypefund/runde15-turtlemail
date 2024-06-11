@@ -1,6 +1,7 @@
 import datetime
 import secrets
 from typing import Any
+from django.db.models import Q
 from urllib.parse import urlencode
 
 from django.contrib import messages
@@ -24,6 +25,7 @@ from django.views.generic import (
     DetailView,
     TemplateView,
     UpdateView,
+    ListView,
 )
 
 from turtlemail import routing
@@ -40,8 +42,21 @@ from .forms import (
 from .models import Invite, Stay, Route
 
 
-class DeliveriesView(LoginRequiredMixin, TemplateView):
+class DeliveriesView(LoginRequiredMixin, ListView):
     template_name = "turtlemail/deliveries.jinja"
+    model = Packet
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user_routed_packages = queryset.filter(
+            all_routes__steps__stay__user=self.request.user
+        )
+        queryset = queryset.filter(
+            Q(sender=self.request.user) | Q(recipient=self.request.user)
+        ).distinct()
+        queryset = queryset.union(user_routed_packages).order_by("created_at")
+
+        return queryset
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
