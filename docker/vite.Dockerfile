@@ -1,4 +1,6 @@
 FROM node:lts-alpine
+RUN mkdir /app
+RUN chown node:node /app
 USER node
 WORKDIR /app
 ADD --chown=node:node package.json package-lock.json /app/
