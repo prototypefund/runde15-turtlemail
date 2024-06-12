@@ -2,6 +2,12 @@
 
 A peer-to-peer do-it-together parcel service.
 
+## System requirements
+
+This software is configured to run in a docker container environment. It depends on docker >= 19 only.
+
+A local setup without containers, use of an external database system and an external web proxy is possible, but not supported or documented in this guide.
+
 ## Development Environment
 
 ```shell

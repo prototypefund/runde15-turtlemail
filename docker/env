@@ -1,7 +1,7 @@
 POSTGRES_USER=turtlemail
 POSTGRES_PASSWORD=turtlemail
 POSTGRES_DB=turtlemail
-DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@database/$POSTGRES_DB
+DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database/${POSTGRES_DB}
 
 # a secret key to encrypt sessions
 SECRET_KEY=not-a-very-secret-key
