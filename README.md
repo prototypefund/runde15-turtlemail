@@ -69,6 +69,7 @@ vim pyproject.toml
 git add .
 git commit -m "bump: Release $VERSION"
 git tag $VERSION
+git push
 git push --tags
 ```
 
