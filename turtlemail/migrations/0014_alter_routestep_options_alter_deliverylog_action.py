@@ -4,19 +4,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('turtlemail', '0013_stay_deleted'),
+        ("turtlemail", "0013_stay_deleted"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='routestep',
-            options={'ordering': ['start'], 'verbose_name': 'Route Step', 'verbose_name_plural': 'Route Steps'},
+            name="routestep",
+            options={
+                "ordering": ["start"],
+                "verbose_name": "Route Step",
+                "verbose_name_plural": "Route Steps",
+            },
         ),
         migrations.AlterField(
-            model_name='deliverylog',
-            name='action',
-            field=models.TextField(choices=[('ROUTE_STEP_CHANGE', "User's journey changed"), ('SEARCHING_ROUTE', 'Making new travel plans'), ('NEW_ROUTE', 'Found new travel plans'), ('NO_ROUTE_FOUND', 'Unable to find travel plans')], verbose_name='Action Choices'),
+            model_name="deliverylog",
+            name="action",
+            field=models.TextField(
+                choices=[
+                    ("ROUTE_STEP_CHANGE", "User's journey changed"),
+                    ("SEARCHING_ROUTE", "Making new travel plans"),
+                    ("NEW_ROUTE", "Found new travel plans"),
+                    ("NO_ROUTE_FOUND", "Unable to find travel plans"),
+                ],
+                verbose_name="Action Choices",
+            ),
         ),
     ]
