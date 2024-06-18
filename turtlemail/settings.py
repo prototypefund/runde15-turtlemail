@@ -229,6 +229,7 @@ TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
     days=get_env(
         "TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS",
         default=60,
+        cast=float,
     )
 )
 
