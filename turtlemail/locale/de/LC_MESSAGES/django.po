@@ -281,6 +281,9 @@ msgstr ""
 msgid "Unable to find travel plans"
 msgstr ""
 
+msgid "Packet arrived at new location"
+msgstr ""
+
 msgid "Datetime"
 msgstr ""
 
@@ -301,6 +304,12 @@ msgid "A user rejected a proposed journey for this delivery"
 msgstr ""
 
 msgid "A user confirmed their journey for this delivery"
+msgstr ""
+
+#, python-format
+msgid ""
+"The packet reached station %(i)s of %(n)s. It is still %(distance)s "
+"kilometers from its destination.i"
 msgstr ""
 
 msgid "Delivery Log Entry"
@@ -510,4 +519,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Travel plans changed"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The packet reached station %(i) of "
+#~ "%(n). It is still %(distance) kilometers"
+#~ " from its destination.i"
 #~ msgstr ""

@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.db import models
 from django.contrib.auth.forms import (
     AuthenticationForm as _AuthenticationForm,
 )
@@ -221,6 +222,33 @@ class RouteStepRequestForm(forms.Form):
                 )
                 self.step.stay.inactive_until = new_stay_end
                 self.step.set_status(RouteStep.REJECTED)
+
+        self.step.save()
+        self.step.stay.save()
+
+
+class RouteStepRoutingForm(forms.Form):
+    class Choices(models.TextChoices):
+        YES = "YES", "Yes"
+        NO = "NO", "No"
+
+    choice = forms.ChoiceField(
+        choices=Choices.choices,
+        widget=forms.RadioSelect,
+    )
+
+    def __init__(self, instance: RouteStep, *args, **kwargs) -> None:
+        self.step = instance
+        self.prefix = f"request-{instance.id}"
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        match self.cleaned_data["choice"]:
+            case self.Choices.YES:
+                self.step.set_status(RouteStep.COMPLETED)
+            case self.Choices.NO:
+                # tbd: handle failed handovers
+                assert NotImplemented
 
         self.step.save()
         self.step.stay.save()

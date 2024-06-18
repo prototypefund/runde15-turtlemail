@@ -524,14 +524,39 @@ class RouteStep(models.Model):
             return _("At some point")
 
     def set_status(self, new_status: str):
-        DeliveryLog.objects.create(
-            route_step=self,
-            packet=self.packet,
-            route=self.route,
-            action=DeliveryLog.ROUTE_STEP_CHANGE,
-            new_step_status=new_status,
-        )
+        if new_status == self.COMPLETED:
+            DeliveryLog.objects.create(
+                route_step=self,
+                packet=self.packet,
+                route=self.route,
+                action=DeliveryLog.PACKET_CHANGED_LOCATION,
+                new_step_status=new_status,
+            )
+        else:
+            DeliveryLog.objects.create(
+                route_step=self,
+                packet=self.packet,
+                route=self.route,
+                action=DeliveryLog.ROUTE_STEP_CHANGE,
+                new_step_status=new_status,
+            )
         self.status = new_status
+
+    def save(self, *args, **kwargs):
+        """
+        logic to start routing once all steps got accepted
+        """
+        save = super().save(*args, **kwargs)
+        print(self.route.steps.filter(status=self.ACCEPTED).count())
+        print(self.route.steps.all().count())
+        if (
+            self.route.steps.all().count()
+            == self.route.steps.filter(status=self.ACCEPTED).count()
+        ):
+            first_step = self.route.steps.first()
+            first_step.status = self.ONGOING
+            first_step.save()
+        return save
 
 
 class DeliveryLog(models.Model):
@@ -539,12 +564,14 @@ class DeliveryLog(models.Model):
     SEARCHING_ROUTE = "SEARCHING_ROUTE"
     NEW_ROUTE = "NEW_ROUTE"
     NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
+    PACKET_CHANGED_LOCATION = "PACKET_CHANGED_LOCATION"
 
     ACTION_CHOICES = (
         (ROUTE_STEP_CHANGE, _("User's journey changed")),
         (SEARCHING_ROUTE, _("Making new travel plans")),
         (NEW_ROUTE, _("Found new travel plans")),
         (NO_ROUTE_FOUND, _("Unable to find travel plans")),
+        (PACKET_CHANGED_LOCATION, _("Packet arrived at new location")),
     )
 
     if TYPE_CHECKING:
@@ -590,6 +617,27 @@ class DeliveryLog(models.Model):
                 description = _("A user rejected a proposed journey for this delivery")
             elif self.new_step_status == RouteStep.ACCEPTED:
                 description = _("A user confirmed their journey for this delivery")
+
+        # for performance reasons, this would be better evaluated and saved on create
+        if (
+            self.action == self.PACKET_CHANGED_LOCATION
+            and self.route
+            and self.route_step
+        ):
+            description = _(
+                "The packet reached station %(i)s of %(n)s. It is still %(distance)s kilometers from its destination."
+                % {
+                    "i": str(
+                        self.route.steps.filter(status=RouteStep.COMPLETED).count()
+                    ),
+                    "n": str(self.route.steps.count()),
+                    "distance": str(
+                        self.route_step.stay.location.point.distance(
+                            self.route.steps.last().stay.location.point
+                        )
+                    ),
+                }
+            )
 
         return description
 
