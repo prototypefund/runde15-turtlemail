@@ -1,6 +1,6 @@
 include:
   - project: "kmohrf/gitlabfilet"
-    ref: "v1.3.0"
+    ref: "v1.4.0"
     file:
       - "/templates/python.gitlab-ci.yml"
       - "/templates/container.gitlab-ci.yml"
