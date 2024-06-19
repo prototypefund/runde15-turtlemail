@@ -547,13 +547,11 @@ class RouteStep(models.Model):
         logic to start routing once all steps got accepted
         """
         save = super().save(*args, **kwargs)
-        print(self.route.steps.filter(status=self.ACCEPTED).count())
-        print(self.route.steps.all().count())
         if (
             self.route.steps.all().count()
             == self.route.steps.filter(status=self.ACCEPTED).count()
         ):
-            first_step = self.route.steps.first()
+            first_step = self.route.steps.get(previous_step__isnull=True)
             first_step.status = self.ONGOING
             first_step.save()
         return save
@@ -602,8 +600,11 @@ class DeliveryLog(models.Model):
         verbose_name=_("New Route Step Status"),
         null=True,
     )
+    description = models.TextField(
+        verbose_name=_("Human readable log entry"), null=True, blank=True
+    )
 
-    def description(self):
+    def _set_description(self):
         description = self.get_action_display()  # type: ignore
 
         if self.action == self.ROUTE_STEP_CHANGE:
@@ -618,7 +619,6 @@ class DeliveryLog(models.Model):
             elif self.new_step_status == RouteStep.ACCEPTED:
                 description = _("A user confirmed their journey for this delivery")
 
-        # for performance reasons, this would be better evaluated and saved on create
         if (
             self.action == self.PACKET_CHANGED_LOCATION
             and self.route
@@ -632,14 +632,24 @@ class DeliveryLog(models.Model):
                     ),
                     "n": str(self.route.steps.count()),
                     "distance": str(
-                        self.route_step.stay.location.point.distance(
-                            self.route.steps.last().stay.location.point
+                        round(
+                            self.route_step.stay.location.point.distance(
+                                self.route.steps.get(
+                                    next_step__isnull=True
+                                ).stay.location.point
+                            ),
+                            2,
                         )
                     ),
                 }
             )
+        self.description = description
 
         return description
+
+    def save(self, *args, **kwargs):
+        self._set_description()
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("Delivery Log Entry")

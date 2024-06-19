@@ -293,6 +293,9 @@ msgstr ""
 msgid "New Route Step Status"
 msgstr ""
 
+msgid "Human readable log entry"
+msgstr ""
+
 #, python-format
 msgid "A journey involved in this delivery changed: %(status)sstatus"
 msgstr ""

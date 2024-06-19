@@ -2,13 +2,12 @@
 {% macro choice_radio(value, label) %}
     <div class="form-control">
         <label class="justify-start gap-2 label">
-            <!-- <input type="radio" -->
-            <input type="hidden"
+            <input type="radio"
                    name="{{ form.choice.html_name }}"
                    value="{{ value }}"
                    {% if form.choice.value() == value %}checked{% endif %}
                    class="radio">
-            <span class="label-text" hidden>{{ label }}</span>
+            <span class="label-text">{{ label }}</span>
         </label>
     </div>
 {% endmacro %}

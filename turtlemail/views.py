@@ -70,8 +70,8 @@ class DeliveriesView(LoginRequiredMixin, ListView):
             RouteStepRequestForm(step) for step in requested_steps
         ]
         routing_steps = RouteStep.objects.filter(
-            status=RouteStep.ONGOING,
-            next_step__stay__user=self.request.user,
+            previous_step__status=RouteStep.ONGOING,
+            stay__user=self.request.user,
             route__status=Route.CURRENT,
         )
         context["routing_forms"] = [
@@ -147,13 +147,15 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=self.kwargs.get("pk"))
-        return step.next_step.stay.user == self.request.user
+        return step.stay.user == self.request.user
 
     def get(self, _request, pk):
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=pk)
-        form = RouteStepRoutingForm(step)
+        form = RouteStepRoutingForm(
+            step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+        )
         context = {
             "form": form,
             "on_packet_detail_page": self.request.GET.get("on_packet_detail_page"),
@@ -165,7 +167,11 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=pk)
-        form = RouteStepRoutingForm(step, data=request.POST)
+        form = RouteStepRoutingForm(
+            step,
+            initial={"choice": RouteStepRoutingForm.Choices.YES},
+            data=request.POST,
+        )
         if form.is_valid():
             form.save()
 

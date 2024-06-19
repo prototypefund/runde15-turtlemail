@@ -66,6 +66,13 @@
                            hx-push-url="false"
                            class="join-item btn btn-secondary">{{ _("Respond to this suggestion") }}</a>
                     {% endif %}
+                    {% if step.previous_step.status == step.ONGOING %}
+                        <a href="{{ url("update_route_step_routing", pk=step.id) }}?on_packet_detail_page=true"
+                           hx-target="#route_step_request_box"
+                           hx-boost="true"
+                           hx-push-url="false"
+                           class="join-item btn btn-secondary">{{ _("Respond to this suggestion") }}</a>
+                    {% endif %}
                 </div>
             {% endfor %}
             {% if users_route_steps|length == 0 %}
@@ -80,7 +87,7 @@
                                 <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
                                 <div class="text-base-content/80">{{ log.created_at|date }}</div>
                             </div>
-                            <div class="px-3 pb-2 ml-1 border-l border-base-300">{{ log.description() }}</div>
+                            <div class="px-3 pb-2 ml-1 border-l border-base-300">{{ log.description }}</div>
                         </li>
                     {% endfor %}
                     <li class="flex flex-col">
