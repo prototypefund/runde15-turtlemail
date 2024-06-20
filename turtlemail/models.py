@@ -624,25 +624,33 @@ class DeliveryLog(models.Model):
             and self.route
             and self.route_step
         ):
-            description = _(
-                "The packet reached station %(i)s of %(n)s. It is still %(distance)s kilometers from its destination."
-                % {
-                    "i": str(
-                        self.route.steps.filter(status=RouteStep.COMPLETED).count()
-                    ),
-                    "n": str(self.route.steps.count()),
-                    "distance": str(
-                        round(
-                            self.route_step.stay.location.point.distance(
-                                self.route.steps.get(
-                                    next_step__isnull=True
-                                ).stay.location.point
-                            ),
-                            2,
-                        )
-                    ),
-                }
-            )
+            # last step?
+            if (
+                self.route_step
+                == self.route.steps.filter(next_step__isnull=True).first()
+            ):
+                description = _("The delivery has reached its destination.")
+            else:
+                description = _(
+                    "The packet reached station %(i)s of %(n)s. It is still %(distance)s kilometers from its destination."
+                    % {
+                        "i": str(
+                            self.route.steps.filter(status=RouteStep.COMPLETED).count()
+                            + 1  # this is called step pre save -> missing 1
+                        ),
+                        "n": str(self.route.steps.count()),
+                        "distance": str(
+                            round(
+                                self.route_step.stay.location.point.distance(
+                                    self.route.steps.get(
+                                        next_step__isnull=True
+                                    ).stay.location.point
+                                ),
+                                2,
+                            )
+                        ),
+                    }
+                )
         self.description = description
 
         return description

@@ -21,14 +21,9 @@
           hx-swap="outerHTML"
           class="border-4 bg-base-100 rounded-box border-info">
         {% csrf_token %}
-        {% if from_rejected_request %}
-            <div class="p-8 bg-secondary text-secondary-content rounded-t-box">
-                {{ _("Thanks! Would this date and location work instead?") }}
-            </div>
-        {% endif %}
         <div class="p-8">
             <h2 class="text-lg font-bold">
-                {{ _("Delivery Request: ") }}
+                {{ _("Delivery Handover: ") }}
                 <a hx-boost="false"
                    href="{{ url("packet_detail", slug=step.packet.human_id) }}">"{{ step.packet.human_id }}"</a>
             </h2>
@@ -50,7 +45,7 @@
                 <legend class="mb-2">{{ _("Did you receive this package?") }}</legend>
                 {% for error in form.choice.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
                 {{ choice_radio(form.Choices.YES, _("Yes") ) }}
-                {{ choice_radio(form.Choices.NO, _("Not in the foreseeable future") ) }}
+                {{ choice_radio(form.Choices.NO, _("No, there has been a problem") ) }}
                 <div class="flex gap-2 mt-8">
                     <button class="btn btn-success grow" type="submit">{{ _("Send") }}</button>
                 </div>

@@ -309,6 +309,9 @@ msgstr ""
 msgid "A user confirmed their journey for this delivery"
 msgstr ""
 
+msgid "The delivery has reached its destination."
+msgstr ""
+
 #, python-format
 msgid ""
 "The packet reached station %(i)s of %(n)s. It is still %(distance)s "
@@ -404,6 +407,9 @@ msgid "Hand over to %(name)s"
 msgstr ""
 
 msgid "Respond to this suggestion"
+msgstr ""
+
+msgid "Update handover status"
 msgstr ""
 
 msgid "You're not involved in the current travel plans for this delivery."

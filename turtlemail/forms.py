@@ -248,9 +248,15 @@ class RouteStepRoutingForm(forms.Form):
                 self.step.set_status(RouteStep.ONGOING)
                 self.step.previous_step.set_status(RouteStep.COMPLETED)
                 self.step.previous_step.save()
+                # edge cases:
                 # are we the recipient?
                 if self.step.stay.user == self.step.packet.recipient:
                     self.step.set_status(RouteStep.COMPLETED)
+                # are we responsible for two sequent route steps?
+                elif self.step.stay.user == self.step.next_step.stay.user:
+                    self.step.set_status(RouteStep.COMPLETED)
+                    self.step.next_step.set_status(RouteStep.ONGOING)
+                    self.step.next_step.save()
             case self.Choices.NO:
                 # tbd: handle failed handovers
                 assert NotImplemented
