@@ -1,6 +1,5 @@
 import datetime
-import secrets
-from typing import Any
+from typing import TYPE_CHECKING, Any
 from django.db.models import Q
 from urllib.parse import urlencode
 
@@ -29,7 +28,9 @@ from django.views.generic import (
 )
 
 from turtlemail import routing
+from turtlemail.human_id import human_id
 from turtlemail.models import DeliveryLog, Packet, RouteStep, User
+from turtlemail.types import AuthedHttpRequest
 
 from .forms import (
     AuthenticationForm,
@@ -46,6 +47,9 @@ from .models import Invite, Stay, Route
 class DeliveriesView(LoginRequiredMixin, ListView):
     template_name = "turtlemail/deliveries.jinja"
     model = Packet
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -87,13 +91,16 @@ class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
     template_name = "turtlemail/route_step_request_form.jinja"
     success_url = reverse_lazy("requests")
 
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
     def test_func(self) -> bool | None:
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=self.kwargs.get("pk"))
         return step.stay.user == self.request.user
 
-    def get(self, _request, pk):
+    def get(self, _request: AuthedHttpRequest, pk):
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=pk)
@@ -105,7 +112,7 @@ class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
         }
         return self.render_to_response(context)
 
-    def post(self, request, pk):
+    def post(self, request: AuthedHttpRequest, pk):
         step = RouteStep.objects.select_related(
             "stay", "previous_step", "next_step"
         ).get(id=pk)
@@ -185,6 +192,9 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
 class StaysView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/stays.jinja"
 
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
@@ -196,6 +206,9 @@ class HtmxCreateStayView(LoginRequiredMixin, CreateView):
     template_name = "turtlemail/_stays_create_form.jinja"
     prefix = "create_stay"
     success_url = reverse_lazy("stays")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
 
     def get_form(self) -> BaseModelForm:
         return StayForm(self.request.user, **self.get_form_kwargs())
@@ -212,6 +225,9 @@ class HtmxStayDetailView(UserPassesTestMixin, DetailView):
     model = Stay
     template_name = "turtlemail/_stay_detail.jinja"
 
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
     def test_func(self):
         stay: Stay = self.get_object()  # type: ignore
         return stay.user == self.request.user
@@ -221,6 +237,9 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
     model = Stay
     template_name = "turtlemail/_stays_update_form.jinja"
     success_url = reverse_lazy("stays")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
 
     def get_form(self) -> BaseModelForm:
         return StayForm(self.request.user, **self.get_form_kwargs())
@@ -247,7 +266,10 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
     model = Stay
     success_url = reverse_lazy("stays")
 
-    def delete(self, request, *args, **kwargs):
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def delete(self, request: AuthedHttpRequest, *args, **kwargs):
         """
         Call the delete() method on the fetched object and then refresh + display message
         """
@@ -263,7 +285,7 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
                     ),
                 )
                 return render(
-                    self.request,
+                    request,
                     "turtlemail/_stay_detail.jinja",
                     {"stay": stay, "include_messages": True},
                 )
@@ -274,7 +296,7 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
                 routing.check_and_recalculate_route(route, datetime.date.today())
 
             messages.add_message(request, messages.INFO, _("Stay deleted."))
-            return render(self.request, "turtlemail/htmx_response.jinja")
+            return render(request, "turtlemail/htmx_response.jinja")
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -300,13 +322,16 @@ class LoginView(_LoginView):
 class CreatePacketView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/create_packet_form.jinja"
 
-    def get(self, request, *args, **kwargs):
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def get(self, _request: AuthedHttpRequest, *args, **kwargs):
         form = PacketForm()
         context = self.get_context_data(**kwargs)
         context["form"] = form
         return self.render_to_response(context)
 
-    def post(self, request: HttpRequest, *args, **kwargs):
+    def post(self, request: AuthedHttpRequest, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         form = PacketForm(request.POST)
         context["form"] = form
@@ -326,11 +351,10 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
         if not form.cleaned_data["confirm_recipient"]:
             return self.render_to_response(context)
 
-        human_id = secrets.token_hex(8)
         packet = Packet.objects.create(
             sender=request.user,
-            human_id=human_id,
             recipient=context["recipient"],
+            human_id=human_id.generate_id(),
         )
 
         DeliveryLog.objects.create(packet=packet, action=DeliveryLog.SEARCHING_ROUTE)
@@ -344,6 +368,9 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
     template_name = "turtlemail/packet_detail.jinja"
     model = Packet
     slug_field = "human_id"
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         cx = super().get_context_data(**kwargs)
@@ -383,6 +410,9 @@ class HtmxInviteUserView(LoginRequiredMixin, CreateView):
     form_class = InviteUserForm
     success_url = reverse_lazy("deliveries")
 
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
     def get_initial(self) -> dict[str, Any]:
         initial = super().get_initial()
         initial["email"] = self.request.GET.get("email", "")
@@ -412,7 +442,7 @@ class HtmxInviteUserView(LoginRequiredMixin, CreateView):
 
 
 class AcceptInviteView(View):
-    def get(self, _request, token: str):
+    def get(self, _request: HttpRequest, token: str):
         invite = Invite.objects.get(token=token)
         url = reverse("signup")
         query_params = urlencode({"email": invite.email})

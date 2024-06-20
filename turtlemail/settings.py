@@ -195,25 +195,6 @@ RELEASE = get_env("RELEASE", default="") or __version__
 ENVIRONMENT = get_env("ENVIRONMENT", default="unknown")
 SENTRY_DSN = get_env("SENTRY_DSN", default="")
 
-if SENTRY_DSN:
-    import sentry_sdk
-    from sentry_sdk.integrations.django import DjangoIntegration
-
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        auto_session_tracking=False,
-        release=RELEASE,
-        environment=ENVIRONMENT,
-        traces_sample_rate=0,
-    )
-
-try:
-    sys.path.insert(0, "/etc/turtlemail")
-    from turtlemail_settings import *  # noqa: F401,F403
-except ImportError:
-    pass
-
 # custom user model
 AUTH_USER_MODEL = "turtlemail.User"
 LOGIN_URL = "login"
@@ -248,5 +229,26 @@ TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
     days=get_env(
         "TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS",
         default=60,
+        cast=float,
     )
 )
+
+# WARNING: don’t add configuration settings after this line
+try:
+    sys.path.insert(0, "/etc/turtlemail")
+    from turtlemail_settings import *  # noqa: F401,F403
+except ImportError:
+    pass
+
+if SENTRY_DSN:
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        auto_session_tracking=False,
+        release=RELEASE,
+        environment=ENVIRONMENT,
+        traces_sample_rate=0,
+    )

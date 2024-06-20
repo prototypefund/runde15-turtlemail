@@ -1,6 +1,6 @@
 include:
   - project: "kmohrf/gitlabfilet"
-    ref: "v1.3.0"
+    ref: "v1.4.0"
     file:
       - "/templates/python.gitlab-ci.yml"
       - "/templates/container.gitlab-ci.yml"
@@ -38,10 +38,6 @@ test::js:
   script:
     - npm run test
 
-deploy::container-image:
-  variables:
-    KANIKO_ARGS: --target production
-
 test::python:
   services:
     - postgis/postgis:15-3.4-alpine
@@ -61,3 +57,38 @@ lint::python:
     - apt update -y
     # Needed to run the "check-migrations" pre-commit hook
     - apt install -y binutils libproj-dev gdal-bin
+
+deploy::container-image:
+  variables:
+    KANIKO_ARGS: --target production
+
+.deploy-to-env:
+  stage: deploy
+  image: alpine
+  before_script:
+    - apk add curl
+  script:
+    - curl --fail-with-body --form "environment=$CI_ENVIRONMENT_SLUG" --user "$DEPLOYMENT_HOOK_AUTH" "$DEPLOYMENT_HOOK_URL"
+
+deploy::to-staging:
+  extends: .deploy-to-env
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  needs:
+    - job: deploy::container-image
+  environment:
+    name: staging
+    url: https://staging.turtlemail.app
+
+deploy::to-production:
+  extends: .deploy-to-env
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: deploy::bump-container-image
+  environment:
+    name: production
+    url: https://turtlemail.app
+  when: manual
+  # TODO: uncomment once the GitLab is updated to v17.1
+  # manual_confirmation: "Are you sure you want deploy $CI_COMMIT_TAG to PRODUCTION on turtlemail.app?"

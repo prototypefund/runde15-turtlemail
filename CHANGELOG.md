@@ -2,7 +2,68 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2024-06-17
+
+### Bug Fixes
+
+- Get_overlapping_date_range for non-overlapping ranges ([574f232](574f232d8aa48f8e54e391c561e5a37c204e0148))
+- Only allow selecting users own locations for stays ([80322c9](80322c9e62088b22b42792836acc14b67da23607))
+- RouteStep.get_overlapping_date_range for non-overlapping ranges ([90b1bdb](90b1bdb81372e4fac263b4a41b0a8ac3d02ee00a))
+- Allow going back from create packet form ([eb7c131](eb7c13110abc3d0335bb40f2050543ff2d714c46))
+- Only show request handover messages between differing users ([9b843dc](9b843dcd31a3e1a77d81f544be47b5df946abe93))
+- Permissions for updating route requests ([583672c](583672cd2ef457c3b2534081860ff1acb11dd185))
+- Mark routes with cancelled steps as outdated ([4667a6b](4667a6b762d4fd2be22253e4a0c31a352e0b8e35))
+- Create delivery logs when changing stays with active routes ([ec696d9](ec696d9ae7c1addcf5dfeabf046e4c3a23856b8f))
+- Exclude deleted stays when looking for starting stay in a route ([bb64f4a](bb64f4aa7a87419a598547666b9417bb0807d056))
+- Only select once stays that are not in the past ([d604d26](d604d266b50aa537d226003f2c0f3ee74ccdb898))
+- Add icon for route_outdated packet status ([b63bcde](b63bcde6b746c260726985c656817276a55e321a))
+- Permissions in vite container ([ccb40ca](ccb40ca2c1b32966328fa910e520b299faeee712))
+- Envs for older docker versions, updated readme ([05d6755](05d6755bcd5b37516f49fa8f3594db040c7c0422))
+
+### Features
+
+- Add basic routing algorithm ([6633b51](6633b5128643ac62b60bbe47719e74f131806e80))
+- Show delivery logs on packet detail page ([f489682](f4896824482c0bc18b85ebdfa94d7be84586e90a))
+- Search for route when creating a packet ([6a70829](6a708297d8b0238c1124e4a2f76857b8c0e6cade))
+- Improve route step display on packet detail page ([bd18958](bd18958d1329c16d8129579171ca6de96a42faae))
+- Allow accepting or denying suggested route steps ([d4ef389](d4ef38960b94b75ca55939fcc5e3739ab3eedc28))
+- Edit route requests on packet detail page ([3e4320c](3e4320c3c718246a70a5ba308661f80262f10711))
+- More delivery log details on packet page ([8b49023](8b490232b509dc73aa38d79f482cd1c8a7acf9b4))
+- Set inactive_until in stay edit form ([beea750](beea7507a1e710c94cac41b07f751c559997f6a8))
+- Start routes with exactly one of the sender's stays ([bbd30b6](bbd30b610f2c74c7c5cb42280e8a1ea87fe9da32))
+- Allow deleting stays with only suggested route steps ([de39e4c](de39e4c56e1756a2dee40b00d77dc5905c036804))
+- Show route step progress on packet detail page ([43acb41](43acb41af4303e1ddc5bfca635c0b00c7edfe820))
+- Improve wording for route request locations ([09f1154](09f11544e9b134b63aedf64c962d943550be0c67))
+- Order Route Steps by start date ([f079a47](f079a4721ee74315546839d3dd3849067f1a9196))
+- Describe delivery log changes in more detail ([e84d16c](e84d16cbc7848bf087142005bbcaef19e86dcb5b))
+- Add cancel button to stay update form ([92f2ead](92f2eadd4a450ac96b409d3bc01ba2eed88ce212))
+- Recalculate routes when any of their stays change ([f27adfd](f27adfddfbd0c44547bfe43dc728750b2bc0f1da))
+- Make max route length configurable via env var ([1dbce35](1dbce3592e4eb4712fbbfee2d33fc8f45835538d))
+- Add cancel button for route step request form ([a52a839](a52a839a8ff8b1b90bd923c469c4ed252e962240))
+- Deliveries list ([950ac1e](950ac1e5b97814f32203a196d9a0a96adaa7f6a3))
+
+### Fix
+
+- Routing for multiple once stays from the same user ([d51695b](d51695b6230ece9f0ed52def544e484c9389396e))
+
+### Miscellaneous Tasks
+
+- Add Makefile test task ([5649a3d](5649a3d43f7333023c5e20cdb9e76b85288cf92e))
+- Add logger for showing debug logs ([33c2913](33c291303bd74c17c79b383e55812a08c578f2ea))
+- Use human_id for referencing packets ([e13ed81](e13ed81e9ff554f787023378250016dfae4012be))
+- Add stay model to admin interface ([0711068](0711068e9e4fdb4c44270d595b3b73f26888ced1))
+- Add dump-fixtures task for adding new database fixtures ([8f005ab](8f005ab1e06e2febe05ae30b9d4a1b6df32c8c10))
+- Run database for tests in CI ([417aa0d](417aa0d29377a985037120800799b899898ba14e))
+- Add new fixtures for testing ([7a4efd2](7a4efd2e7b4892eb96392723b63a01e7f2dbcdbb))
+- Consistently use RouteStepRequest term ([0cd3db3](0cd3db324513beb1e35368f255b48c12ce8fa17a))
+- Improve admin UI for routes and routesteps ([2862cee](2862cee2ebe154b17dd2877c5bac486d18f4611c))
+- Remove obsolete TODO ([52cba50](52cba50696bb8570e6c0daa6324ad0245a4b5780))
+- Fix some typing errors ([6dda15c](6dda15c7c4288757f11e04c1f8265eaa6298a069))
+- Add small missing migration ([7f525a3](7f525a319809be2a975d9c4038b5a81d30af7ea5))
+
 ## [0.4.0] - 2024-06-03
+
+[da1ca88](da1ca880473b366ba92adf708f13e2a920dccfb1)...[d65b6fa](d65b6fac5f655663f72b35a5f63986476bd35d8c)
 
 ### Bug Fixes
 
@@ -46,6 +107,10 @@ All notable changes to this project will be documented in this file.
 ### Refactor
 
 - Move stay form js into its own partial ([3172754](31727541f048541accf7484c56d68b54d48183f4))
+
+### Bump
+
+- Release v0.4.0 ([d65b6fa](d65b6fac5f655663f72b35a5f63986476bd35d8c))
 
 ## [0.3.0] - 2024-04-22
 

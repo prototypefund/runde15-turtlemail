@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-29 11:24+0200\n"
-"PO-Revision-Date: 2024-03-18 16:23+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2024-06-19 12:53+0200\n"
+"Last-Translator: \n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -19,295 +19,311 @@ msgstr ""
 "Generated-By: Babel 2.15.0\n"
 
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Password"
-msgstr ""
+msgstr "Kennwort"
 
 msgid "Password confirmation"
-msgstr ""
+msgstr "Kennwortbestätigung"
 
 msgid "Sign Up"
-msgstr ""
+msgstr "Anmelden"
 
 msgid "Log into an existing account"
-msgstr ""
+msgstr "In bestehendes Konto anmelden"
 
 msgid "Log In"
-msgstr ""
+msgstr "Anmelden"
 
 msgid "Create a new account"
-msgstr ""
+msgstr "Neues Konto erstellen"
 
 msgid "Who would you like to send your delivery to?"
-msgstr ""
+msgstr "An wen darf die Lieferung gesendet werden?"
 
 msgid "Clear selected recipient"
-msgstr ""
+msgstr "Ausgewählten Empfänger löschen"
 
 msgid "Proceed with this recipient"
-msgstr ""
+msgstr "Mit diesem Empfänger fortfahren"
 
 msgid "Please enter the email of the person you'd like to invite:"
-msgstr ""
+msgstr "Gib die E-mail Adresse der Person, die Du einladen möchtest an:"
 
 msgid "The start date must be at or before the end date."
-msgstr ""
+msgstr "Das Startdatum muss gleich oder vor dem Enddatum sein."
 
 msgid "The end date is required."
-msgstr ""
+msgstr "Das Enddatum ist notwendig."
 
 msgid "The start date is required."
-msgstr ""
+msgstr "Das Startdatum ist notwendig."
 
 msgid "From"
-msgstr ""
+msgstr "Von"
 
 msgid "Until"
-msgstr ""
+msgstr "Bis"
 
 #, python-format
 msgid "This request is already %(status)s."
-msgstr ""
+msgstr "Diese Anfrage ist bereits %(status)s."
 
 msgid "The travel plans for this step have been cancelled."
-msgstr ""
+msgstr "Die Reisepläne für diesen Abschnitt sind storniert worden."
 
 msgid "This date must be at or before the end date."
-msgstr ""
+msgstr "Dieses Datum muss gleich oder vor dem Enddatum sein."
 
 msgid "This date is required."
-msgstr ""
+msgstr "Dieses Datum ist notwendig."
 
 msgid "The email must be set."
-msgstr ""
+msgstr "Die E-Mail Adresse muss gewählt werden."
 
+#, fuzzy
 msgid "Superuser must have is_staff=True."
-msgstr ""
+msgstr "Beim Superuser muss die Variable is_stuff=True gesetzt sein."
 
+#, fuzzy
 msgid "Superuser must have is_superuser=True."
-msgstr ""
+msgstr "Beim Superuser muss die Variable is_superuser=True gesetzt sein."
 
 msgid "email address"
-msgstr ""
+msgstr "E-Mail Adresse"
 
 msgid "staff status"
-msgstr ""
+msgstr "Teamstatus"
 
 msgid "Designates whether the user can log into this admin site."
-msgstr ""
+msgstr "Bestimmt ob der Benutzer sich in die Admin Seite anmelden darf."
 
 msgid "active"
-msgstr ""
+msgstr "Aktiv"
 
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
+"Bestimmt ob der Benutzer als aktiv gesehen wird. Wähle diese Option "
+"anstatt die Benutzerkonten zu löschen."
 
 msgid "date joined"
-msgstr ""
+msgstr "Beitrittsdatum"
 
 msgid "user"
-msgstr ""
+msgstr "Benutzer"
 
 msgid "users"
-msgstr ""
+msgstr "Die Benutzer"
 
 msgid "This user has already been invited."
-msgstr ""
+msgstr "Dieser Benutzer wurde bereits eingeladen."
 
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
+#, fuzzy
 msgid "Home"
-msgstr ""
+msgstr "?"
 
 msgid "Location"
-msgstr ""
+msgstr "Ort"
 
 msgid "User"
-msgstr ""
+msgstr "Benutzer"
 
 msgid "Locations"
-msgstr ""
+msgstr "Orte"
 
 msgid "Frequency"
-msgstr ""
+msgstr "Häufigkeit"
 
 msgid "Start"
-msgstr ""
+msgstr "Beginn"
 
 msgid "End"
-msgstr ""
+msgstr "Ende"
 
 msgid "Inactive until"
-msgstr ""
+msgstr "Inaktiv bis"
 
 msgid "Stay"
-msgstr ""
+msgstr "Aufenthalt"
 
 msgid "Stays"
-msgstr ""
+msgstr "Aufenthalte"
 
 msgid "Calculating Route"
-msgstr ""
+msgstr "Route wird berechnet"
 
 msgid "No Route Found"
-msgstr ""
+msgstr "Keine Route gefunden"
 
 msgid "Confirming Route"
-msgstr ""
+msgstr "Route wird bestätigt"
 
 msgid "Route is Outdated"
-msgstr ""
+msgstr "Route ist nicht mehr aktuell"
 
 msgid "Ready to Ship"
-msgstr ""
+msgstr "Zum Versand bereit"
 
 msgid "Delivering"
-msgstr ""
+msgstr "In Lieferung"
 
 msgid "Delivered"
-msgstr ""
+msgstr "Zugestellt"
 
 msgid "The system is currently looking for people who can make this delivery."
-msgstr ""
+msgstr "Das System sucht aktuell nach Menschen, die diese Lieferung machen können."
 
 msgid "The system found no way to reach the recipient."
-msgstr ""
+msgstr "Das System hat keinen Weg gefunden den Empfänger zu erreichen."
 
 msgid "Waiting for everyone involved to confirm the planned journeys."
 msgstr ""
+"Es wird auf jeden Beteiligten gewartet, um die geplante Reise zu "
+"bestätigen."
 
 msgid ""
 "Some people making this delivery don't have matching travel plans. The "
 "system will look for a new way to make this delivery."
 msgstr ""
+"Einige Menschen, die diese Lieferung machen, haben keine "
+"übereinstimmenden Reisepläne. Das System sucht nach einem neuen Weg für "
+"diese Lieferung."
 
 msgid "This delivery is ready to begin its journey."
-msgstr ""
+msgstr "Diese Lieferung ist bereit die Reise zu beginnen."
 
 msgid "This delivery is currently traveling through the turtlemail network."
 msgstr ""
+"Diese Lieferung befindet sich bereits am Weg durch das turtlemail "
+"Netzwerk."
 
 msgid "This delivery has reached its destination."
-msgstr ""
+msgstr "Diese Lieferung hat ihren Zielort erreicht."
 
 msgid "Sender"
-msgstr ""
+msgstr "Absender"
 
 msgid "Recipient"
-msgstr ""
+msgstr "Empfänger"
 
 msgid "Created at"
-msgstr ""
+msgstr "Erstellt am"
 
+#, fuzzy
 msgid "Code"
-msgstr ""
+msgstr "?"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Lieferung"
 
 msgid "Deliveries"
-msgstr ""
+msgstr "Lieferungen"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Route"
-msgstr ""
+msgstr "Route"
 
 msgid "Routes"
-msgstr ""
+msgstr "Routen"
 
 msgid "Suggested"
-msgstr ""
+msgstr "Vorgeschlagen"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Akzeptiert"
 
 msgid "Rejected"
-msgstr ""
+msgstr "Abgelehnt"
 
 msgid "Ongoing"
-msgstr ""
+msgstr "Fortlaufend"
 
 msgid "Completed"
-msgstr ""
+msgstr "Erledigt"
 
 msgid "Cancelled"
-msgstr ""
+msgstr "Storniert"
 
 msgid "Previous Step"
-msgstr ""
+msgstr "Vorheriger Schritt"
 
 msgid "Next Step"
-msgstr ""
+msgstr "Nächster Schritt"
 
+#, fuzzy
 msgid "Route Step"
-msgstr ""
+msgstr "Route Schritt"
 
+#, fuzzy
 msgid "Route Steps"
-msgstr ""
+msgstr "Routen Schritte"
 
 #, python-format
 msgid "Between %(start_date)s and %(end_date)s"
-msgstr ""
+msgstr "Zwischen %(start_date)s und %(end_date)s"
 
 #, python-format
 msgid "After %(date)s"
-msgstr ""
+msgstr "Nach %(date)s"
 
-#, python-format
+#, fuzzy, python-format
 msgid "Before %(date)sdate"
-msgstr ""
+msgstr "Vor %(date)sdate"
 
 msgid "At some point"
-msgstr ""
+msgstr "Irgendwann"
 
 msgid "User's journey changed"
-msgstr ""
+msgstr "Die Reise des Benutzers hat sich geändert"
 
 msgid "Making new travel plans"
-msgstr ""
+msgstr "Neue Reisepläne werden erstellt"
 
 msgid "Found new travel plans"
-msgstr ""
+msgstr "Neue Reisepläne wurden gefunden"
 
 msgid "Unable to find travel plans"
-msgstr ""
+msgstr "Es konnten keine Reisepläne gefunden werden"
 
 msgid "Packet arrived at new location"
 msgstr ""
 
+#, fuzzy
 msgid "Datetime"
-msgstr ""
+msgstr "Datumzeit"
 
 msgid "Action Choices"
-msgstr ""
+msgstr "Aktionenauswahl"
 
 msgid "New Route Step Status"
-msgstr ""
+msgstr "Neuer Routen Schritt Status"
 
 msgid "Human readable log entry"
 msgstr ""
 
 #, python-format
 msgid "A journey involved in this delivery changed: %(status)sstatus"
-msgstr ""
+msgstr "Eine Reise in dieser Lieferung hat sich geändert: %(status)sstatus"
 
 msgid "A user cancelled their journey for this delivery"
-msgstr ""
+msgstr "Ein Benutzer hat seine Reise für diese Lieferung storniert"
 
 msgid "A user rejected a proposed journey for this delivery"
-msgstr ""
+msgstr "Ein Benutzer hat eine vorgeschlagene Reise für diese Lieferung abgelehnt"
 
 msgid "A user confirmed their journey for this delivery"
-msgstr ""
+msgstr "Ein Benutzer hat seine Reise für diese Lieferung bestätigt"
 
 msgid "The delivery has reached its destination."
 msgstr ""
@@ -319,177 +335,169 @@ msgid ""
 msgstr ""
 
 msgid "Delivery Log Entry"
-msgstr ""
+msgstr "Lieferung Log Eintrag"
 
 msgid "Delivery Log Entries"
-msgstr ""
+msgstr "Lieferung Log Einträge"
 
 msgid "German"
-msgstr ""
+msgstr "Deutsch"
 
 msgid "English"
-msgstr ""
+msgstr "Englisch"
 
 msgid ""
 "There is a delivery relying on this stay. It can't be deleted at the "
 "moment."
 msgstr ""
+"Eine Lieferung ist abhängig von diesem Aufenthalt. Im Moment kann es "
+"nicht gelöscht werden."
 
 msgid "Stay deleted."
-msgstr ""
+msgstr "Aufenthalt gelöscht."
 
 msgid "You've been invited to turtlemail!"
-msgstr ""
+msgstr "Du wurdest zu turtlemail eingeladen!"
 
 msgid "Invite sent!"
-msgstr ""
+msgstr "Einladung gesendet!"
 
 msgid "Dismiss"
-msgstr ""
+msgstr "Ablehnen"
 
 #, python-format
 msgid "Will not be included in any deliveries until %(date)s"
-msgstr ""
+msgstr "Nicht in jeglichen Lieferungen inkludiert bis %(date)s"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 msgid "Add stay"
-msgstr ""
+msgstr "Aufenthalt hinzufügen"
 
 msgid "Place a delivery"
-msgstr ""
+msgstr "Eine Lieferung erstellen"
 
 #, python-format
 msgid "Receive from %(sender)s"
-msgstr ""
+msgstr "Empfangen von %(sender)s"
 
 #, python-format
 msgid "Send to %(recipient)s"
-msgstr ""
+msgstr "Senden zu %(recipient)s"
 
 msgid "Send Invitation"
-msgstr ""
+msgstr "Einladung senden"
 
 msgid "turtlemail"
-msgstr ""
+msgstr "turtlemail"
 
 msgid "You're sending this delivery to"
-msgstr ""
+msgstr "Du sendest diese Lieferung an"
 
 msgid "is sending this delivery to you."
-msgstr ""
+msgstr "sendet diese Lieferung an dich."
 
 #, python-format
 msgid "%(current)d of %(total)d journeys confirmed"
-msgstr ""
+msgstr "%(current)d von %(total)d Reisen bestätigt"
 
 #, python-format
 msgid "%(current)d of %(total)d journeys completed"
-msgstr ""
+msgstr "%(current)d von %(total)d Reisen abgeschlossen"
 
 msgid "Your next steps"
-msgstr ""
+msgstr "Deine nächsten Schritte"
 
 #, python-format
 msgid "Near %(location)s"
-msgstr ""
+msgstr "In der Nähe von %(location)s"
 
 #, python-format
 msgid "Pick up from %(name)s"
-msgstr ""
+msgstr "Abholung von %(name)s"
 
 #, python-format
 msgid "Hand over to %(name)s"
-msgstr ""
+msgstr "Übergeben an %(name)s"
 
 msgid "Respond to this suggestion"
-msgstr ""
+msgstr "Auf diesen Vorschlag antworten"
 
 msgid "Update handover status"
 msgstr ""
 
 msgid "You're not involved in the current travel plans for this delivery."
-msgstr ""
+msgstr "Du bist nicht involviert in die aktuellen Reisepläne für diese Lieferung."
 
 msgid "Activity"
-msgstr ""
+msgstr "Aktivität"
 
 msgid "Delivery created"
-msgstr ""
+msgstr "Lieferung erstellt"
 
+#, fuzzy
 msgid "staff"
-msgstr ""
+msgstr "?"
 
+#, fuzzy
 msgid "superuser"
-msgstr ""
+msgstr "?"
 
 msgid "deactivated"
-msgstr ""
+msgstr "deaktiviert"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 msgid "Joined"
-msgstr ""
+msgstr "Beigetreten"
 
 msgid "Log Out"
-msgstr ""
+msgstr "Ausloggen"
 
 msgid "Hello!"
-msgstr ""
+msgstr "Hallo!"
 
 #, python-format
 msgid "You've been invited to turtlemail by %(user)s!"
-msgstr ""
+msgstr "Du wurdest eingeladen zu turtlemail von %(user)s!"
 
 msgid ""
 "On turtlemail, people help each other out by taking things from one place"
 " to another. You can send deliveries, receive them, and help others by "
 "taking their deliveries on journeys you make."
 msgstr ""
+"Auf turtlemail helfen Menschen einander aus um Dinge von einem Ort zum "
+"Nächsten zu bringen. Du kannst Lieferungen senden und empfangen und "
+"Andere unterstützen in dem Du deren Lieferungen auf Reisen, die Du "
+"machst, mitnimmst."
 
 #, python-format
 msgid "To accept the invitation, click here: %(url)s"
-msgstr ""
+msgstr "Um diese Einladung zu akzeptieren, klicke hier: %(url)s"
 
+#, fuzzy
 msgid ""
 "Cheers,\n"
 "the turtlemail team"
-msgstr ""
+msgstr "Das turtlemail Team"
 
+#, fuzzy
 msgid "Carry"
-msgstr ""
+msgstr "Mitnehmen"
 
 msgid "Ready to ship"
-msgstr ""
+msgstr "Bereit zum Versand"
 
 msgid "Receive"
-msgstr ""
+msgstr "Empfangen"
 
 msgid "Send"
-msgstr ""
-
-#~ msgid "Trips"
-#~ msgstr ""
-
-#~ msgid "Routing Step"
-#~ msgstr ""
-
-#~ msgid "New Routing Step Status"
-#~ msgstr ""
-
-#~ msgid "Current route"
-#~ msgstr ""
-
-#~ msgid "Packet"
-#~ msgstr ""
-
-#~ msgid "Packets"
-#~ msgstr ""
+msgstr "Versenden"
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"

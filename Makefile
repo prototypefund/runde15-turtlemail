@@ -57,6 +57,11 @@ dev:
 migrate:
 	$(COMPOSE) exec -it backend turtlemailctl migrate
 
+.PHONY: makemigrations
+makemigrations:
+	$(COMPOSE) exec --user root backend turtlemailctl makemigrations
+	poetry run ruff format turtlemail/migrations
+
 .PHONY: update-translations
 update-translations:
 	poetry run pybabel extract -F babel.cfg -o turtlemail/locale/django.pot --no-location .
