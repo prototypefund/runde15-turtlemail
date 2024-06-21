@@ -47,6 +47,10 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                    {% elif form.recipient_username.value() is not none and form.recipient_username.value() == request.user.username %}
+                        <div class="p-8 mt-2 rounded-box bg-base-200">
+                            <p>{{ _("You can't send a delivery to yourself.") }}</p>
+                        </div>
                     {% elif form.recipient_username.value() is not none and form.recipient_username.value()|length > 0 %}
                         <div class="p-8 mt-2 rounded-box bg-base-200">
                             <p>
