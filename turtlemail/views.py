@@ -39,6 +39,7 @@ from .forms import (
     StayForm,
     UserCreationForm,
     RouteStepRequestForm,
+    RouteStepRoutingForm,
 )
 from .models import Invite, Stay, Route
 
@@ -64,12 +65,25 @@ class DeliveriesView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        steps = RouteStep.objects.filter(
+        requested_steps = RouteStep.objects.filter(
             status=RouteStep.SUGGESTED,
             stay__user=self.request.user,
             route__status=Route.CURRENT,
         ).all()
-        context["request_forms"] = [RouteStepRequestForm(step) for step in steps]
+        context["request_forms"] = [
+            RouteStepRequestForm(step) for step in requested_steps
+        ]
+        routing_steps = RouteStep.objects.filter(
+            previous_step__status=RouteStep.ONGOING,
+            stay__user=self.request.user,
+            route__status=Route.CURRENT,
+        )
+        context["routing_forms"] = [
+            RouteStepRoutingForm(
+                step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+            )
+            for step in routing_steps
+        ]
         return context
 
 
@@ -124,6 +138,49 @@ class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
                 query = urlencode({"from_rejected_request": True})
                 target_url = f"{path}?{query}"
                 return redirect(to=target_url)
+
+            response = render(request, "turtlemail/htmx_response.jinja")
+            response["HX-Refresh"] = "true"
+            return response
+        else:
+            return self.render_to_response({"form": form})
+
+
+class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
+    template_name = "turtlemail/route_step_routing_form.jinja"
+    success_url = reverse_lazy("requests")
+
+    def test_func(self) -> bool | None:
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=self.kwargs.get("pk"))
+        return step.stay.user == self.request.user
+
+    def get(self, _request, pk):
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=pk)
+        form = RouteStepRoutingForm(
+            step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+        )
+        context = {
+            "form": form,
+            "on_packet_detail_page": self.request.GET.get("on_packet_detail_page"),
+            # "from_rejected_request": self.request.GET.get("from_rejected_request"),
+        }
+        return self.render_to_response(context)
+
+    def post(self, request, pk):
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=pk)
+        form = RouteStepRoutingForm(
+            step,
+            initial={"choice": RouteStepRoutingForm.Choices.YES},
+            data=request.POST,
+        )
+        if form.is_valid():
+            form.save()
 
             response = render(request, "turtlemail/htmx_response.jinja")
             response["HX-Refresh"] = "true"

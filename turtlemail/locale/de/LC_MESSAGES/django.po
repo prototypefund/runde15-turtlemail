@@ -296,6 +296,9 @@ msgstr "Neue Reisepläne wurden gefunden"
 msgid "Unable to find travel plans"
 msgstr "Es konnten keine Reisepläne gefunden werden"
 
+msgid "Packet arrived at new location"
+msgstr ""
+
 #, fuzzy
 msgid "Datetime"
 msgstr "Datumzeit"
@@ -305,6 +308,9 @@ msgstr "Aktionenauswahl"
 
 msgid "New Route Step Status"
 msgstr "Neuer Routen Schritt Status"
+
+msgid "Human readable log entry"
+msgstr ""
 
 #, python-format
 msgid "A journey involved in this delivery changed: %(status)sstatus"
@@ -318,6 +324,15 @@ msgstr "Ein Benutzer hat eine vorgeschlagene Reise für diese Lieferung abgelehn
 
 msgid "A user confirmed their journey for this delivery"
 msgstr "Ein Benutzer hat seine Reise für diese Lieferung bestätigt"
+
+msgid "The delivery has reached its destination."
+msgstr ""
+
+#, python-format
+msgid ""
+"The packet reached station %(i)s of %(n)s. It is still %(distance)s "
+"kilometers from its destination.i"
+msgstr ""
 
 msgid "Delivery Log Entry"
 msgstr "Lieferung Log Eintrag"
@@ -412,6 +427,9 @@ msgstr "Übergeben an %(name)s"
 msgid "Respond to this suggestion"
 msgstr "Auf diesen Vorschlag antworten"
 
+msgid "Update handover status"
+msgstr ""
+
 msgid "You're not involved in the current travel plans for this delivery."
 msgstr "Du bist nicht involviert in die aktuellen Reisepläne für diese Lieferung."
 
@@ -483,3 +501,45 @@ msgstr "Versenden"
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"
+
+#~ msgid "Who would you like to send your packet to?"
+#~ msgstr ""
+
+#~ msgid "Send packet to this recipient"
+#~ msgstr ""
+
+#~ msgid "Latitude"
+#~ msgstr ""
+
+#~ msgid "Longitude"
+#~ msgstr ""
+
+#~ msgid "rabbit@turtlemail.app"
+#~ msgstr ""
+
+#~ msgid "Inactive until %(date)s"
+#~ msgstr ""
+
+#~ msgid "Travel step changed: %(status)sstatus"
+#~ msgstr ""
+
+#~ msgid "A user cancelled their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user rejected a proposed journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "A user confirmed their journey for this delivery."
+#~ msgstr ""
+
+#~ msgid "Looking for travel plans"
+#~ msgstr ""
+
+#~ msgid "Travel plans changed"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The packet reached station %(i) of "
+#~ "%(n). It is still %(distance) kilometers"
+#~ " from its destination.i"
+#~ msgstr ""

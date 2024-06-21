@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.db import models
 from django.contrib.auth.forms import (
     AuthenticationForm as _AuthenticationForm,
 )
@@ -221,6 +222,44 @@ class RouteStepRequestForm(forms.Form):
                 )
                 self.step.stay.inactive_until = new_stay_end
                 self.step.set_status(RouteStep.REJECTED)
+
+        self.step.save()
+        self.step.stay.save()
+
+
+class RouteStepRoutingForm(forms.Form):
+    class Choices(models.TextChoices):
+        YES = "YES", "Yes"
+        NO = "NO", "No"
+
+    choice = forms.ChoiceField(
+        choices=Choices.choices,
+        widget=forms.RadioSelect,
+    )
+
+    def __init__(self, instance: RouteStep, *args, **kwargs) -> None:
+        self.step = instance
+        self.prefix = f"request-{instance.id}"
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        match self.cleaned_data["choice"]:
+            case self.Choices.YES:
+                self.step.set_status(RouteStep.ONGOING)
+                self.step.previous_step.set_status(RouteStep.COMPLETED)
+                self.step.previous_step.save()
+                # edge cases:
+                # are we the recipient?
+                if self.step.stay.user == self.step.packet.recipient:
+                    self.step.set_status(RouteStep.COMPLETED)
+                # are we responsible for two sequent route steps?
+                elif self.step.stay.user == self.step.next_step.stay.user:
+                    self.step.set_status(RouteStep.COMPLETED)
+                    self.step.next_step.set_status(RouteStep.ONGOING)
+                    self.step.next_step.save()
+            case self.Choices.NO:
+                # tbd: handle failed handovers
+                assert NotImplemented
 
         self.step.save()
         self.step.stay.save()
