@@ -1,0 +1,19 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% block content %}
+    <div id="location_{{ location.id }}"
+         class="overflow-hidden border rounded-md border-neutral/20">
+        <tm-location-selector label="{{ location.name }}" lat="{{ location.point[1] }}" lng="{{ location.point[0] }}" id="location_{{ location.id }}" style="width: 100%; height: 200px;"></tm-location-selector>
+        <div class="flex flex-wrap items-center gap-2 p-4">
+            <p class="flex-grow text-lg font-bold">{{ location.name }}</p>
+            <button type="button"
+                    hx-get="{{ url("htmx-update-location", pk=location.id) }}"
+                    hx-target="#location_{{ location.id }}"
+                    class="btn btn-sm btn-outline">{{ _("Edit") }}</button>
+            <button type="button"
+                    hx-delete="{{ url("htmx-delete-location", pk=location.id) }}"
+                    hx-target="#location_{{ location.id }}"
+                    hx-swap="outerHTML"
+                    class="btn btn-ghost btn-sm">{{ _("Delete") }}</button>
+        </div>
+    </div>
+{% endblock %}

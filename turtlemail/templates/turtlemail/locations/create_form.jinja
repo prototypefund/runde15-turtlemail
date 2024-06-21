@@ -1,0 +1,52 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% block content %}
+    <form hx-post="{{ url("htmx-create-location") }}"
+          class="overflow-hidden border rounded-md border-neutral/20"
+          hx-swap="outerHTML">
+        <tm-location-selector label="{{ form.point.label }}"
+        {% if form.cleaned_data is defined and form.cleaned_data.point is not none %}
+            lat="{{ form.cleaned_data.point[1] }}" lng="{{ form.cleaned_data.point[0] }}"
+        {% endif %}
+        id="{{ form.point.id_for_label }}" style="width: 100%; height: 500px; max-height: 70vh;" editable></tm-location-selector>
+        <div class="px-4">
+            <input type="hidden"
+                   name="{{ form.point.html_name }}"
+                   {% if form.point.value() != None %}value="{{ form.point.value() }}"{% endif %}>
+            {% for error in form.point.errors %}<p class="px-4 py-2 text-error">{{ error }}</p>{% endfor %}
+            <p class="py-2 text-sm text-base-content/80">{{ _("Click on the map to select a location.") }}</p>
+            {{ form.non_field_errors() }}
+            {% csrf_token %}
+            <div class="w-full">
+                {% with field=form.name, label=True %}
+                    {% include "turtlemail/fields/_text_field.jinja" %}
+                {% endwith %}
+            </div>
+            <div class="flex flex-wrap gap-2 py-4">
+                <a class="flex-grow btn btn-neutral btn-outline"
+                   href="{{ url("profile") }}"
+                   hx-boost="true">
+                    {# Add an invisible indicator to keep the save text centered... #}
+                    <span class="invisible loading"></span>
+                    {{ _("Cancel") }}
+                    <span class="loading htmx-indicator"></span>
+                </a>
+                <button class="flex-grow btn btn-primary">
+                    {# Add an invisible indicator to keep the save text centered... #}
+                    <span class="invisible loading"></span>
+                    {{ _("Add location") }}
+                    <span class="loading htmx-indicator"></span>
+                </button>
+            </div>
+        </div>
+        <script type="module">
+            const pointInput = document.querySelector("input[name='{{form.point.html_name}}']");
+            const locationSelector = document.querySelector("tm-location-selector[label='{{form.point.label}}']");
+
+            locationSelector.addEventListener("change", (event) => {
+                let {lat, lng} = event.detail[0];
+
+                pointInput.value = `SRID={{form.point.field.srid}};POINT (${lng} ${lat})`;
+            })
+        </script>
+    </form>
+{% endblock %}

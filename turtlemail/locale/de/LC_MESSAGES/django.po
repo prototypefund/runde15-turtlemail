@@ -356,6 +356,18 @@ msgstr ""
 msgid "Stay deleted."
 msgstr "Aufenthalt gelöscht."
 
+#, fuzzy
+msgid ""
+"There is a delivery relying on this location. It can't be deleted at the "
+"moment."
+msgstr ""
+"Eine Lieferung ist abhängig von diesem Aufenthalt. Im Moment kann es "
+"nicht gelöscht werden."
+
+#, fuzzy
+msgid "Location deleted."
+msgstr "Aufenthalt gelöscht."
+
 msgid "You've been invited to turtlemail!"
 msgstr "Du wurdest zu turtlemail eingeladen!"
 
@@ -593,6 +605,17 @@ msgstr ""
 
 msgid "Telegram"
 msgstr ""
+
+#, fuzzy
+msgid "Add location"
+msgstr "Ort hinzufügen"
+
+#, fuzzy
+msgid "Your locations"
+msgstr "Deine Orte"
+
+msgid "You don't have any locations yet."
+msgstr "Du hast bis jetzt noch keine Orte angelegt."
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"
