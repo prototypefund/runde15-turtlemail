@@ -26,6 +26,17 @@ services:
       - turtlemail-data:/var/lib/turtlemail
       - ./turtlemail_settings.py:/etc/turtlemail/turtlemail_settings.py
 
+  worker:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file: [docker/env]
+    volumes:
+      - turtlemail-data:/var/lib/turtlemail
+      - ./turtlemail_settings.py:/etc/turtlemail/turtlemail_settings.py
+    command: "huey"
+    depends_on: [backend]
+
   nginx:
     image: nginx
     depends_on: [backend]

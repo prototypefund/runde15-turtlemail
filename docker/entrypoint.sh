@@ -34,6 +34,8 @@ if [ "${1:-}" = "uvicorn" ]; then
   exec poetry --directory /usr/share/turtlemail/ run python3 -m uvicorn turtlemail.asgi:application $args \
     --host "$host" \
     --port "$port"
+elif [ "${1:-}" = "huey" ]; then
+  exec poetry --directory /usr/share/turtlemail/ run python3 -m django run_huey
 else
   exec poetry --directory /usr/share/turtlemail/ run python3 -m django "$@"
 fi

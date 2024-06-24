@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "django_jinja",
+    "huey.contrib.djhuey",
     "turtlemail.apps.TurtlemailConfig",
 ]
 
@@ -232,6 +233,39 @@ TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
         cast=float,
     )
 )
+
+# async tasks needed for background work like clean up or push features
+HUEY = {
+    "huey_class": "huey.RedisHuey",  # Huey implementation to use. No redis? change to db or file
+    "name": "turtlemail",  # Change this for multiple setups on one redis cluster
+    "results": True,  # Store return values of tasks.
+    "store_none": False,  # If a task returns None, do not save to results.
+    "immediate": DEBUG,  # If DEBUG=True, run synchronously. -> no redis needed in dev setup
+    "utc": True,  # Use UTC for all times internally.
+    "blocking": True,  # Perform blocking pop rather than poll Redis.
+    # tbd: kmohrf: update this for prod with env values, decide if useing connection url, apparently dev runs without redis
+    "connection": {
+        "host": "localhost",
+        "port": 6379,
+        "db": 0,
+        "connection_pool": None,  # Definitely you should use pooling!
+        # ... tons of other options, see redis-py for details.
+        # huey-specific connection parameters.
+        "read_timeout": 1,  # If not polling (blocking pop), use timeout.
+        "url": None,  # Allow Redis config via a DSN.
+    },
+    "consumer": {
+        "workers": 1,
+        "worker_type": "thread",
+        "initial_delay": 0.1,  # Smallest polling interval, same as -d.
+        "backoff": 1.15,  # Exponential backoff using this rate, -b.
+        "max_delay": 10.0,  # Max possible polling interval, -m.
+        "scheduler_interval": 1,  # Check schedule every second, -s.
+        "periodic": True,  # Enable crontab feature.
+        "check_worker_health": True,  # Enable worker health checks.
+        "health_check_interval": 1,  # Check worker health every second.
+    },
+}
 
 # WARNING: don’t add configuration settings after this line
 try:
