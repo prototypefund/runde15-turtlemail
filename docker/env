@@ -15,6 +15,9 @@ ALLOWED_HOSTS=localhost
 # default FROM email header value
 EMAIL_DEFAULT_FROM=noreply@example.org
 
+# worker configuration
+HUEY_REDIS_URL=redis://key-value-store:6379/0
+
 # SMTP server to send emails with
 # EMAIL_SMTP=smtp://localhost:25
 # EMAIL_SMTP=smtp+tls://user:pw@mail.example.org:465?timeout=10

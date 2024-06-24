@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.flatpages",
     "django_jinja",
+    "huey.contrib.djhuey",
     "turtlemail.apps.TurtlemailConfig",
 ]
 
@@ -239,6 +240,22 @@ TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
         cast=float,
     )
 )
+
+_huey_redis_url = get_env("HUEY_REDIS_URL", default=DEBUG)
+_huey_debug = is_env_true("HUEY_DEBUG", default=False)
+
+# async tasks needed for background work like clean up or push features
+HUEY = {
+    "huey_class": "huey.RedisHuey",
+    "name": "turtlemail",
+    "immediate": _huey_debug,
+    "immediate_use_memory": _huey_redis_url is None,
+    "connection": {"url": _huey_redis_url},
+    "consumer": {
+        "workers": get_env("HUEY_WORKER_COUNT", cast=int, default=1),
+        "worker_type": get_env("HUEY_WORKER_TYPE", default="thread"),
+    },
+}
 
 # WARNING: don’t add configuration settings after this line
 try:
