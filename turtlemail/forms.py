@@ -116,6 +116,12 @@ class InviteUserForm(forms.ModelForm):
         }
 
 
+class DismissInviteForm(forms.ModelForm):
+    class Meta:
+        model = Invite
+        fields = ("dismissed",)
+
+
 class StayForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

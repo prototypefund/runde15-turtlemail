@@ -49,12 +49,12 @@ urlpatterns = [
         name="packet_detail",
     ),
     path(
-        "accept_invite/<str:token>",
-        views.AcceptInviteView.as_view(),
-        name="accept_invite",
+        "htmx/invite-user", views.HtmxInviteUserView.as_view(), name="htmx_invite_user"
     ),
     path(
-        "htmx/invite-user", views.HtmxInviteUserView.as_view(), name="htmx_invite_user"
+        "htmx/dismiss-invite/<int:pk>",
+        views.HtmxDismissInvite.as_view(),
+        name="htmx_dismiss_invite",
     ),
     path("profile", views.ProfileView.as_view(), name="profile"),
     path("signup/", views.SignUpView.as_view(), name="signup"),

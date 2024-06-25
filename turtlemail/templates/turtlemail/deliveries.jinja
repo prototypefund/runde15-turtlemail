@@ -1,7 +1,27 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div class="grid gap-8 w-full max-w-lg">
+    <div class="grid w-full max-w-lg gap-8">
         <a href="{{ url("create_packet") }}" class="btn btn-lg btn-primary">{{ _("Place a delivery") }}</a>
+        {% for invite in accepted_invites %}
+            <div class="flex flex-col gap-4 p-8 border-4 bg-base-100 rounded-box border-success">
+                <div class="flex items-center gap-2">
+                    {% include "turtlemail/icons/envelope_open.jinja" %}
+                    <p class="text-lg font-bold">{{ _("%(user)s accepted your invitation!", user=invite.created_user.username) }}</p>
+                </div>
+                <a hx-boost="true"
+                   href="{{ url("create_packet") }}?initial_recipient_id={{ invite.created_user.id }}"
+                   class="btn btn-secondary">{{ _("Send them something") }}</a>
+                <form class="w-full"
+                      action="{{ url("htmx_dismiss_invite", pk=invite.id) }}"
+                      method="post"
+                      hx-boost="true">
+                    <input type="hidden"
+                           name="{{ dismiss_invite_form.dismissed.html_name }}"
+                           value="{{ dismiss_invite_form.dismissed.value() }}">
+                    <button class="btn">{{ _("Dismiss") }}</button>
+                </form>
+            </div>
+        {% endfor %}
         {% for form in routing_forms %}
             {% include "turtlemail/route_step_routing_form.jinja" %}
         {% endfor %}
@@ -13,26 +33,26 @@
                 <a href="{{ url("packet_detail", item.human_id) }}"
                    class="w-full p-8 rounded-box bg-white border-4 {% if item.recipient == request.user %} border-primary hover:border-primary/80 {% elif item.sender == request.user %} border-secondary hover:border-secondary/80 {% else %} border-accent hover:border-accent/80 {% endif %}">
                     <div class="flex flex-col gap-2">
-                        <div>{{ item.human_id }}</div>
+                        <div>📦 {{ item.human_id }}</div>
                         <div>
                             {% if item.recipient == request.user %}
-                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                <div class="flex flex-row items-center gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/receive.jinja" %}
                                     {{ _("Receive from %(sender)s", sender = item.sender) }}
                                 </div>
                             {% elif item.sender == request.user %}
-                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                <div class="flex flex-row items-center gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/send.jinja" %}
                                     {{ _("Send to %(recipient)s", recipient = item.recipient) }}
                                 </div>
                             {% else %}
-                                <div class="flex flex-row gap-2 text-lg font-bold">
+                                <div class="flex flex-row items-center gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/carry.jinja" %}
                                     Carry
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="flex flex-row justify-start gap-1">
+                        <div class="flex flex-row items-center justify-start gap-1">
                             {% set icon_path_status = "turtlemail/icons/" + item.status().lower() + ".jinja" %}
                             {% include icon_path_status %}
                             {{ item.status().label }}
