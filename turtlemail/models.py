@@ -545,6 +545,7 @@ class RouteStep(models.Model):
     def save(self, *args, **kwargs):
         """
         logic to start routing once all steps got accepted
+        and start chats
         """
         save = super().save(*args, **kwargs)
         if (
@@ -554,6 +555,16 @@ class RouteStep(models.Model):
             first_step = self.route.steps.get(previous_step__isnull=True)
             first_step.status = self.ONGOING
             first_step.save()
+
+            # start chats
+            for step in self.route.steps.all():
+                SystemChatMessage.objects.create(
+                    route_step=step,
+                    content=_(
+                        f"Hello,\n this chat was created for you to agree on the details of a package handover.\n Be excellent and careful with personal data.\n Handover is planed on {step.end} and location {step.stay.location}."
+                    ),
+                )
+
         return save
 
 
@@ -664,3 +675,47 @@ class DeliveryLog(models.Model):
         verbose_name_plural = _("Delivery Log Entries")
 
         ordering = ["-created_at"]
+
+
+class ChatMessage(models.Model):
+    class StatusChoices(models.TextChoices):
+        NEW = "N", _("new")
+        RECEIVED = "R", _("received")
+
+    created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
+    route_step = models.ForeignKey(
+        RouteStep, verbose_name=_("RouteStep context"), on_delete=models.CASCADE
+    )
+    content = models.TextField(verbose_name=_("Message content"))
+    # status to provide a read feedback
+    status = models.CharField(
+        max_length=2,
+        verbose_name=_("Status"),
+        choices=StatusChoices.choices,
+        default=StatusChoices.NEW,
+    )
+
+    class Meta:
+        abstract = True
+        verbose_name = _("Chat message")
+        verbose_name_plural = _("Chat messages")
+
+        ordering = ["route_step", "-created_at"]
+
+
+class SystemChatMessage(ChatMessage):
+    @property
+    def author(self):
+        return _("Turtlemail system")
+
+    def is_system_msg(self):
+        return True
+
+
+class UserChatMessage(ChatMessage):
+    author = models.ForeignKey(
+        User, verbose_name=_("Message author"), on_delete=models.RESTRICT
+    )  # we need to make sure, that no user self delete, removes evidence
+
+    def is_system_msg(self):
+        return False

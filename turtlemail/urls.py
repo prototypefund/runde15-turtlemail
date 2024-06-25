@@ -32,7 +32,8 @@ urlpatterns = [
     # TODO this route should be named "packets" to stay consistent with
     # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
-    path("stays", views.StaysView.as_view(), name="stays"),
+    # path("stays", views.StaysView.as_view(), name="stays"),
+    path("communication", views.ChatView.as_view(), name="chats"),
     path(
         "htmx/update-request/<int:pk>",
         views.HtmxUpdateRouteStepRequestView.as_view(),

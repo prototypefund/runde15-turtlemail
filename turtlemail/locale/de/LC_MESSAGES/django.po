@@ -340,6 +340,33 @@ msgstr "Lieferung Log Eintrag"
 msgid "Delivery Log Entries"
 msgstr "Lieferung Log Einträge"
 
+msgid "new"
+msgstr ""
+
+#, fuzzy
+msgid "received"
+msgstr "Empfangen"
+
+#, fuzzy
+msgid "RouteStep context"
+msgstr "Route Schritt"
+
+msgid "Message content"
+msgstr ""
+
+msgid "Chat message"
+msgstr ""
+
+msgid "Chat messages"
+msgstr ""
+
+#, fuzzy
+msgid "Turtlemail system"
+msgstr "turtlemail"
+
+msgid "Message author"
+msgstr ""
+
 msgid "German"
 msgstr "Deutsch"
 
@@ -377,6 +404,10 @@ msgstr "Löschen"
 
 msgid "Add stay"
 msgstr "Aufenthalt hinzufügen"
+
+#, fuzzy
+msgid "Communication"
+msgstr "Ort"
 
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"

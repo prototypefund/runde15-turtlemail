@@ -41,7 +41,7 @@ from .forms import (
     RouteStepRequestForm,
     RouteStepRoutingForm,
 )
-from .models import Invite, Stay, Route
+from .models import ChatMessage, Invite, Stay, Route
 
 
 class DeliveriesView(LoginRequiredMixin, ListView):
@@ -189,14 +189,24 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
             return self.render_to_response({"form": form})
 
 
-class StaysView(LoginRequiredMixin, TemplateView):
-    template_name = "turtlemail/stays.jinja"
+class ChatView(LoginRequiredMixin, TemplateView):
+    template_name = "turtlemail/chats.jinja"
 
     if TYPE_CHECKING:
         request: AuthedHttpRequest
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["chats"] = RouteStep.objects.filter(
+            stay__user=self.request.user,
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+        )
+        context["chat_msgs"] = {}
+        for route_step in context["chats"]:
+            context["chat_msgs"][route_step.id] = ChatMessage.objects.filter(
+                route_step=route_step
+            )
         context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
         return context
 
