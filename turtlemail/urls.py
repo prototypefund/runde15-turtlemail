@@ -16,9 +16,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, reverse_lazy
+from django.urls import path
 from django.contrib.auth.views import LogoutView
-from django.views.generic import RedirectView
 
 from turtlemail import views
 
@@ -26,7 +25,7 @@ urlpatterns = [
     path("-/admin/", admin.site.urls),
     path(
         "",
-        RedirectView.as_view(url=reverse_lazy("deliveries"), permanent=True),
+        views.IndexView.as_view(),
         name="index",
     ),
     # TODO this route should be named "packets" to stay consistent with

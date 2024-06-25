@@ -16,9 +16,11 @@
             <span class="btm-nav-label">{{ request.user.username }}</span>
         </a>
     </nav>
-    <nav class="sticky top-0 hidden navbar bg-base-100 lg:flex">
+    <nav class="sticky top-0 z-10 hidden navbar bg-base-100 lg:flex">
         <div class="navbar-start">
-            <a href="{{ url("deliveries") }}" class="text-xl btn btn-ghost">{{ _("turtlemail") }}</a>
+            <a class="text-xl btn btn-ghost" href="{{ url("index") }}">
+                <img src="{{ static("turtlemail/img/logo/turtlemail-logo.svg") }}" alt="{{ _("turtlemail") }}" class="w-full h-8" />
+            </a>
         </div>
         <div class="navbar-center">
             <ul class="gap-2 text-lg menu menu-horizontal">
