@@ -29,5 +29,9 @@
     "htmx.org": "^1.9.11",
     "leaflet": "^1.9.4",
     "vue": "^3.4.23"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
   }
 }
