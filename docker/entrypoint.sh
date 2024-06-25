@@ -32,6 +32,7 @@ if [ "${1:-}" = "uvicorn" ]; then
   fi
   # shellcheck disable=SC2086
   exec poetry --directory /usr/share/turtlemail/ run python3 -m uvicorn turtlemail.asgi:application $args \
+    --lifespan off \
     --host "$host" \
     --port "$port"
 else
