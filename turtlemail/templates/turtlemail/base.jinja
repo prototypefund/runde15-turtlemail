@@ -16,4 +16,16 @@
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block body %}{% endblock %}
     </body>
+    <template id="error_alert">
+        <li class="alert alert-error">
+            <div class="max-w-sm text-wrap">
+                <h3 class="font-bold">{{ _("Oops, that didn't work.") }}</h3>
+                <p>{{ _("Please try again later, or contact the support team if that doesn't work.") }}</p>
+                <p class="mt-2 overflow-y-auto font-mono text-xs error-alert-technical-details max-h-32 text-error-content/60"></p>
+            </div>
+            <button class="btn btn-ghost btn-square btn-sm justify-self-end"
+                    title="{{ _("Dismiss") }}"
+                    onclick="this.parentNode.remove()">{% include "turtlemail/icons/circle_x.jinja" %}</button>
+        </li>
+    </template>
 </html>
