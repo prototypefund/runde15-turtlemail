@@ -1,12 +1,27 @@
 include:
-  - project: "kmohrf/gitlabfilet"
-    ref: "v1.4.0"
+  - project: 'kmohrf/gitlabfilet'
+    ref: 'v1.4.0'
     file:
-      - "/templates/python.gitlab-ci.yml"
-      - "/templates/container.gitlab-ci.yml"
+      - '/templates/python.gitlab-ci.yml'
+      - '/templates/container.gitlab-ci.yml'
 
 variables:
   GITLABFILET_IMAGE: git-registry.hack-hro.de:443/kmohrf/docker-recipes/debbuild-python-webdev:bookworm
+
+workflow:
+  rules:
+    # Skip if there's a wip commit
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_MESSAGE =~ /^wip:.*/'
+      when: never
+    # Prevent duplicate pipelines
+    # See: https://docs.gitlab.com/ee/ci/yaml/workflow.html#switch-between-branch-pipelines-and-merge-request-pipelines
+    # Run in merge requests
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    # Don't run branch pipelines for merge requests
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    # Run branch pipelines when there's no merge request open
+    - if: $CI_COMMIT_BRANCH
 
 default:
   tags:
@@ -45,8 +60,8 @@ test::python:
     TOX_SKIP_ENV: lint-*
     POSTGRES_DB: turtlemail
     POSTGRES_USER: turtlemail
-    POSTGRES_PASSWORD: "turtlemail"
-    DATABASE_URL: "postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis-postgis/$POSTGRES_DB"
+    POSTGRES_PASSWORD: 'turtlemail'
+    DATABASE_URL: 'postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@postgis-postgis/$POSTGRES_DB'
     TOX_TESTENV_PASSENV: DATABASE_URL
   before_script:
     - apt update -y
