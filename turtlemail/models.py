@@ -545,7 +545,7 @@ class RouteStep(models.Model):
     def save(self, *args, **kwargs):
         """
         logic to start routing once all steps got accepted
-        and start chats
+        and start/delete chats
         """
         save = super().save(*args, **kwargs)
         if (
@@ -561,9 +561,18 @@ class RouteStep(models.Model):
                 SystemChatMessage.objects.create(
                     route_step=step,
                     content=_(
-                        f"Hello,\n this chat was created for you to agree on the details of a package handover.\n Be excellent and careful with personal data.\n Handover is planed on {step.end} and location {step.stay.location}."
+                        f"""
+                        Hello,
+                        this chat was created for you to agree on the details of a package handover.
+                        Be excellent and careful with personal data.
+                        Handover is planed on {step.end} and location {step.stay.location}.
+                        Happy turtlemailing!
+                        """
                     ),
                 )
+        # delete chat messages
+        if self.status==self.COMPLETED:
+            ChatMessage.objects.filter(route_step=self).delete()
 
         return save
 

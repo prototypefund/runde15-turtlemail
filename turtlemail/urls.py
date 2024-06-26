@@ -33,7 +33,8 @@ urlpatterns = [
     # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),
     # path("stays", views.StaysView.as_view(), name="stays"),
-    path("communication", views.ChatView.as_view(), name="chats"),
+    path("communication", views.ChatsView.as_view(), name="chats"),
+    path("htmx/chat/<int:pk>", views.HtmxChatView.as_view(), name="chat"),
     path(
         "htmx/update-request/<int:pk>",
         views.HtmxUpdateRouteStepRequestView.as_view(),

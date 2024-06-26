@@ -12,7 +12,7 @@ from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
 from django.db import transaction
 from django.forms import BaseModelForm
-from django.http import HttpRequest
+from django.http import HttpRequest, request
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -189,7 +189,7 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
             return self.render_to_response({"form": form})
 
 
-class ChatView(LoginRequiredMixin, TemplateView):
+class ChatsView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/chats.jinja"
 
     if TYPE_CHECKING:
@@ -197,18 +197,57 @@ class ChatView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["chats"] = RouteStep.objects.filter(
-            stay__user=self.request.user,
-            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
-            route__status=Route.CURRENT,
-        )
-        context["chat_msgs"] = {}
-        for route_step in context["chats"]:
-            context["chat_msgs"][route_step.id] = ChatMessage.objects.filter(
-                route_step=route_step
-            )
-        context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
+        # which chats are available is predicted bei the state of RouteSteps
+        giver_steps_filter = Q(stay__user=self.request.user,
+                        status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+                        route__status=Route.CURRENT,
+                        next_step__is_null=False,)
+        receiver_steps_filter = Q(next_step__stay__user=self.request.user,
+                        status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+                        route__status=Route.CURRENT,)
+        route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter)
+
+        # build a template usuable object, more readable version then list comprehension
+        context["chat_list"] = []
+        for step in route_steps:
+            entry = {}
+            entry["step_id"] = step.pk
+            if step.stay.user == self.request.user:
+                entry["chat_title"] = _(f"""
+                                        Package handover to {step.next_step.stay.user} on {step.end}
+                                        """)
+            else:
+                entry["chat_title"] = _(f"""
+                                        Package take over from {step.stay.user} on {step.end}
+                                        """)
+            context["chat_list"].append(entry)
+
         return context
+
+
+class HtmxChatView(UserPassesTestMixin, DetailView):
+    """
+    View containing the chat history
+    takes route_step pk as param
+    """
+    model=RouteStep
+    template_name = "turtlemail/_chat.jinja"
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def test_func(self):
+        """
+        only allowed if part of this route step
+        """
+        return self.request.user == self.object.stay.user or self.request.user == self.object.next_step.stay.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = self.request.user
+        context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object)
+        return context
+
 
 
 class HtmxCreateStayView(LoginRequiredMixin, CreateView):
