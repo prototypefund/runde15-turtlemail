@@ -2,10 +2,59 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.5.0] - 2024-06-17
+## [0.6.0] - 2024-07-01
+
+### #43
+
+- Rebase to main ([5d24285](5d24285469c79efe3478a4ffb2d59b4ef99e92b8))
 
 ### Bug Fixes
 
+- Format an unformatted migration ([62773d0](62773d073f39a92e00c8ee9a951e6ea94a52fc49))
+- Re-order configuration settings ([879f259](879f259f1eb4651e88841c8d51d06f575d9c33b5))
+- Ensure TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS is converted to the expected type ([16606e1](16606e197b620af11c010991dfc8901cd335c6d0))
+- Prevent users from sending a packet to themself ([f595031](f5950314fc9ffd11e703bc9c79ba2d323c9dd0e0))
+- Move static assets into django folder ([f80cf91](f80cf910ced857663c75283b8179970fbabea1e1))
+- Only use english-language screenshots for now ([340d111](340d111a094284cd1911b16caa280dae0486f5a4))
+- Disable ASGI lifespan protocol ([2049351](204935179c7ce2711d0514e6d77aee4e6c297a56))
+- Htmx.ts formatting ([87aa55b](87aa55b3d417c850bf5448c9f087189d0baf72ac))
+
+### Features
+
+- Use animal IDs for new packets ([00cbb24](00cbb2437d4a271202568784d430a82e190655a1))
+- Add german translations ([1725b76](1725b76d19f9d27f519f80d226cb5c6a0b81b53b))
+- Add new logo and custom color theme ([3c38344](3c38344fcb0ec10862dbfdf4d329788c76f88ead))
+- Add landing page ([7c8b7ec](7c8b7ec04958981c79669ff3666e32c27949f849))
+- Show a message on unknown errors ([cd2d5bf](cd2d5bf62d6b285e2e86aff0ab44d089b0b9f168))
+
+### Miscellaneous Tasks
+
+- Update instructions for releasing a version ([84eb322](84eb3220cb8ba62c64ab26cc5d06c63e617e57b4))
+- Fix request.user type for views requiring login ([407eff3](407eff3f4fc20e8e35bbf5d4a4a794f544b46bef))
+- Bump gitlabfilet ([f267534](f267534a3a1b168c6344085a418c8a0a546862db))
+- Add deployment to staging and production environments ([7bb4911](7bb491120bcb0fc86bae5c94478fa7499b6ec7fc))
+- Add makefile command for generating migrations ([aaf6742](aaf6742ce19461c2583a488bdf2978ae2948a802))
+- Configure prettier to match eslint formatting ([5eb510d](5eb510dd5e7e975ce0fdd375fcaae2069ce2eb9a))
+- Skip CI for commits starting with "wip:" ([98d06a5](98d06a5287672d98bca5a218ffdf2add92096f51))
+
+## [0.5.0] - 2024-06-17
+
+[da1ca88](da1ca880473b366ba92adf708f13e2a920dccfb1)...[612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b)
+
+### #43
+
+- Sendungsverfolgung ([3ac30b0](3ac30b0cd299b1fc208d8eea0967c96eb228c42a))
+- Linting migration ([aaac360](aaac36020ebc6ed5f435bc0ab9d98fef4083fcdf))
+- Mr review ([7500104](7500104855113b37399f62c3352194dce4238c9b))
+
+### Bug Fixes
+
+- Do not push all branches when releasing new version ([34f7282](34f7282fbe9d782a4eeeab619028caaa068b1a0f))
+- Use nav element for desktop navigation ([1a2068b](1a2068b6c6052fbcb098ad6a58f3375a820ded98))
+- Use h1 in login/signup form ([3682da5](3682da56dec2a588fe14e087a8f17dadf722640e))
+- Badges on profile showing wrong data ([273e04b](273e04ba164453e3e532bf9fd0d4edaa30116177))
+- Only allow some users to view packets ([bb3c830](bb3c830e85f4622c642fed69801ddf5fa92d8ce2))
+- Skip lint task in CI test pipeline ([e1970f4](e1970f4b680b364a774269bf660dd691f9cdbf0b))
 - Get_overlapping_date_range for non-overlapping ranges ([574f232](574f232d8aa48f8e54e391c561e5a37c204e0148))
 - Only allow selecting users own locations for stays ([80322c9](80322c9e62088b22b42792836acc14b67da23607))
 - RouteStep.get_overlapping_date_range for non-overlapping ranges ([90b1bdb](90b1bdb81372e4fac263b4a41b0a8ac3d02ee00a))
@@ -22,6 +71,14 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
+- Add packet creation form ([5d53b6f](5d53b6f70cf691c5af61405eb63283cd9e5c2e6c))
+- Added human readable id generator with custom dictionary ([6a5410c](6a5410cc7b59526c4085debf6a7be0529e19c48c))
+- Show info on packet detail page ([f20593c](f20593cf2a11caf057cc5c6edfc698985e7f710c))
+- Stays list and creation form ([0934c80](0934c8001e940576b02f349d56e4b8bca03f3750))
+- Edit and delete stays ([e9ec10b](e9ec10b191612bc88d55eabc7ede53758f993ad1))
+- Swap django messages into the page with htmx ([7dfda3f](7dfda3f86cb682509712755452b0d743f30fc60b))
+- Link to signup from login and vice versa ([52d3cc8](52d3cc85eca0b87d80f1c27120c41d25730545c3))
+- Add user invitations ([6603aa5](6603aa5ec2d888da54f10a3fa40b04cd5ec84478))
 - Add basic routing algorithm ([6633b51](6633b5128643ac62b60bbe47719e74f131806e80))
 - Show delivery logs on packet detail page ([f489682](f4896824482c0bc18b85ebdfa94d7be84586e90a))
 - Search for route when creating a packet ([6a70829](6a708297d8b0238c1124e4a2f76857b8c0e6cade))
@@ -48,45 +105,6 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
-- Add Makefile test task ([5649a3d](5649a3d43f7333023c5e20cdb9e76b85288cf92e))
-- Add logger for showing debug logs ([33c2913](33c291303bd74c17c79b383e55812a08c578f2ea))
-- Use human_id for referencing packets ([e13ed81](e13ed81e9ff554f787023378250016dfae4012be))
-- Add stay model to admin interface ([0711068](0711068e9e4fdb4c44270d595b3b73f26888ced1))
-- Add dump-fixtures task for adding new database fixtures ([8f005ab](8f005ab1e06e2febe05ae30b9d4a1b6df32c8c10))
-- Run database for tests in CI ([417aa0d](417aa0d29377a985037120800799b899898ba14e))
-- Add new fixtures for testing ([7a4efd2](7a4efd2e7b4892eb96392723b63a01e7f2dbcdbb))
-- Consistently use RouteStepRequest term ([0cd3db3](0cd3db324513beb1e35368f255b48c12ce8fa17a))
-- Improve admin UI for routes and routesteps ([2862cee](2862cee2ebe154b17dd2877c5bac486d18f4611c))
-- Remove obsolete TODO ([52cba50](52cba50696bb8570e6c0daa6324ad0245a4b5780))
-- Fix some typing errors ([6dda15c](6dda15c7c4288757f11e04c1f8265eaa6298a069))
-- Add small missing migration ([7f525a3](7f525a319809be2a975d9c4038b5a81d30af7ea5))
-
-## [0.4.0] - 2024-06-03
-
-[da1ca88](da1ca880473b366ba92adf708f13e2a920dccfb1)...[d65b6fa](d65b6fac5f655663f72b35a5f63986476bd35d8c)
-
-### Bug Fixes
-
-- Do not push all branches when releasing new version ([34f7282](34f7282fbe9d782a4eeeab619028caaa068b1a0f))
-- Use nav element for desktop navigation ([1a2068b](1a2068b6c6052fbcb098ad6a58f3375a820ded98))
-- Use h1 in login/signup form ([3682da5](3682da56dec2a588fe14e087a8f17dadf722640e))
-- Badges on profile showing wrong data ([273e04b](273e04ba164453e3e532bf9fd0d4edaa30116177))
-- Only allow some users to view packets ([bb3c830](bb3c830e85f4622c642fed69801ddf5fa92d8ce2))
-- Skip lint task in CI test pipeline ([e1970f4](e1970f4b680b364a774269bf660dd691f9cdbf0b))
-
-### Features
-
-- Add packet creation form ([5d53b6f](5d53b6f70cf691c5af61405eb63283cd9e5c2e6c))
-- Added human readable id generator with custom dictionary ([6a5410c](6a5410cc7b59526c4085debf6a7be0529e19c48c))
-- Show info on packet detail page ([f20593c](f20593cf2a11caf057cc5c6edfc698985e7f710c))
-- Stays list and creation form ([0934c80](0934c8001e940576b02f349d56e4b8bca03f3750))
-- Edit and delete stays ([e9ec10b](e9ec10b191612bc88d55eabc7ede53758f993ad1))
-- Swap django messages into the page with htmx ([7dfda3f](7dfda3f86cb682509712755452b0d743f30fc60b))
-- Link to signup from login and vice versa ([52d3cc8](52d3cc85eca0b87d80f1c27120c41d25730545c3))
-- Add user invitations ([6603aa5](6603aa5ec2d888da54f10a3fa40b04cd5ec84478))
-
-### Miscellaneous Tasks
-
 - Reload template changes when debugging ([8ff792d](8ff792d5b0c1432cef13c30ee7c5f45fc60f6128))
 - Rename packet receiver to recipient ([d013760](d0137600c34267abbfd30cc0ad6b5248d8cfbc9f))
 - Change packets verbose name to delivery ([23d7ae3](23d7ae337b9e63a3ad686c42672c48bf2f7ae3d3))
@@ -103,14 +121,31 @@ All notable changes to this project will be documented in this file.
 - Remove location markers from .po files ([30420ff](30420ff48ee183ade62839483c4fbe55dfb56780))
 - Change default from email address ([39976bc](39976bc374551ac4d7b30a62fd450787412709c4))
 - Move field templates to field directory ([a18465c](a18465cf7c2513bd3fc4e9bcde961a5993fbd874))
+- Add Makefile test task ([5649a3d](5649a3d43f7333023c5e20cdb9e76b85288cf92e))
+- Add logger for showing debug logs ([33c2913](33c291303bd74c17c79b383e55812a08c578f2ea))
+- Use human_id for referencing packets ([e13ed81](e13ed81e9ff554f787023378250016dfae4012be))
+- Add stay model to admin interface ([0711068](0711068e9e4fdb4c44270d595b3b73f26888ced1))
+- Add dump-fixtures task for adding new database fixtures ([8f005ab](8f005ab1e06e2febe05ae30b9d4a1b6df32c8c10))
+- Run database for tests in CI ([417aa0d](417aa0d29377a985037120800799b899898ba14e))
+- Add new fixtures for testing ([7a4efd2](7a4efd2e7b4892eb96392723b63a01e7f2dbcdbb))
+- Consistently use RouteStepRequest term ([0cd3db3](0cd3db324513beb1e35368f255b48c12ce8fa17a))
+- Improve admin UI for routes and routesteps ([2862cee](2862cee2ebe154b17dd2877c5bac486d18f4611c))
+- Remove obsolete TODO ([52cba50](52cba50696bb8570e6c0daa6324ad0245a4b5780))
+- Fix some typing errors ([6dda15c](6dda15c7c4288757f11e04c1f8265eaa6298a069))
+- Add small missing migration ([7f525a3](7f525a319809be2a975d9c4038b5a81d30af7ea5))
 
 ### Refactor
 
 - Move stay form js into its own partial ([3172754](31727541f048541accf7484c56d68b54d48183f4))
 
+### WIP
+
+- Sendungsverfolgung ([4ca1ee7](4ca1ee7f3bd712c6312dca0ea28d88f1b59f6efb))
+
 ### Bump
 
 - Release v0.4.0 ([d65b6fa](d65b6fac5f655663f72b35a5f63986476bd35d8c))
+- Release v0.5.0 ([612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b))
 
 ## [0.3.0] - 2024-04-22
 
