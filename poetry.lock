@@ -178,6 +178,20 @@ django = ">=3.2"
 jinja2 = ">=3"
 
 [[package]]
+name = "django-model-utils"
+version = "4.5.1"
+description = "Django model mixins and utilities"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django_model_utils-4.5.1-py3-none-any.whl", hash = "sha256:f1141fc71796242edeffed5ad53a8cc57f00d345eb5a3a63e3f69401cd562ee2"},
+    {file = "django_model_utils-4.5.1.tar.gz", hash = "sha256:1220f22d9a467d53a1e0f4cda4857df0b2f757edf9a29955c42461988caa648a"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-types"
 version = "0.19.1"
 description = "Type stubs for Django"
@@ -1021,4 +1035,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3e3ab308fb86173856f3b66102091aaac1b13b6140a7d12b2fd92915435f1f9c"
+content-hash = "81b5ef69b3b6373233ef6645915714d7b7cc1e185888defdab9747d33174d400"

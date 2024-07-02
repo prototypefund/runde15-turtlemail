@@ -26,6 +26,7 @@ from django.views.generic import (
     UpdateView,
     ListView,
 )
+from django.utils import formats
 
 from turtlemail import routing
 from turtlemail.human_id import human_id
@@ -201,10 +202,12 @@ class ChatsView(LoginRequiredMixin, TemplateView):
         giver_steps_filter = Q(stay__user=self.request.user,
                         status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
                         route__status=Route.CURRENT,
-                        next_step__is_null=False,)
+                        next_step__isnull=False,
+                        chatmessage__isnull=False,)
         receiver_steps_filter = Q(next_step__stay__user=self.request.user,
                         status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
-                        route__status=Route.CURRENT,)
+                        route__status=Route.CURRENT,
+                        chatmessage__isnull=False,)
         route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter)
 
         # build a template usuable object, more readable version then list comprehension
@@ -214,11 +217,11 @@ class ChatsView(LoginRequiredMixin, TemplateView):
             entry["step_id"] = step.pk
             if step.stay.user == self.request.user:
                 entry["chat_title"] = _(f"""
-                                        Package handover to {step.next_step.stay.user} on {step.end}
+                                        Package handover to {step.next_step.stay.user} on {formats.date_format(step.end)}
                                         """)
             else:
                 entry["chat_title"] = _(f"""
-                                        Package take over from {step.stay.user} on {step.end}
+                                        Package take over from {step.stay.user} on {formats.date_format(step.end)}
                                         """)
             context["chat_list"].append(entry)
 
@@ -240,12 +243,13 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         """
         only allowed if part of this route step
         """
+        self.object = self.get_object()
         return self.request.user == self.object.stay.user or self.request.user == self.object.next_step.stay.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
-        context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object)
+        context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object).select_subclasses()
         return context
 
 

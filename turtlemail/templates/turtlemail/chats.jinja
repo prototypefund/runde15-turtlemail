@@ -1,12 +1,27 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div id="stays" class="w-full max-w-4xl">
-        <h2 class="my-4 text-2xl font-bold">{{ _("Communication") }}</h2>
-        <!--<div id="stays_list" class="divide-y">
-            {% for stay in stays %}
-                <div id="stay_{{ stay.id }}">{% include "turtlemail/_stay_detail.jinja" %}</div>
-            {% endfor %}
-            <button type="button" hx-get="{{ url("htmx-create-stay") }}" hx-swap="outerHTML" class="my-4 btn btn-primary btn-sm">{{ _("Add stay") }}</button>
-        </div>-->
+    <div id="chats" class="w-full max-w-6xl flex flex-row">
+      {% if chat_list %}
+      <div id="chat_list" class="w-80">
+        <ul class="menu bg-base-200 rounded-box w-full z-0">
+          {% for chat in chat_list %}
+          <li><a hx-get="{{ url("chat", chat.step_id) }}" hx-target="#messages" hx-swap="innerHTML">{{ chat.chat_title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="chat" class="w-full bg-white rounded flex flex-col h-screen">
+        <div id="messages" class="h-full">
+          <p class="font-bold text-center">{{ gettext("Click a chat from the list to agree upon package exchanges.") }}</p>
+        </div>
+        <form>
+          <div class="join w-full">
+            <input class="input input-bordered join-item w-full" placeholder="{{ gettext('Message') }}" />
+            <button type="submit" class="btn join-item rounded-r-full">{{ gettext("send") }}</button>
+          </div>
+        </form>
+      </div>
+      {% else %}
+        <div class="w-full"><p class="font-bold text-center">{{ gettext("You haven\'t scheduled any package exchanges.") }}</p></div>
+      {% endif %}
     </div>
 {% endblock %}

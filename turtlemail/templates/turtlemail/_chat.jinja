@@ -2,13 +2,9 @@
 <div class="chat {% if user == msg.author %}chat-end{% else %}chat-start{% endif %}">
   <div class="chat-header">
     {{ msg.author }}
-    <time class="text-xs opacity-50">{{ msg.created_at }}</time>
+    <time class="text-xs opacity-50">{{ msg.created_at|date }} {{ msg.created_at|time }}</time>
   </div>
-  <div class="chat-bubble">{{ msg.content }}</div>
+  <div class="chat-bubble">{{ msg.content|safe }}</div>
   <div class="chat-footer opacity-50">{% if msg.status == "R" %}✓{% endif %}</div>
 </div>
 {% endfor %}
-<div>
-    <input type="text" placeholder="{% translate %}Type here" class="input input-bordered w-full max-w-xs" />
-    <button class="btn btn-success">Success</button>
-</div>

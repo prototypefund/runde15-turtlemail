@@ -12,8 +12,10 @@ from django.contrib.auth.models import (
 from django.core.validators import MinValueValidator
 from django.db.models import QuerySet
 from django.template.defaultfilters import date
-from django.utils import timezone
+from django.utils import formats, timezone
 from django.utils.translation import gettext_lazy as _
+
+from model_utils.managers import InheritanceManager
 
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
@@ -557,15 +559,17 @@ class RouteStep(models.Model):
             first_step.save()
 
             # start chats
+            # tbd: We miss multilingual system chat messages! Currently a chat is always in the language of the user
+            #      confirming the last route step
             for step in self.route.steps.all():
                 SystemChatMessage.objects.create(
                     route_step=step,
                     content=_(
                         f"""
-                        Hello,
+                        Hello,<br />
                         this chat was created for you to agree on the details of a package handover.
-                        Be excellent and careful with personal data.
-                        Handover is planed on {step.end} and location {step.stay.location}.
+                        Be excellent and careful with personal data.<br />
+                        Handover is planed on {formats.date_format(step.end)} and location {step.stay.location}.<br />
                         Happy turtlemailing!
                         """
                     ),
@@ -691,6 +695,7 @@ class ChatMessage(models.Model):
         NEW = "N", _("new")
         RECEIVED = "R", _("received")
 
+    objects = InheritanceManager()
     created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
     route_step = models.ForeignKey(
         RouteStep, verbose_name=_("RouteStep context"), on_delete=models.CASCADE
@@ -705,7 +710,6 @@ class ChatMessage(models.Model):
     )
 
     class Meta:
-        abstract = True
         verbose_name = _("Chat message")
         verbose_name_plural = _("Chat messages")
 
