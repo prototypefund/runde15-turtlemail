@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light" class="h-full min-h-full bg-base-200">
+<html lang="de"
+      data-theme="turtlemail"
+      class="h-full min-h-full bg-base-200">
     <head>
         <meta charset="UTF-8">
-        <link href="{{ static("turtlemail/bundled/favicon.svg") }}" rel="icon" type="image/svg+xml">
+        <link href="{{ static("turtlemail/img/logo/turtlemail-icon-rounded.svg") }}" rel="icon" type="image/svg+xml">
         <meta name="robots" content="noindex, nofollow">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta name="theme-color" content="#00543A">
-        <link rel="manifest" href="{{ static("turtlemail/bundled/manifest.json") }}">
+        <link rel="manifest" href="{{ static("turtlemail/manifest.json") }}">
         <title>turtlemail</title>
         {{ vite_assets("src/style.css") }}
         {{ vite_assets("src/main.ts") }}
@@ -14,4 +16,16 @@
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
         {% block body %}{% endblock %}
     </body>
+    <template id="error_alert">
+        <li class="alert alert-error">
+            <div class="max-w-sm text-wrap">
+                <h3 class="font-bold">{{ _("Oops, that didn't work.") }}</h3>
+                <p>{{ _("Please try again later, or contact the support team if that doesn't work.") }}</p>
+                <p class="mt-2 overflow-y-auto font-mono text-xs error-alert-technical-details max-h-32 text-error-content/60"></p>
+            </div>
+            <button class="btn btn-ghost btn-square btn-sm justify-self-end"
+                    title="{{ _("Dismiss") }}"
+                    onclick="this.parentNode.remove()">{% include "turtlemail/icons/circle_x.jinja" %}</button>
+        </li>
+    </template>
 </html>

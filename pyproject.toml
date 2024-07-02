@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "turtlemail"
-version = "0.5.0"
+version = "0.6.0"
 description = ""
 authors = ["turtlemail Maintainers <dev@turtlemail.org>"]
 license = "AGPL-3.0-or-later"
@@ -53,7 +53,8 @@ major_version_zero = true
 # T003: allow endblock without specifying block name
 # H030: allow missing meta description
 # H031: allow missing meta tag
-ignore = "T003,H030,H031"
+# H006: img tag should have height and width attributes
+ignore = "T003,H030,H031,H006"
 
 
 [build-system]

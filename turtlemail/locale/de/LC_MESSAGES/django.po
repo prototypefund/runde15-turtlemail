@@ -405,9 +405,19 @@ msgstr "Löschen"
 msgid "Add stay"
 msgstr "Aufenthalt hinzufügen"
 
+<<<<<<< HEAD
 #, fuzzy
 msgid "Communication"
 msgstr "Ort"
+=======
+msgid "Oops, that didn't work."
+msgstr "Huch, das hat nicht geklappt."
+
+msgid "Please try again later, or contact the support team if that doesn't work."
+msgstr ""
+"Bitte versuche es später noch einmal, oder melde dich beim Support-Team, "
+"fals das auch nicht funktioniert."
+>>>>>>> origin/main
 
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"
@@ -420,11 +430,82 @@ msgstr "Empfangen von %(sender)s"
 msgid "Send to %(recipient)s"
 msgstr "Senden zu %(recipient)s"
 
-msgid "Send Invitation"
-msgstr "Einladung senden"
-
 msgid "turtlemail"
 msgstr "turtlemail"
+
+#, fuzzy
+msgid "Sign up"
+msgstr "Anmelden"
+
+#, fuzzy
+msgid "Log in"
+msgstr "Anmelden"
+
+#, fuzzy
+msgid "Delivered by Humans"
+msgstr "Zugestellt"
+
+msgid ""
+"Discover an innovative way to efficiently deliver and send your packages."
+" Our app connects users' journeys with deliveries of other users to "
+"create a self-organizing, decentralized peer-to-peer logistic solution."
+msgstr ""
+
+msgid "Cartoon-style image of a smiling turtle carrying other animals on its back"
+msgstr ""
+
+msgid "Screenshot showing data for a delivery in the turtlemail app"
+msgstr ""
+
+msgid "What makes turtlemail special?"
+msgstr ""
+
+msgid ""
+"Decentralized transport of letters and parcels without for-profit "
+"shipping companies"
+msgstr ""
+
+msgid ""
+"Reduced carbon emissions and costs by using existing journeys for "
+"deliveries"
+msgstr ""
+
+msgid "Become part of the turtlemail community and get to know new people"
+msgstr ""
+
+msgid "Transparent, open source licensed software"
+msgstr ""
+
+msgid "Join the turtlemail experiment"
+msgstr ""
+
+#, python-format
+msgid ""
+"Help us to test our software. Learn more about the experiment <a "
+"class=\"link\" href=\"%(link)s\">here</a>."
+msgstr ""
+
+#, fuzzy
+msgid "Create a free account"
+msgstr "Neues Konto erstellen"
+
+msgid "Screenshot showing a request to make a delivery in the turtlemail app"
+msgstr ""
+
+msgid "Funded by the Bundesministerium für Bildung und Forschung"
+msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
+
+msgid "Imprint"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Source Code"
+msgstr ""
+
+msgid "Send Invitation"
+msgstr "Einladung senden"
 
 msgid "You're sending this delivery to"
 msgstr "Du sendest diese Lieferung an"
@@ -521,6 +602,9 @@ msgstr "Das turtlemail Team"
 msgid "Carry"
 msgstr "Mitnehmen"
 
+msgid "Mastodon"
+msgstr ""
+
 msgid "Ready to ship"
 msgstr "Bereit zum Versand"
 
@@ -529,6 +613,12 @@ msgstr "Empfangen"
 
 msgid "Send"
 msgstr "Versenden"
+
+msgid "Signal Messenger"
+msgstr ""
+
+msgid "Telegram"
+msgstr ""
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"

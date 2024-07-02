@@ -1,8 +1,5 @@
-import htmx from 'htmx.org'
 import { register } from './components'
-
-htmx.on('htmx:responseError', (e) => {
-  console.error(e)
-})
+import { showHtmxErrors } from './htmx'
 
 register()
+showHtmxErrors()

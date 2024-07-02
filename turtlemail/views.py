@@ -45,6 +45,16 @@ from .forms import (
 from .models import ChatMessage, Invite, Stay, Route
 
 
+class IndexView(TemplateView):
+    template_name = "turtlemail/index.jinja"
+
+    def get(self, request: HttpRequest):
+        if request.user.is_authenticated:
+            return redirect(reverse("deliveries"))
+
+        return self.render_to_response({})
+
+
 class DeliveriesView(LoginRequiredMixin, ListView):
     template_name = "turtlemail/deliveries.jinja"
     model = Packet

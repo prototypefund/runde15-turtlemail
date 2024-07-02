@@ -1,0 +1,93 @@
+{% extends "turtlemail/base.jinja" %}
+{% block body %}
+    <div class="sticky top-0 z-10">
+        <div class="min-h-0 pb-0 navbar bg-base-100">
+            <div class="navbar-start">
+                <h1>
+                    <a class="text-xl btn btn-ghost" href="{{ url("index") }}">
+                        <img src="{{ static("turtlemail/img/logo/turtlemail-logo.svg") }}" alt="{{ _("turtlemail") }}" class="w-full h-8" />
+                    </a>
+                </h1>
+            </div>
+            <div class="gap-2 navbar-end">
+                <a class="btn btn-sm btn-primary" href="{{ url("signup") }}">{{ _("Sign up") }}</a>
+                <a class="btn btn-sm btn-ghost" href="{{ url("login") }}">{{ _("Log in") }}</a>
+            </div>
+        </div>
+        <div class="z-10 w-full h-6 rotate-180 bg-base-100 mask-waves"></div>
+    </div>
+    <section class="flex flex-wrap items-center justify-center gap-16 px-4 mt-16 md:px-8">
+        <div class="prose-xl">
+            <h2 class="font-bold lg:text-5xl">{{ _("Delivered by Humans") }}</h2>
+            <p class="max-w-md">
+                {{ _("Discover an innovative way to efficiently deliver and send your packages. Our app connects users' journeys with deliveries of other users to create a self-organizing, decentralized peer-to-peer logistic solution.") }}
+            </p>
+            <div class="flex flex-wrap justify-around gap-2 mt-8">
+                <a href="https://social.tech-coops.de/@turtlemail"
+                   class="w-12 h-12 transition-all hover:scale-110">{% include "turtlemail/icons/mastodon.jinja" %}</a>
+                <a href="https://t.me/turtlemail"
+                   class="w-12 h-12 transition-all hover:scale-110">{% include "turtlemail/icons/telegram.jinja" %}</a>
+                <a href="https://signal.group/#CjQKIKSp-j6maruhTr3cMZqVsOYyDMOhq1aeBvGX3-TaN9cFEhBeyAn-O6f5MvIaYsZO7Z0s"
+                   class="w-12 h-12 transition-all hover:scale-110">
+                    {% include "turtlemail/icons/signal_messenger.jinja" %}
+                </a>
+                <a href="https://matrix.to/#/#turtlemail:systemausfall.org"
+                   class="text-4xl font-bold tracking-tighter transition-all hover:scale-110">[m]</a>
+                {# Mail address is obfuscated to combat spam #}
+                {# djlint:off #}
+                <a href="m&#97;ilt&#111;&#58;%74e%6&#49;&#37;6D&#64;&#116;&#37;7&#53;&#114;&#37;74&#108;em%61&#105;l&#46;%6&#49;%7&#48;p"
+                   class="w-12 h-12 transition-all hover:scale-110">{% include "turtlemail/icons/email.jinja" %}</a>
+                {# djlint:on #}
+            </div>
+        </div>
+        <div class="flex-grow w-1/3 max-w-md">
+            <img src="{{ static("turtlemail/img/landing_page_illustration.svg") }}" alt="{{ _("Cartoon-style image of a smiling turtle carrying other animals on its back") }}" />
+        </div>
+    </section>
+    <div class="w-full h-8 mt-16 bg-primary mask-waves"></div>
+    <section class="flex flex-wrap-reverse items-center justify-center gap-16 px-4 py-12 md:px-8 bg-primary text-primary-content">
+        <div class="flex-grow w-1/3 max-w-lg overflow-hidden rounded-lg shadow-md aspect-square">
+            <img class="w-full" src="{{ static("turtlemail/img/screenshots/en/packet_detail.png") }}" alt="{{ _("Screenshot showing data for a delivery in the turtlemail app") }}">
+        </div>
+        <div class="max-w-md prose-lg">
+            <h2 class="text-3xl">{{ _("What makes turtlemail special?") }}</h2>
+            <ul class="list-disc">
+                <li>{{ _("Decentralized transport of letters and parcels without for-profit shipping companies") }}</li>
+                <li>{{ _("Reduced carbon emissions and costs by using existing journeys for deliveries") }}</li>
+                <li>{{ _("Become part of the turtlemail community and get to know new people") }}</li>
+                <li>
+                    <a href="https://git.hack-hro.de/turtlemail/turtlemail" class="link">{{ _("Transparent, open source licensed software") }}</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div class="bg-primary">
+        <div class="w-full h-8 bg-secondary mask-waves"></div>
+    </div>
+    <section class="flex flex-wrap items-center justify-center gap-16 px-4 py-12 md:px-8 bg-secondary text-secondary-content">
+        <div class="max-w-md prose-lg">
+            <h2 class="text-3xl">{{ _("Join the turtlemail experiment") }}</h2>
+            <p>
+                {% trans trimmed link="#" %}Help us to test our software. Learn more about the experiment <a class="link" href="{{ link }}">here</a>.{% endtrans %}
+            </p>
+            <a class="btn btn-lg btn-primary btn-wide" href="{{ url("signup") }}">{{ _("Create a free account") }}</a>
+        </div>
+        <div class="flex-grow w-1/3 max-w-lg overflow-hidden rounded-lg shadow-md aspect-[3/2]">
+            <img class="w-full" src="{{ static("turtlemail/img/screenshots/en/request.png") }}" alt="{{ _("Screenshot showing a request to make a delivery in the turtlemail app") }}">
+        </div>
+    </section>
+    <div class="bg-secondary">
+        <div class="w-full h-8 bg-accent mask-waves"></div>
+    </div>
+    <footer class="p-8 footer footer-center bg-accent text-accent-content">
+        <a href="https://www.bmbf.de">
+            <img src="{{ static("turtlemail/img/logo-bmbf.svg") }}" alt="{{ _("Funded by the Bundesministerium für Bildung und Forschung") }}" class="px-8 py-4 bg-white rounded">
+        </a>
+        <nav class="grid grid-flow-col gap-4">
+            <a href="#" class="link link-hover">{{ _("Imprint") }}</a>
+            <a href="#" class="link link-hover">{{ _("Privacy Policy") }}</a>
+            <a href="https://git.hack-hro.de/turtlemail/turtlemail"
+               class="link link-hover">{{ _("Source Code") }}</a>
+        </nav>
+    </footer>
+{% endblock %}

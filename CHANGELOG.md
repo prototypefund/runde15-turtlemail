@@ -2,7 +2,56 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2024-07-01
+
+[612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b)...[2f07b94](2f07b947abeebe414843fbd1853e919045d3a4aa)
+
+### #43
+
+- Rebase to main ([5d24285](5d24285469c79efe3478a4ffb2d59b4ef99e92b8))
+
+### Bug Fixes
+
+- Format an unformatted migration ([62773d0](62773d073f39a92e00c8ee9a951e6ea94a52fc49))
+- Re-order configuration settings ([879f259](879f259f1eb4651e88841c8d51d06f575d9c33b5))
+- Ensure TURTLEMAIL_MAX_ROUTE_LENGTH_DAYS is converted to the expected type ([16606e1](16606e197b620af11c010991dfc8901cd335c6d0))
+- Prevent users from sending a packet to themself ([f595031](f5950314fc9ffd11e703bc9c79ba2d323c9dd0e0))
+- Move static assets into django folder ([f80cf91](f80cf910ced857663c75283b8179970fbabea1e1))
+- Only use english-language screenshots for now ([340d111](340d111a094284cd1911b16caa280dae0486f5a4))
+- Disable ASGI lifespan protocol ([2049351](204935179c7ce2711d0514e6d77aee4e6c297a56))
+- Htmx.ts formatting ([87aa55b](87aa55b3d417c850bf5448c9f087189d0baf72ac))
+
+### Features
+
+- Use animal IDs for new packets ([00cbb24](00cbb2437d4a271202568784d430a82e190655a1))
+- Add german translations ([1725b76](1725b76d19f9d27f519f80d226cb5c6a0b81b53b))
+- Add new logo and custom color theme ([3c38344](3c38344fcb0ec10862dbfdf4d329788c76f88ead))
+- Add landing page ([7c8b7ec](7c8b7ec04958981c79669ff3666e32c27949f849))
+- Show a message on unknown errors ([cd2d5bf](cd2d5bf62d6b285e2e86aff0ab44d089b0b9f168))
+
+### Miscellaneous Tasks
+
+- Update instructions for releasing a version ([84eb322](84eb3220cb8ba62c64ab26cc5d06c63e617e57b4))
+- Fix request.user type for views requiring login ([407eff3](407eff3f4fc20e8e35bbf5d4a4a794f544b46bef))
+- Bump gitlabfilet ([f267534](f267534a3a1b168c6344085a418c8a0a546862db))
+- Add deployment to staging and production environments ([7bb4911](7bb491120bcb0fc86bae5c94478fa7499b6ec7fc))
+- Add makefile command for generating migrations ([aaf6742](aaf6742ce19461c2583a488bdf2978ae2948a802))
+- Configure prettier to match eslint formatting ([5eb510d](5eb510dd5e7e975ce0fdd375fcaae2069ce2eb9a))
+- Skip CI for commits starting with "wip:" ([98d06a5](98d06a5287672d98bca5a218ffdf2add92096f51))
+
+### Bump
+
+- Release v0.6.0 ([2f07b94](2f07b947abeebe414843fbd1853e919045d3a4aa))
+
 ## [0.5.0] - 2024-06-17
+
+[d65b6fa](d65b6fac5f655663f72b35a5f63986476bd35d8c)...[612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b)
+
+### #43
+
+- Sendungsverfolgung ([3ac30b0](3ac30b0cd299b1fc208d8eea0967c96eb228c42a))
+- Linting migration ([aaac360](aaac36020ebc6ed5f435bc0ab9d98fef4083fcdf))
+- Mr review ([7500104](7500104855113b37399f62c3352194dce4238c9b))
 
 ### Bug Fixes
 
@@ -60,6 +109,14 @@ All notable changes to this project will be documented in this file.
 - Remove obsolete TODO ([52cba50](52cba50696bb8570e6c0daa6324ad0245a4b5780))
 - Fix some typing errors ([6dda15c](6dda15c7c4288757f11e04c1f8265eaa6298a069))
 - Add small missing migration ([7f525a3](7f525a319809be2a975d9c4038b5a81d30af7ea5))
+
+### WIP
+
+- Sendungsverfolgung ([4ca1ee7](4ca1ee7f3bd712c6312dca0ea28d88f1b59f6efb))
+
+### Bump
+
+- Release v0.5.0 ([612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b))
 
 ## [0.4.0] - 2024-06-03
 

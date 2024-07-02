@@ -62,6 +62,7 @@ You can overwrite the sample data in `initial_data.yaml` with the contents of yo
 To help with writing Prototypefund "Monday" updates, we can generate a changelog every two weeks by releasing a new version:
 
 ```
+git fetch --tags
 VERSION=$(poetry run git-cliff --bumped-version)
 poetry run git-cliff --bump -o CHANGELOG.md
 # Update version in pyproject.toml
