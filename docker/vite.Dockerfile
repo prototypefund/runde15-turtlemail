@@ -1,4 +1,5 @@
 FROM node:lts-alpine
+USER root
 RUN mkdir /app
 RUN chown node:node /app
 USER node
