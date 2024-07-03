@@ -17,6 +17,7 @@ make dev
 # migrate database (requires running server)
 make migrate
 ```
+Visit http://localhost:8637/ and you should see the webapp.
 
 To use the pre-commit hooks, first [install poetry](https://python-poetry.org/docs/#installation). Then, install the pre-commit hooks:
 ```
