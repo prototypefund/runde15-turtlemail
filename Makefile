@@ -69,6 +69,7 @@ update-translations:
 	# Remove extra newline at end of file to make pre-commit checks happy
 	truncate -s -1 turtlemail/locale/de/LC_MESSAGES/django.po
 	rm turtlemail/locale/django.pot
+	./manage compilemessages
 
 .PHONY: fixtures
 fixtures: migrate
