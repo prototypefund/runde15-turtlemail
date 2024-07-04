@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2024-07-04
+
+### Bug Fixes
+
+- Vite container permissions ([4b940b3](4b940b3ead8ad37e123a37abd0877c34fb61df0e))
+- Allow running tag pipelines ([bf84053](bf840536c8dafff929e78e43743d3baf9634b32c))
+- Always run manually triggered pipelines ([a510fec](a510fec20bdf70b1a60ca13c649b0073ab5c0404))
+
+### Documentation
+
+- Add instruction for installing poetry dependencies ([a32dd1a](a32dd1afaf78dab3c04484f207a172e59f4e041a))
+
+### Miscellaneous Tasks
+
+- Update changelog ([9c1f28d](9c1f28dddbc09f8d232db66bc2df3516dcacbaf8))
+
+### Bump
+
+- Release v0.6.1 ([8190b5b](8190b5bc84dc472d347b9f1e025487ee5a0df2f6))
+
 ## [0.6.0] - 2024-07-01
 
 [612a6bc](612a6bc389f7375afaf4390a5a77b9de346a2d1b)...[2f07b94](2f07b947abeebe414843fbd1853e919045d3a4aa)
