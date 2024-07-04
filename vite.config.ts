@@ -2,13 +2,20 @@ import { URL, fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import svgLoader from 'vite-svg-loader'
+import inject from '@rollup/plugin-inject'
 
 export default defineConfig(({ mode }) => {
   return {
     base: mode === 'development' ? '/' : '/-/static/turtlemail/bundled/',
     clearScreen: false,
     publicDir: './src/public',
-    plugins: [svgLoader(), vue()],
+    plugins: [
+      svgLoader(),
+      vue(),
+      inject({
+       htmx: 'htmx.org'
+      })
+    ],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

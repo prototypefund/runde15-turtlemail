@@ -405,11 +405,10 @@ msgstr "Löschen"
 msgid "Add stay"
 msgstr "Aufenthalt hinzufügen"
 
-<<<<<<< HEAD
 #, fuzzy
 msgid "Communication"
 msgstr "Ort"
-=======
+
 msgid "Oops, that didn't work."
 msgstr "Huch, das hat nicht geklappt."
 
@@ -417,7 +416,6 @@ msgid "Please try again later, or contact the support team if that doesn't work.
 msgstr ""
 "Bitte versuche es später noch einmal, oder melde dich beim Support-Team, "
 "fals das auch nicht funktioniert."
->>>>>>> origin/main
 
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"

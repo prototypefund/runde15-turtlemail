@@ -1,0 +1,9 @@
+<div class="chat {% if user == msg.author %}chat-end{% else %}chat-start{% endif %}">
+  <div class="chat-header">
+    {{ msg.author }}
+    <time class="text-xs opacity-50">{{ msg.created_at|date }} {{ msg.created_at|time }}</time>
+  </div>
+  <div class="chat-bubble">{{ msg.content|safe }}</div>
+  <div class="chat-footer opacity-50">{% if user == msg.author and msg.status == "R" %}✓{% endif %}</div>
+</div>
+
