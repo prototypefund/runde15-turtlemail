@@ -1,0 +1,52 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% block content %}
+    <form hx-post="{{ url("htmx-update-location", pk=location.id) }}"
+          hx-target="#location_{{ location.id }}">
+        <tm-location-selector label="{{ form.point.label }}" lat="{{ location.point[1] }}" lng="{{ location.point[0] }}" id="{{ form.point.id_for_label }}" style="width: 100%; height: 500px; max-height: 70vh;" editable></tm-location-selector>
+        <div class="px-4">
+            <input type="hidden"
+                   name="{{ form.point.html_name }}"
+                   {% if form.point.value() != None %}value="{{ form.point.value() }}"{% endif %}>
+            {% for error in form.point.errors %}<p class="px-4 py-2 text-error">{{ error }}</p>{% endfor %}
+            <p class="py-2 text-sm text-base-content/80">{{ _("Click on the map to select a new location.") }}</p>
+            {% if location.accepted_dependent_route_steps().count() > 0 %}
+                <div class="alert alert-warning">
+                    {{ _("This location is planned for some of your deliveries. Making changes will cancel these plans.") }}
+                </div>
+            {% endif %}
+            {{ form.non_field_errors() }}
+            {% csrf_token %}
+            <div class="w-full">
+                {% with field=form.name, label=True %}
+                    {% include "turtlemail/fields/_text_field.jinja" %}
+                {% endwith %}
+            </div>
+            <div class="flex flex-wrap gap-2 py-4">
+                <button class="flex-grow btn btn-neutral btn-outline"
+                        hx-get="{{ url("htmx-location-detail", pk=location.id) }}"
+                        hx-swap="outerHTML">
+                    {# Add an invisible indicator to keep the save text centered... #}
+                    <span class="invisible loading"></span>
+                    {{ _("Cancel") }}
+                    <span class="loading htmx-indicator"></span>
+                </button>
+                <button class="flex-grow btn btn-primary">
+                    {# Add an invisible indicator to keep the save text centered... #}
+                    <span class="invisible loading"></span>
+                    {{ _("Save") }}
+                    <span class="loading htmx-indicator"></span>
+                </button>
+            </div>
+        </div>
+        <script type="module">
+            const pointInput = document.querySelector("input[name='{{form.point.html_name}}']");
+            const locationSelector = document.querySelector("tm-location-selector[label='{{form.point.label}}']");
+
+            locationSelector.addEventListener("change", (event) => {
+                let {lat, lng} = event.detail[0];
+
+                pointInput.value = `SRID={{form.point.field.srid}};POINT (${lng} ${lat})`;
+            })
+        </script>
+    </form>
+{% endblock %}

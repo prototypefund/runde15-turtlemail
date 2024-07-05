@@ -137,10 +137,11 @@ class Location(models.Model):
         stay_set: RelatedManager["Stay"]
 
     name = models.CharField(verbose_name=_("Name"), max_length=100)
-    is_home = models.BooleanField(verbose_name=_("Home"))
+    is_home = models.BooleanField(verbose_name=_("Home"), default=False)
     # Order: longitude, latitude (!)
     point = PointField(verbose_name=_("Location"), geography=True)
     user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _("Location")
@@ -148,6 +149,39 @@ class Location(models.Model):
 
     def __str__(self):
         return self.name
+
+    def accepted_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
+        """If their location is edited, these route steps will cause their routes to be recalculated. These steps should additionally show a warning before being edited."""
+        return RouteStep.objects.filter(
+            stay__location=self,
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+        )
+
+    def suggested_dependent_route_steps(
+        self,
+    ) -> QuerySet["RouteStep"]:
+        """If their location is edited, these route steps will cause their routes to be recalculated."""
+        return RouteStep.objects.filter(
+            stay__location=self, status=RouteStep.SUGGESTED, route__status=Route.CURRENT
+        )
+
+    def cancel_dependent_route_steps(self) -> Set["Route"]:
+        """Cancel all route steps with active routes that depend on this location. Return the set of routes that will need to be recalculated."""
+        routes_to_recalculate = set()
+        for step in self.accepted_dependent_route_steps():
+            step.set_status(RouteStep.CANCELLED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        for step in self.suggested_dependent_route_steps():
+            step.set_status(RouteStep.REJECTED)
+            step.save()
+            routes_to_recalculate.add(step.route)
+
+        return routes_to_recalculate
 
 
 class Stay(models.Model):
@@ -212,7 +246,7 @@ class Stay(models.Model):
 
     def mark_deleted(self):
         """
-        Set this stay as deleted, and reject its suggested route steps.
+        Set this stay as deleted and save it.
         """
         with transaction.atomic():
             self.deleted = True
