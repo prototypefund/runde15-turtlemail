@@ -22,7 +22,7 @@ msgid "Username"
 msgstr "Benutzername"
 
 msgid "E-mail"
-msgstr "E-mail"
+msgstr "E-Mail-Adresse"
 
 msgid "Password"
 msgstr "Kennwort"
@@ -31,10 +31,10 @@ msgid "Password confirmation"
 msgstr "Kennwortbestätigung"
 
 msgid "Sign Up"
-msgstr "Anmelden"
+msgstr "Registrieren"
 
 msgid "Log into an existing account"
-msgstr "In bestehendes Konto anmelden"
+msgstr "Mit bestehendem Konto anmelden"
 
 msgid "Log In"
 msgstr "Anmelden"
@@ -400,76 +400,83 @@ msgstr "Senden zu %(recipient)s"
 msgid "turtlemail"
 msgstr "turtlemail"
 
-#, fuzzy
 msgid "Sign up"
-msgstr "Anmelden"
+msgstr "Registrieren"
 
-#, fuzzy
 msgid "Log in"
 msgstr "Anmelden"
 
-#, fuzzy
 msgid "Delivered by Humans"
-msgstr "Zugestellt"
+msgstr "Delivered by Humans"
 
 msgid ""
 "Discover an innovative way to efficiently deliver and send your packages."
 " Our app connects users' journeys with deliveries of other users to "
 "create a self-organizing, decentralized peer-to-peer logistic solution."
 msgstr ""
+"Entdecke eine neue Art, Briefe und kleine Päckchen zu verschicken. Wir "
+"nennen sie Tierchen oder Pets. Du kannst jederzeit zur Turtle werden und "
+"dabei helfen, die Pets anderer Menschen ihrem Ziel näherzubringen. "
 
 msgid "Cartoon-style image of a smiling turtle carrying other animals on its back"
 msgstr ""
+"Comic-artiges Bild einer lächelnden Schildkröte, die andere Tiere auf "
+"ihrem Rücken trägt"
 
 msgid "Screenshot showing data for a delivery in the turtlemail app"
-msgstr ""
+msgstr "Bildschirmfoto mit Sendungsdaten in der turtlemail App"
 
 msgid "What makes turtlemail special?"
-msgstr ""
+msgstr "Was macht turtlemail besonders?"
 
 msgid ""
 "Decentralized transport of letters and parcels without for-profit "
 "shipping companies"
 msgstr ""
+"Selbstorganisierter, dezentraler Transport von Briefen und Päckchen "
+"(Pets) ohne Logistikkonzerne"
 
 msgid ""
 "Reduced carbon emissions and costs by using existing journeys for "
 "deliveries"
-msgstr ""
+msgstr "Emissionsarm und versandkostenfrei durch Nutzung bereits geplanter Fahrten"
 
 msgid "Become part of the turtlemail community and get to know new people"
 msgstr ""
+"Werde Teil der turtlemail-Community und triff dich mit Menschen aus "
+"deiner Umgebung für Übergaben."
 
 msgid "Transparent, open source licensed software"
-msgstr ""
+msgstr "Transparente, Freie und Open Source Software"
 
 msgid "Join the turtlemail experiment"
-msgstr ""
+msgstr "Mach mit beim turtlemail-Experiment"
 
 #, python-format
 msgid ""
 "Help us to test our software. Learn more about the experiment <a "
 "class=\"link\" href=\"%(link)s\">here</a>."
 msgstr ""
+"Hilf uns dabei, turtlemail zu testen. Mehr Informationen über das "
+"Experiment bekommst du <a class=\"link\" href=\"%(link)s\">hier</a>."
 
-#, fuzzy
 msgid "Create a free account"
-msgstr "Neues Konto erstellen"
+msgstr "Lege jetzt ein Benutzerkonto an"
 
 msgid "Screenshot showing a request to make a delivery in the turtlemail app"
-msgstr ""
+msgstr "Bildschirmfoto der turtlemail App mit einer Zustellungsanfrage"
 
 msgid "Funded by the Bundesministerium für Bildung und Forschung"
 msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
 
 msgid "Imprint"
-msgstr ""
+msgstr "Impressum"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Datenschutzerklärung"
 
 msgid "Source Code"
-msgstr ""
+msgstr "Quellcode"
 
 msgid "Send Invitation"
 msgstr "Einladung senden"
