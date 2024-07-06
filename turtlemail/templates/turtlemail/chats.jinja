@@ -13,12 +13,6 @@
         <div id="messages" class="h-full">
           <p class="font-bold text-center">{{ gettext("Click a chat from the list to agree upon package exchanges.") }}</p>
         </div>
-        <form>
-          <div class="join w-full">
-            <input class="input input-bordered join-item w-full" name="message" placeholder="{{ gettext('Message') }}" />
-            <button ws-send class="btn join-item rounded-r-full">{{ gettext("send") }}</button>
-          </div>
-        </form>
       </div>
       {% else %}
         <div class="w-full"><p class="font-bold text-center">{{ gettext("You haven\'t scheduled any package exchanges.") }}</p></div>

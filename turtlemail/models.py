@@ -14,6 +14,7 @@ from django.db.models import QuerySet
 from django.template.defaultfilters import date
 from django.utils import formats, timezone
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 from model_utils.managers import InheritanceManager
 
@@ -709,11 +710,16 @@ class ChatMessage(models.Model):
         default=StatusChoices.NEW,
     )
 
+    @property
+    def hashid(self):
+        return sqids.encode(self.pk)
+
+
     class Meta:
         verbose_name = _("Chat message")
         verbose_name_plural = _("Chat messages")
 
-        ordering = ["route_step", "-created_at"]
+        ordering = ["route_step", "created_at"]
 
 
 class SystemChatMessage(ChatMessage):

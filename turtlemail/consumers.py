@@ -15,15 +15,16 @@ class ChatConsumer(WebsocketConsumer):
 
     def connect(self):
         self.step_id = self.scope['url_route']['kwargs']['step_id']
-        self.group_name = f'chat_{self.room}'
-        self.room = RouteStep.objects.get(id=self.step_id)
+        self.step = RouteStep.objects.get(id=self.step_id)
+        self.group_name = f'chat_{str(self.step.pk)}'
         self.user = self.scope["user"]
 
-        # accept connection
-        self.accept()
+        # accept connection if the user is involved in this route step
+        if self.step.stay.user == self.user or self.step.next_step.stay.user == self.user:
+            self.accept()
 
-        # join the room/group
-        async_to_sync(self.channel_layer.group_add)(self.group_name, self.channel_name)
+            # join the chat + channel group
+            async_to_sync(self.channel_layer.group_add)(self.group_name, self.channel_name)
 
         # # user joined notification
         # html = get_template("partial/join.html").render(context={"user":self.user})
@@ -41,9 +42,23 @@ class ChatConsumer(WebsocketConsumer):
         if not text_data:
             return
         text_data_json = json.loads(text_data)
-        content = escape(text_data_json["message"]).replace("\\r\\n", "<br />").replace("\\n", "<br />")
-        step = RouteStep.objects.get(id=self.step_id)
-        message = UserChatMessage.objects.create(author=self.user, route_step=step, content=content)
+        content = escape(text_data_json["message"]).replace("\\r\\n", "<br />").replace("\\n", "<br />").strip()
+        if not content:
+            return
+        message = UserChatMessage.objects.create(author=self.user, route_step=self.step, content=content)
 
-        html = get_template("_chat_message.jinja").render(context={'msg': message})
+        async_to_sync(self.channel_layer.group_send)(
+            self.group_name,
+            {
+             "type": "chat_message",
+             "message": message,
+             }
+        )
+
+    def chat_message(self, event):
+        message = event["message"]
+        if self.user != message.author and message.status == UserChatMessage.StatusChoices.NEW:
+            message.status = UserChatMessage.StatusChoices.RECEIVED
+            message.save()
+        html = get_template("turtlemail/_chat_message.jinja").render(context={'msg': event["message"], "new_msg": True, "user": self.user})
         self.send(text_data=html)

@@ -42,7 +42,7 @@ from .forms import (
     RouteStepRequestForm,
     RouteStepRoutingForm,
 )
-from .models import ChatMessage, Invite, Stay, Route
+from .models import ChatMessage, Invite, Stay, Route, UserChatMessage
 
 
 class IndexView(TemplateView):
@@ -218,7 +218,7 @@ class ChatsView(LoginRequiredMixin, TemplateView):
                         status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
                         route__status=Route.CURRENT,
                         chatmessage__isnull=False,)
-        route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter)
+        route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter).distinct()
 
         # build a template usuable object, more readable version then list comprehension
         context["chat_list"] = []
@@ -260,6 +260,8 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
         context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object).select_subclasses()
+        # mark all foreign messages read
+        UserChatMessage.objects.filter(route_step=self.object).exclude(author=self.request.user).update(status=ChatMessage.StatusChoices.RECEIVED)
         return context
 
 

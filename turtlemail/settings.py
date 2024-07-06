@@ -267,6 +267,14 @@ HUEY = {
     },
 }
 
+# channels for websocket connections: chat, push notifications
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+SQIDS_SALT = get_env("SQIDS_SALT", default="something secure")
+
 # WARNING: don’t add configuration settings after this line
 try:
     sys.path.insert(0, "/etc/turtlemail")

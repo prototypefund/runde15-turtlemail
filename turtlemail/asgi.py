@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+# needs to be here -> startup race condition
+django_asgi_app = get_asgi_application()
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddlewareStack
@@ -19,7 +21,6 @@ from . import consumers
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "turtlemail.settings")
 
-django_asgi_app = get_asgi_application()
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
@@ -27,7 +28,7 @@ application = ProtocolTypeRouter({
     "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
             URLRouter([
-                re_path("chat/(?P<step_id>\w+)/$", consumers.ChatConsumer.as_asgi()),
+                re_path(r"ws/chat/(?P<step_id>\d+)/$", consumers.ChatConsumer.as_asgi()),
                 ])
             )
         ),
