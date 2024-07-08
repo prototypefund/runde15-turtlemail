@@ -30,7 +30,7 @@ from django.views.generic import (
 )
 from django.utils import formats
 
-import channels
+from channels.layers import get_channel_layer
 
 from turtlemail import routing
 from turtlemail.human_id import human_id
@@ -59,7 +59,7 @@ from .forms import (
     RouteStepRoutingForm,
 )
 
-channel_layer = channels.layers.get_channel_layer()
+channel_layer = get_channel_layer()
 
 
 class IndexView(TemplateView):
