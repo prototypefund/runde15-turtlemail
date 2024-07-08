@@ -14,7 +14,6 @@ from django.db.models import QuerySet
 from django.template.defaultfilters import date
 from django.utils import formats, timezone
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
 
 from model_utils.managers import InheritanceManager
 
@@ -574,9 +573,10 @@ class RouteStep(models.Model):
                         Happy turtlemailing!
                         """
                     ),
+                    status=ChatMessage.StatusChoices.RECEIVED,
                 )
         # delete chat messages
-        if self.status==self.COMPLETED:
+        if self.status == self.COMPLETED:
             ChatMessage.objects.filter(route_step=self).delete()
 
         return save
@@ -709,7 +709,6 @@ class ChatMessage(models.Model):
         choices=StatusChoices.choices,
         default=StatusChoices.NEW,
     )
-
 
     class Meta:
         verbose_name = _("Chat message")

@@ -1,7 +1,7 @@
 import datetime
 from typing import TYPE_CHECKING, Any
 from asgiref.sync import async_to_sync
-from django.contrib.gis.db.models import QuerySet
+from django.contrib.gis.db.models import Count
 from django.db.models import Q
 from urllib.parse import urlencode
 
@@ -14,7 +14,7 @@ from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
 from django.db import transaction
 from django.forms import BaseModelForm
-from django.http import HttpRequest, request
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -34,7 +34,17 @@ import channels
 
 from turtlemail import routing
 from turtlemail.human_id import human_id
-from turtlemail.models import DeliveryLog, Packet, RouteStep, User
+from turtlemail.models import (
+    DeliveryLog,
+    Packet,
+    RouteStep,
+    User,
+    ChatMessage,
+    Invite,
+    Stay,
+    Route,
+    UserChatMessage,
+)
 from turtlemail.types import AuthedHttpRequest
 
 from .forms import (
@@ -46,9 +56,9 @@ from .forms import (
     RouteStepRequestForm,
     RouteStepRoutingForm,
 )
-from .models import ChatMessage, Invite, Stay, Route, UserChatMessage, User
 
 channel_layer = channels.layers.get_channel_layer()
+
 
 class IndexView(TemplateView):
     template_name = "turtlemail/index.jinja"
@@ -212,7 +222,9 @@ class ChatsView(LoginRequiredMixin, TemplateView):
         request: AuthedHttpRequest
 
     @staticmethod
-    def get_chat_context(step: RouteStep, user: User, active=False, updated=False) -> dict:
+    def get_chat_context(
+        step: RouteStep, user: User, active=False, updated=False
+    ) -> dict:
         entry = {}
         entry["step_id"] = step.pk
         if step.stay.user == user:
@@ -228,27 +240,48 @@ class ChatsView(LoginRequiredMixin, TemplateView):
         return entry
 
     @staticmethod
-    def get_chat_list_context(user: User, active_chat=None, updated_chats=[]) -> list:
+    def get_chat_list_context(user: User, active_chat=None) -> list:
         # which chats are available is predicted bei the state of RouteSteps
-        giver_steps_filter = Q(stay__user=user,
-                        status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
-                        route__status=Route.CURRENT,
-                        next_step__isnull=False,
-                        chatmessage__isnull=False,)
-        receiver_steps_filter = Q(next_step__stay__user=user,
-                        status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
-                        route__status=Route.CURRENT,
-                        chatmessage__isnull=False,)
-        route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter).distinct()
-
+        giver_steps_filter = Q(
+            stay__user=user,
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+            next_step__isnull=False,
+            chatmessage__isnull=False,
+        )
+        receiver_steps_filter = Q(
+            next_step__stay__user=user,
+            status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
+            route__status=Route.CURRENT,
+            chatmessage__isnull=False,
+        )
+        route_steps = RouteStep.objects.filter(
+            giver_steps_filter | receiver_steps_filter
+        ).distinct()
+        updated_chats = route_steps.annotate(
+            new_messages=Count(
+                "chatmessage__userchatmessage",
+                filter=Q(chatmessage__status=ChatMessage.StatusChoices.NEW)
+                & ~Q(chatmessage__userchatmessage__author=user),
+            )
+        ).filter(new_messages__gt=0)
+        print(updated_chats)
+        for step in updated_chats:
+            print(step.new_messages)
         chat_list = []
         for step in route_steps:
-            entry = ChatsView.get_chat_context(step, user, active=True if step==active_chat else False, updated=True if step in updated_chats else False)
+            entry = ChatsView.get_chat_context(
+                step,
+                user,
+                active=True if step == active_chat else False,
+                updated=True if step in updated_chats else False,
+            )
             chat_list.append(entry)
         return chat_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # which chats have new messages?
         # build a template usuable object representing handover chats
         context["chat_list"] = self.get_chat_list_context(self.request.user)
 
@@ -260,7 +293,8 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
     View containing the chat history
     takes route_step pk as param
     """
-    model=RouteStep
+
+    model = RouteStep
     template_name = "turtlemail/_chat.jinja"
 
     if TYPE_CHECKING:
@@ -271,31 +305,39 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         only allowed if part of this route step
         """
         self.object: RouteStep = self.get_object()
-        return self.request.user == self.object.stay.user or self.request.user == self.object.next_step.stay.user
+        return (
+            self.request.user == self.object.stay.user
+            or self.request.user == self.object.next_step.stay.user
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
-        context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object).select_subclasses()
-        context["chat_list"] = ChatsView.get_chat_list_context(self.request.user, active_chat=self.object)
+        context["chat_msgs"] = ChatMessage.objects.filter(
+            route_step=self.object
+        ).select_subclasses()
+        context["chat_list"] = ChatsView.get_chat_list_context(
+            self.request.user, active_chat=self.object
+        )
         # mark all foreign messages read and update htmx ws
         messages_count = ChatMessage.objects.filter(route_step=self.object).count()
-        now_read_messages = UserChatMessage.objects.filter(route_step=self.object).exclude(author=self.request.user)
+        now_read_messages = UserChatMessage.objects.filter(
+            route_step=self.object
+        ).exclude(author=self.request.user)
         now_read_messages_count = now_read_messages.count()
         now_read_messages.update(status=ChatMessage.StatusChoices.RECEIVED)
         for message in now_read_messages:
             now_read_messages_count -= 1
             async_to_sync(channel_layer.group_send)(
-                f'chat_{str(self.object.pk)}',
+                f"chat_{str(self.object.pk)}",
                 {
-                 "type": "chat_message",
-                 "message": message,
-                 "index": messages_count-now_read_messages_count,
-                 "update": True,
-                 }
+                    "type": "chat_message",
+                    "message": message,
+                    "index": messages_count - now_read_messages_count,
+                    "update": True,
+                },
             )
         return context
-
 
 
 class HtmxCreateStayView(LoginRequiredMixin, CreateView):

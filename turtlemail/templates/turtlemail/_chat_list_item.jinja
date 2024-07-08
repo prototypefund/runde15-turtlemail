@@ -1,2 +1,9 @@
-<li id="chat{{chat.step_id}}"><a hx-get="{{ url("chat", chat.step_id) }}" hx-target="#messages" hx-swap="innerHTML" class="{% if chat.active %}font-bold{% endif %}">{{ chat.chat_title }}</a></li>
-
+{% if htmx %}<div hx-swap-oob="outerHTML:#chat{{ chat.step_id }}">{% endif %}
+    <li class="{% if chat.updated %}bg-slate-600{% endif %}"
+        id="chat{{ chat.step_id }}">
+        <a hx-get="{{ url("chat", chat.step_id) }}"
+           hx-target="#messages"
+           hx-swap="innerHTML"
+           class="{% if chat.active %}font-bold{% endif %}">{{ chat.chat_title }}</a>
+    </li>
+    {% if htmx %}</div>{% endif %}

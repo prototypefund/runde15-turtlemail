@@ -389,6 +389,13 @@ msgstr "Du wurdest zu turtlemail eingeladen!"
 msgid "Invite sent!"
 msgstr "Einladung gesendet!"
 
+msgid "Message"
+msgstr ""
+
+#, fuzzy
+msgid "send"
+msgstr "Versenden"
+
 msgid "Dismiss"
 msgstr "Ablehnen"
 
@@ -405,10 +412,6 @@ msgstr "Löschen"
 msgid "Add stay"
 msgstr "Aufenthalt hinzufügen"
 
-#, fuzzy
-msgid "Communication"
-msgstr "Ort"
-
 msgid "Oops, that didn't work."
 msgstr "Huch, das hat nicht geklappt."
 
@@ -416,6 +419,12 @@ msgid "Please try again later, or contact the support team if that doesn't work.
 msgstr ""
 "Bitte versuche es später noch einmal, oder melde dich beim Support-Team, "
 "fals das auch nicht funktioniert."
+
+msgid "Click a chat from the list to agree upon package exchanges."
+msgstr ""
+
+msgid "You haven't scheduled any package exchanges."
+msgstr ""
 
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"
@@ -504,6 +513,10 @@ msgstr ""
 
 msgid "Send Invitation"
 msgstr "Einladung senden"
+
+#, fuzzy
+msgid "Communication"
+msgstr "Ort"
 
 msgid "You're sending this delivery to"
 msgstr "Du sendest diese Lieferung an"
