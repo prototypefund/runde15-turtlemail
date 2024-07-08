@@ -1,6 +1,7 @@
 import datetime
 from typing import TYPE_CHECKING, Any
 from asgiref.sync import async_to_sync
+from django.contrib.gis.db.models import QuerySet
 from django.db.models import Q
 from urllib.parse import urlencode
 
@@ -45,7 +46,7 @@ from .forms import (
     RouteStepRequestForm,
     RouteStepRoutingForm,
 )
-from .models import ChatMessage, Invite, Stay, Route, UserChatMessage
+from .models import ChatMessage, Invite, Stay, Route, UserChatMessage, User
 
 channel_layer = channels.layers.get_channel_layer()
 
@@ -210,34 +211,46 @@ class ChatsView(LoginRequiredMixin, TemplateView):
     if TYPE_CHECKING:
         request: AuthedHttpRequest
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    @staticmethod
+    def get_chat_context(step: RouteStep, user: User, active=False, updated=False) -> dict:
+        entry = {}
+        entry["step_id"] = step.pk
+        if step.stay.user == user:
+            entry["chat_title"] = _(f"""
+                                    Package handover to {step.next_step.stay.user} on {formats.date_format(step.end)}
+                                    """)
+        else:
+            entry["chat_title"] = _(f"""
+                                    Package take over from {step.stay.user} on {formats.date_format(step.end)}
+                                    """)
+        entry["active"] = active
+        entry["updated"] = updated
+        return entry
+
+    @staticmethod
+    def get_chat_list_context(user: User, active_chat=None, updated_chats=[]) -> list:
         # which chats are available is predicted bei the state of RouteSteps
-        giver_steps_filter = Q(stay__user=self.request.user,
+        giver_steps_filter = Q(stay__user=user,
                         status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
                         route__status=Route.CURRENT,
                         next_step__isnull=False,
                         chatmessage__isnull=False,)
-        receiver_steps_filter = Q(next_step__stay__user=self.request.user,
+        receiver_steps_filter = Q(next_step__stay__user=user,
                         status__in=[RouteStep.ACCEPTED, RouteStep.ONGOING],
                         route__status=Route.CURRENT,
                         chatmessage__isnull=False,)
         route_steps = RouteStep.objects.filter(giver_steps_filter | receiver_steps_filter).distinct()
 
-        # build a template usuable object, more readable version then list comprehension
-        context["chat_list"] = []
+        chat_list = []
         for step in route_steps:
-            entry = {}
-            entry["step_id"] = step.pk
-            if step.stay.user == self.request.user:
-                entry["chat_title"] = _(f"""
-                                        Package handover to {step.next_step.stay.user} on {formats.date_format(step.end)}
-                                        """)
-            else:
-                entry["chat_title"] = _(f"""
-                                        Package take over from {step.stay.user} on {formats.date_format(step.end)}
-                                        """)
-            context["chat_list"].append(entry)
+            entry = ChatsView.get_chat_context(step, user, active=True if step==active_chat else False, updated=True if step in updated_chats else False)
+            chat_list.append(entry)
+        return chat_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # build a template usuable object representing handover chats
+        context["chat_list"] = self.get_chat_list_context(self.request.user)
 
         return context
 
@@ -257,13 +270,14 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         """
         only allowed if part of this route step
         """
-        self.object = self.get_object()
+        self.object: RouteStep = self.get_object()
         return self.request.user == self.object.stay.user or self.request.user == self.object.next_step.stay.user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
         context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object).select_subclasses()
+        context["chat_list"] = ChatsView.get_chat_list_context(self.request.user, active_chat=self.object)
         # mark all foreign messages read and update htmx ws
         messages_count = ChatMessage.objects.filter(route_step=self.object).count()
         now_read_messages = UserChatMessage.objects.filter(route_step=self.object).exclude(author=self.request.user)

@@ -2,13 +2,7 @@
 {% block content %}
     <div id="chats" class="w-full max-w-6xl flex flex-row">
       {% if chat_list %}
-      <div id="chat_list" class="w-80">
-        <ul class="menu bg-base-200 rounded-box w-full z-0">
-          {% for chat in chat_list %}
-          <li><a hx-get="{{ url("chat", chat.step_id) }}" hx-target="#messages" hx-swap="innerHTML">{{ chat.chat_title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
+      {% include "turtlemail/_chat_list.jinja" %}
       <div id="chat" class="w-full bg-white rounded flex flex-col h-screen">
         <div id="messages" class="h-full">
           <p class="font-bold text-center">{{ gettext("Click a chat from the list to agree upon package exchanges.") }}</p>
