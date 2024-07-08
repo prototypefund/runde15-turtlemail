@@ -10,14 +10,15 @@
                 </h1>
             </div>
             <div class="gap-2 navbar-end">
-                <a class="btn btn-sm btn-primary" href="{{ url("signup") }}">{{ _("Sign up") }}</a>
-                <a class="btn btn-sm btn-ghost" href="{{ url("login") }}">{{ _("Log in") }}</a>
+                {# Disabled until the experiment starts #}
+                {# <a class="btn btn-sm btn-primary" href="{{ url("signup") }}">{{ _("Sign up") }}</a> #}
+                {# <a class="btn btn-sm btn-ghost" href="{{ url("login") }}">{{ _("Log in") }}</a> #}
             </div>
         </div>
         <div class="z-10 w-full h-6 rotate-180 bg-base-100 mask-waves"></div>
     </div>
     <section class="flex flex-wrap items-center justify-center gap-16 px-4 mt-16 md:px-8">
-        <div class="prose-xl">
+        <div class="prose-xl scroll-mt-32" id="social-links-anchor">
             <h2 class="font-bold lg:text-5xl">{{ _("Delivered by Humans") }}</h2>
             <p class="max-w-md">
                 {{ _("Discover an innovative way to efficiently deliver and send your packages. Our app connects users' journeys with deliveries of other users to create a self-organizing, decentralized peer-to-peer logistic solution.") }}
@@ -67,10 +68,14 @@
     <section class="flex flex-wrap items-center justify-center gap-16 px-4 py-12 md:px-8 bg-secondary text-secondary-content">
         <div class="max-w-md prose-lg">
             <h2 class="text-3xl">{{ _("Join the turtlemail experiment") }}</h2>
+            <p>{% trans trimmed link="#" %}Help us to test our software. {% endtrans %}</p>
             <p>
-                {% trans trimmed link="#" %}Help us to test our software. Learn more about the experiment <a class="link" href="{{ link }}">here</a>.{% endtrans %}
+                {% trans %}The experiment will start soon. If you would like to take part, follow us <a class="link" href="#social-links-anchor">on social media</a> or
+                <a href="#social-links-anchor" class="link">write us a mail</a>
+                to get notified when we start!{% endtrans %}
             </p>
-            <a class="btn btn-lg btn-primary btn-wide" href="{{ url("signup") }}">{{ _("Create a free account") }}</a>
+            {# Disabled until the experiment starts #}
+            {# <a class="btn btn-lg btn-primary btn-wide" href="{{ url("signup") }}">{{ _("Create a free account") }}</a> #}
         </div>
         <div class="flex-grow w-1/3 max-w-lg overflow-hidden rounded-lg shadow-md aspect-[3/2]">
             <img class="w-full" src="{{ static("turtlemail/img/screenshots/en/request.png") }}" alt="{{ _("Screenshot showing a request to make a delivery in the turtlemail app") }}">

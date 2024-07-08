@@ -10,6 +10,8 @@ variables:
 
 workflow:
   rules:
+    # Run manually triggered pipelines
+    - if: $CI_PIPELINE_SOURCE == "web"
     # Skip if there's a wip commit
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_MESSAGE =~ /^wip:.*/'
       when: never
@@ -22,6 +24,8 @@ workflow:
       when: never
     # Run branch pipelines when there's no merge request open
     - if: $CI_COMMIT_BRANCH
+    # Run tag pipelines
+    - if: $CI_COMMIT_TAG
 
 default:
   tags:

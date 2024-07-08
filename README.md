@@ -23,6 +23,11 @@ To use the pre-commit hooks, first [install poetry](https://python-poetry.org/do
 poetry run pre-commit install
 ```
 
+Some commands (e.g. for generating translations and migrations) are run outside the docker container. To get the required dependencies, run
+```
+poetry install
+```
+
 Django commands should generally be executed locally with:
 
 ```

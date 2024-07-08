@@ -145,6 +145,12 @@ class StayForm(forms.ModelForm):
             self.add_error("start", _("The start date is required."))
 
 
+class LocationForm(forms.ModelForm):
+    class Meta:
+        model = Location
+        fields = ("name", "point")
+
+
 class RouteStepRequestForm(forms.Form):
     YES = "YES"
     NO = "NO"

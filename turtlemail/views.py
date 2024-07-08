@@ -44,12 +44,14 @@ from turtlemail.models import (
     Stay,
     Route,
     UserChatMessage,
+    Location,
 )
 from turtlemail.types import AuthedHttpRequest
 
 from .forms import (
     AuthenticationForm,
     InviteUserForm,
+    LocationForm,
     PacketForm,
     StayForm,
     UserCreationForm,
@@ -440,6 +442,109 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "turtlemail/profile.jinja"
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["locations"] = Location.objects.filter(
+            user=self.request.user, deleted=False
+        )
+        return context
+
+
+class HtmxCreateLocationView(LoginRequiredMixin, CreateView):
+    model = Location
+    template_name = "turtlemail/locations/create_form.jinja"
+    prefix = "create_location"
+    success_url = reverse_lazy("profile")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def get_form(self) -> BaseModelForm:
+        return LocationForm(**self.get_form_kwargs())
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        location = form.save()
+        return render(
+            self.request,
+            "turtlemail/locations/create_form_success.jinja",
+            {"location": location},
+        )
+
+
+class HtmxUpdateLocationView(LoginRequiredMixin, UpdateView):
+    model = Location
+    template_name = "turtlemail/locations/update_form.jinja"
+    success_url = reverse_lazy("profile")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def get_form(self) -> BaseModelForm:
+        return LocationForm(**self.get_form_kwargs())
+
+    def get_prefix(self):
+        return f"update_location_{self.get_object().id}"
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            location: Location = form.save()
+            routes_to_recalculate = location.cancel_dependent_route_steps()
+            for route in routes_to_recalculate:
+                routing.check_and_recalculate_route(route, datetime.date.today())
+
+            return render(
+                self.request,
+                "turtlemail/locations/detail.jinja",
+                {"location": location, "include_messages": True},
+            )
+
+
+class HtmxDeleteLocationView(LoginRequiredMixin, DeleteView):
+    model = Location
+    success_url = reverse_lazy("profile")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def delete(self, request: AuthedHttpRequest, *args, **kwargs):
+        with transaction.atomic():
+            location: Location = self.get_object()  # type: ignore
+            if location.accepted_dependent_route_steps().exists():
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    _(
+                        "There is a delivery relying on this location. It can't be deleted at the moment."
+                    ),
+                )
+                return render(
+                    request,
+                    "turtlemail/locations/detail.jinja",
+                    {"location": location, "include_messages": True},
+                )
+
+            location.deleted = True
+            location.save()
+            routes_to_recalculate = location.cancel_dependent_route_steps()
+            for route in routes_to_recalculate:
+                routing.check_and_recalculate_route(route, datetime.date.today())
+
+            messages.add_message(request, messages.INFO, _("Location deleted."))
+            return render(request, "turtlemail/htmx_response.jinja")
+
+
+class HtmxLocationDetailView(UserPassesTestMixin, DetailView):
+    model = Location
+    template_name = "turtlemail/locations/detail.jinja"
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest
+
+    def test_func(self):
+        location: Location = self.get_object()  # type: ignore
+        return location.user == self.request.user
 
 
 class SignUpView(CreateView):

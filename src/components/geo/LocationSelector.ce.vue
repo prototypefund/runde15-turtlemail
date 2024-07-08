@@ -7,6 +7,7 @@ const props = defineProps<{
   label?: string
   lat?: number
   lng?: number
+  editable?: boolean
 }>()
 const emit = defineEmits<{
   change: [GeoCoordinate]
@@ -31,6 +32,9 @@ watch([() => props.lat, () => props.lng], ([lat, lng]) => {
 })
 
 function updateLocation(newLocation: GeoCoordinate) {
+  if (!props.editable)
+    return
+
   location.value = newLocation
   emit('change', { ...newLocation })
 }
@@ -51,5 +55,10 @@ function updateLocation(newLocation: GeoCoordinate) {
   cursor: default;
 
   .leaflet-drag-target & { cursor: grab; }
+}
+
+/* Prevent the map from rendering on top of the navbar which has a z-index of 10 */
+.leaflet-container {
+  z-index: 0;
 }
 </style>

@@ -119,6 +119,8 @@ def get_earliest_estimated_handover(previous_handover: date, next_stay: Stay) ->
 def get_starting_stay(packet: Packet, calculation_date: date) -> Stay | None:
     # We'll pick the stay of the sender
     # that's closest to the current date
+    # TODO If the packet has already travelled part of the way,
+    # use its current location as a starting point
     is_active = models.Q(inactive_until__isnull=True) | models.Q(
         inactive_until__lt=calculation_date
     )
@@ -467,7 +469,6 @@ def check_and_recalculate_route(route: Route, starting_date: date) -> Route | No
     logger.info("Route %s is outdated. Looking for a new one", route)
 
     # We need a new route!
-    # TODO handle packets that have already completed some route steps
     route.status = Route.CANCELLED
     route.save()
     return create_new_route(route.packet, starting_date)

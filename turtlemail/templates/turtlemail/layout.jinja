@@ -2,7 +2,7 @@
 {% block body %}
     {% include "turtlemail/_messages.jinja" %}
     {% set url_name = request.resolver_match.url_name %}
-    <nav class="btm-nav lg:hidden">
+    <nav class="z-10 btm-nav lg:hidden">
         <a href="{{ url("deliveries") }}"
            {% if url_name == "deliveries" %}class="active"{% endif %}>
             <span class="btm-nav-label">{{ _("Deliveries") }}</span>
