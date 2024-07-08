@@ -710,10 +710,6 @@ class ChatMessage(models.Model):
         default=StatusChoices.NEW,
     )
 
-    @property
-    def hashid(self):
-        return sqids.encode(self.pk)
-
 
     class Meta:
         verbose_name = _("Chat message")

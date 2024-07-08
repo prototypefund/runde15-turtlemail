@@ -1,5 +1,6 @@
 import datetime
 from typing import TYPE_CHECKING, Any
+from asgiref.sync import async_to_sync
 from django.db.models import Q
 from urllib.parse import urlencode
 
@@ -28,6 +29,8 @@ from django.views.generic import (
 )
 from django.utils import formats
 
+import channels
+
 from turtlemail import routing
 from turtlemail.human_id import human_id
 from turtlemail.models import DeliveryLog, Packet, RouteStep, User
@@ -44,6 +47,7 @@ from .forms import (
 )
 from .models import ChatMessage, Invite, Stay, Route, UserChatMessage
 
+channel_layer = channels.layers.get_channel_layer()
 
 class IndexView(TemplateView):
     template_name = "turtlemail/index.jinja"
@@ -260,8 +264,22 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["user"] = self.request.user
         context["chat_msgs"] = ChatMessage.objects.filter(route_step=self.object).select_subclasses()
-        # mark all foreign messages read
-        UserChatMessage.objects.filter(route_step=self.object).exclude(author=self.request.user).update(status=ChatMessage.StatusChoices.RECEIVED)
+        # mark all foreign messages read and update htmx ws
+        messages_count = ChatMessage.objects.filter(route_step=self.object).count()
+        now_read_messages = UserChatMessage.objects.filter(route_step=self.object).exclude(author=self.request.user)
+        now_read_messages_count = now_read_messages.count()
+        now_read_messages.update(status=ChatMessage.StatusChoices.RECEIVED)
+        for message in now_read_messages:
+            now_read_messages_count -= 1
+            async_to_sync(channel_layer.group_send)(
+                f'chat_{str(self.object.pk)}',
+                {
+                 "type": "chat_message",
+                 "message": message,
+                 "index": messages_count-now_read_messages_count,
+                 "update": True,
+                 }
+            )
         return context
 
 

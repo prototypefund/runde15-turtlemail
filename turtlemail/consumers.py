@@ -3,7 +3,7 @@ from django.utils.html import escape
 from django.template.loader import get_template
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import RouteStep, UserChatMessage
+from .models import ChatMessage, RouteStep, UserChatMessage
 
 class ChatConsumer(WebsocketConsumer):
 
@@ -52,13 +52,32 @@ class ChatConsumer(WebsocketConsumer):
             {
              "type": "chat_message",
              "message": message,
+             "index": ChatMessage.objects.filter(route_step=self.step).count(),
+             "update": False
              }
         )
 
     def chat_message(self, event):
         message = event["message"]
+        # message receipt
         if self.user != message.author and message.status == UserChatMessage.StatusChoices.NEW:
+            index = ChatMessage.objects.filter(route_step=self.step).count()
             message.status = UserChatMessage.StatusChoices.RECEIVED
             message.save()
-        html = get_template("turtlemail/_chat_message.jinja").render(context={'msg': event["message"], "new_msg": True, "user": self.user})
+            async_to_sync(self.channel_layer.group_send)(
+                self.group_name,
+                {
+                 "type": "chat_message",
+                 "message": message,
+                 "index": index,
+                 "update": True,
+                 }
+            )
+        html = get_template("turtlemail/_chat_message.jinja").render(context={
+            'msg': event["message"],
+            "new_msg": not event["update"],
+            "update_msg": event["update"],
+            "user": self.user,
+            "index": event["index"],
+            })
         self.send(text_data=html)

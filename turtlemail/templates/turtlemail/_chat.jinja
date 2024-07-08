@@ -1,6 +1,7 @@
 <div hx-ext="ws" ws-connect="/ws/chat/{{ object.pk }}/">
 <div id="listofmsgs">
 {% for msg in chat_msgs %}
+{% set index=loop.index0 %}
 {% include "turtlemail/_chat_message.jinja" %}
 {% endfor %}
 </div>
