@@ -30,12 +30,14 @@ msgstr "Kennwort"
 msgid "Password confirmation"
 msgstr "Kennwortbestätigung"
 
+#, fuzzy
 msgid "Sign Up"
 msgstr "Registrieren"
 
 msgid "Log into an existing account"
 msgstr "Mit bestehendem Konto anmelden"
 
+#, fuzzy
 msgid "Log In"
 msgstr "Anmelden"
 
@@ -412,12 +414,6 @@ msgstr "Senden zu %(recipient)s"
 msgid "turtlemail"
 msgstr "turtlemail"
 
-msgid "Sign up"
-msgstr "Registrieren"
-
-msgid "Log in"
-msgstr "Anmelden"
-
 msgid "Delivered by Humans"
 msgstr "Delivered by Humans"
 
@@ -464,16 +460,21 @@ msgstr "Transparente, Freie und Open Source Software"
 msgid "Join the turtlemail experiment"
 msgstr "Mach mit beim turtlemail-Experiment"
 
-#, python-format
-msgid ""
-"Help us to test our software. Learn more about the experiment <a "
-"class=\"link\" href=\"%(link)s\">here</a>."
-msgstr ""
-"Hilf uns dabei, turtlemail zu testen. Mehr Informationen über das "
-"Experiment bekommst du <a class=\"link\" href=\"%(link)s\">hier</a>."
+msgid "Help us to test our software."
+msgstr "Hilf uns, turtlemail zu testen."
 
-msgid "Create a free account"
-msgstr "Lege jetzt ein Benutzerkonto an"
+msgid ""
+"The experiment will start soon. If you would like to take part, follow us"
+" <a class=\"link\" href=\"#social-links-anchor\">on social media</a> or\n"
+"                <a href=\"#social-links-anchor\" class=\"link\">write us "
+"a mail</a>\n"
+"                to get notified when we start!"
+msgstr ""
+"Das Experiment beginnt in Kürze. Wenn du über den Start informiert werden"
+" möchtest, folge uns <a class=\"link\" href=\"#social-links-anchor\"> auf"
+" unseren Social Media Kanälen</a> or\n"
+"                <a href=\"#social-links-anchor\" class=\"link\">oder "
+"schreib uns eine kurze E-Mail</a>"
 
 msgid "Screenshot showing a request to make a delivery in the turtlemail app"
 msgstr "Bildschirmfoto der turtlemail App mit einer Zustellungsanfrage"
@@ -661,3 +662,12 @@ msgstr "Du hast bis jetzt noch keine Orte angelegt."
 #~ "%(n). It is still %(distance) kilometers"
 #~ " from its destination.i"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Help us to test our software. "
+#~ "Learn more about the experiment <a "
+#~ "class=\"link\" href=\"%(link)s\">here</a>."
+#~ msgstr ""
+
+#~ msgid "Create a free account"
+#~ msgstr "Lege jetzt ein Benutzerkonto an"
