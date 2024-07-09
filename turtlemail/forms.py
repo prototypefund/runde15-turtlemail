@@ -238,6 +238,21 @@ class RouteStepRequestForm(forms.Form):
         self.step.stay.save()
 
 
+class RouteStepCancelForm(forms.Form):
+    def __init__(self, instance: RouteStep, *args, **kwargs) -> None:
+        self.step = instance
+        self.prefix = f"request-cancel-{instance.id}"
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        if self.step.status not in [RouteStep.ACCEPTED, RouteStep.ONGOING]:
+            raise ValidationError(_("This handover cannot be changed anymore."))
+
+    def save(self):
+        self.step.set_status(RouteStep.CANCELLED)
+        self.step.save()
+
+
 class RouteStepRoutingForm(forms.Form):
     class Choices(models.TextChoices):
         YES = "YES", "Yes"

@@ -1,4 +1,5 @@
 import datetime
+from logging import debug
 import secrets
 from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
@@ -414,6 +415,28 @@ class Packet(models.Model):
 
         return self.Status.DELIVERING
 
+    def get_current_route_step(self) -> "RouteStep | None":
+        """Get the RouteStep the packet currently resides at."""
+
+        debug("Looking for current stay of packet %s", self)
+
+        # Find the last route the packet used.
+        last_route = self.all_routes.order_by("-created_at").first()
+        if last_route is None:
+            debug("Found no last route. Packet is still with the sender.")
+            return None
+
+        # Walk through steps one by one to find the last one that
+        # was not completed
+        step = last_route.steps.filter(previous_step__isnull=True).first()
+        while step is not None:
+            if step.status != step.COMPLETED:
+                debug("Found first incomplete routing step: %s", step)
+                return step
+            step = step.next_step
+
+        return None
+
 
 class Route(models.Model):
     CURRENT = "CURRENT"
@@ -435,6 +458,7 @@ class Route(models.Model):
         on_delete=models.CASCADE,
         related_name="all_routes",
     )
+    created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
 
     class Meta:
         verbose_name = _("Route")
@@ -520,6 +544,14 @@ class RouteStep(models.Model):
         verbose_name_plural = _("Route Steps")
 
         ordering = ["start", "end"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["route"],
+                condition=models.Q(status="ONGOING"),
+                name="only_one_ongoing_step_per_route",
+            )
+        ]
 
     def get_overlapping_date_range(
         self, other: Self | None

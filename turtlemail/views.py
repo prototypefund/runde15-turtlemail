@@ -12,7 +12,7 @@ from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
 from django.db import transaction
 from django.forms import BaseModelForm
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -37,6 +37,7 @@ from .forms import (
     InviteUserForm,
     LocationForm,
     PacketForm,
+    RouteStepCancelForm,
     StayForm,
     UserCreationForm,
     RouteStepRequestForm,
@@ -156,6 +157,36 @@ class HtmxUpdateRouteStepRequestView(UserPassesTestMixin, TemplateView):
             return response
         else:
             return self.render_to_response({"form": form})
+
+
+class HtmxRouteStepCancelView(UserPassesTestMixin, View):
+    def test_func(self) -> bool | None:
+        step = RouteStep.objects.select_related(
+            "stay", "previous_step", "next_step"
+        ).get(id=self.kwargs.get("pk"))
+        return step.stay.user == self.request.user
+
+    def post(self, request, pk):
+        step = RouteStep.objects.get(id=pk)
+        form = RouteStepCancelForm(step, self.request)
+        if form.is_valid():
+            form.save()
+
+            old_route = step.route
+            routing.check_and_recalculate_route(
+                old_route, starting_date=datetime.date.today()
+            )
+
+            messages.success(request, _("Handover cancelled."))
+        else:
+            for err in form.errors:
+                messages.error(request, err)
+            for err in form.non_field_errors():
+                messages.error(request, err)
+
+        response = HttpResponse()
+        response["HX-Redirect"] = reverse("packet_detail", args=[step.packet.human_id])
+        return response
 
 
 class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):

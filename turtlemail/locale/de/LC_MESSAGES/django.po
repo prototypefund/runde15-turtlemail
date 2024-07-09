@@ -84,15 +84,15 @@ msgstr "Dieses Datum muss gleich oder vor dem Enddatum sein."
 msgid "This date is required."
 msgstr "Dieses Datum ist notwendig."
 
+msgid "This handover cannot be changed anymore."
+msgstr "Diese Übergabe kann nicht mehr verändert werden."
+
 msgid ""
 "If there has been a problem, please describe what went wrong and our "
 "support team will try to resolve it."
 msgstr ""
 "Falls es ein Problem gab, beschreibe es bitte. Unser Support-Team wird "
 "dich kontaktieren, um eine Lösung zu finden."
-
-msgid "This handover cannot be changed anymore."
-msgstr "Diese Übergabe kann nicht mehr verändert werden."
 
 msgid "The email must be set."
 msgstr "Die E-Mail Adresse muss gewählt werden."
@@ -243,6 +243,10 @@ msgstr "Lieferungen"
 msgid "Status"
 msgstr "Status"
 
+#, fuzzy
+msgid "Datetime"
+msgstr "Datumzeit"
+
 msgid "Route"
 msgstr "Route"
 
@@ -314,10 +318,6 @@ msgstr "Es konnten keine Reisepläne gefunden werden"
 msgid "Packet arrived at new location"
 msgstr ""
 
-#, fuzzy
-msgid "Datetime"
-msgstr "Datumzeit"
-
 msgid "Action Choices"
 msgstr "Aktionenauswahl"
 
@@ -363,6 +363,10 @@ msgstr "Deutsch"
 
 msgid "English"
 msgstr "Englisch"
+
+#, fuzzy
+msgid "Handover cancelled."
+msgstr "Storniert"
 
 msgid ""
 "There is a delivery relying on this stay. It can't be deleted at the "
@@ -554,14 +558,17 @@ msgstr ""
 "Es wurde ein Problem mit dieser Übergabe gemeldet. Das Support-Team wird "
 "sich per E-mail bei dir melden, um eine Lösung zu finden."
 
+msgid "Cancel this handover"
+msgstr "Diese Übergabe absagen"
+
 msgid "Respond to this suggestion"
 msgstr "Auf diesen Vorschlag antworten"
 
 msgid "Update handover status"
-msgstr ""
+msgstr "Übergabestatus aktualisieren"
 
 msgid "You're not involved in the current travel plans for this delivery."
-msgstr "Du bist nicht involviert in die aktuellen Reisepläne für diese Lieferung."
+msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant."
 
 msgid "Activity"
 msgstr "Aktivität"
