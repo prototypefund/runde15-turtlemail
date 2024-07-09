@@ -57,8 +57,26 @@
                                 <strong>{{ date_description }}</strong>:
                                 {{ _("Hand over to %(name)s", name=step.next_step.stay.user.username) }}
                             </p>
+                            {% if step.status == step.ONGOING %}
+                                <p class="text-base-content/80">
+                                    {{ _("Once handed over, %(name)s will report this step as completed on their side.", name=step.next_step.stay.user.username) }}
+                                </p>
+                            {% endif %}
+                        {% endif %}
+                        {% if step.status == step.PROBLEM_REPORTED or step.next_step.status == step.PROBLEM_REPORTED %}
+                            <p class="text-base-content/80">
+                                {{ _("There was a problem reported with this handover. The support team will reach out to you via email to find a solution.") }}
+                            </p>
                         {% endif %}
                     </div>
+                    {% if step.status in [step.ACCEPTED, step.ONGOING] %}
+                        <form action="{{ url("route_step_cancel", pk=step.id) }}"
+                              method="post"
+                              hx-boost="true"
+                              hx-push-url="false">
+                            <button class="w-full join-item btn">{{ _("Cancel this handover") }}</button>
+                        </form>
+                    {% endif %}
                     {% if step.status == step.SUGGESTED %}
                         <a href="{{ url("update_route_step_request", pk=step.id) }}?on_packet_detail_page=true"
                            hx-target="#route_step_request_box"

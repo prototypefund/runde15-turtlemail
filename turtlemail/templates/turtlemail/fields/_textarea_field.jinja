@@ -1,0 +1,9 @@
+<label class="form-control">
+    <div class="label">
+        <span class="label-text">{{ field.label }}</span>
+    </div>
+    <textarea type="{{ field.type }}" name="{{ field.html_name }}" class="textarea textarea-bordered h-24 {{ "input-error" if field.errors|length > 0 }}">
+                {%- if field.value() -%}{{ field.value() }}{%- endif -%}
+    </textarea>
+    {% for error in field.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
+</label>

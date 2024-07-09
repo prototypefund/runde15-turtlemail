@@ -45,7 +45,10 @@
                 <legend class="mb-2">{{ _("Did you receive this package?") }}</legend>
                 {% for error in form.choice.errors %}<p class="text-error">{{ error }}</p>{% endfor %}
                 {{ choice_radio(form.Choices.YES, _("Yes") ) }}
-                {{ choice_radio(form.Choices.NO, _("No, there has been a problem") ) }}
+                {{ choice_radio(form.Choices.REPORT_PROBLEM, _("No, there has been a problem") ) }}
+                {% with field=form.problem_description %}
+                    {% include "turtlemail/fields/_textarea_field.jinja" %}
+                {% endwith %}
                 <div class="flex gap-2 mt-8">
                     <button class="btn btn-success grow" type="submit">{{ _("Send") }}</button>
                 </div>

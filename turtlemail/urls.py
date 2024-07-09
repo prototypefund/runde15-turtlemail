@@ -38,6 +38,11 @@ urlpatterns = [
         name="update_route_step_request",
     ),
     path(
+        "htmx/cancel-route-step/<int:pk>",
+        views.HtmxRouteStepCancelView.as_view(),
+        name="route_step_cancel",
+    ),
+    path(
         "htmx/update-routing/<int:pk>",
         views.HtmxUpdateRouteStepRoutingView.as_view(),
         name="update_route_step_routing",
