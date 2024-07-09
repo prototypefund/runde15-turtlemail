@@ -1,6 +1,9 @@
 import datetime
+from typing import Any
 
 from django import forms
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.forms import (
     AuthenticationForm as _AuthenticationForm,
@@ -10,6 +13,8 @@ from django.contrib.auth.forms import (
     UsernameField,
 )
 from django.forms import ValidationError
+from django.http import HttpRequest
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -236,17 +241,37 @@ class RouteStepRequestForm(forms.Form):
 class RouteStepRoutingForm(forms.Form):
     class Choices(models.TextChoices):
         YES = "YES", "Yes"
-        NO = "NO", "No"
+        REPORT_PROBLEM = "REPORT_PROBLEM", "No"
+        # TODO add a way to just cancel the step here as well
 
     choice = forms.ChoiceField(
         choices=Choices.choices,
         widget=forms.RadioSelect,
     )
+    problem_description = forms.CharField(
+        widget=forms.Textarea,
+        required=False,
+        label=_(
+            "If there has been a problem, please describe what went wrong and our support team will try to resolve it."
+        ),
+    )
 
-    def __init__(self, instance: RouteStep, *args, **kwargs) -> None:
+    def __init__(
+        self, instance: RouteStep, request: HttpRequest, *args, **kwargs
+    ) -> None:
         self.step = instance
+        self.request = request
         self.prefix = f"request-{instance.id}"
         super().__init__(*args, **kwargs)
+
+    def clean(self) -> dict[str, Any]:
+        if self.step.status not in [
+            RouteStep.ACCEPTED,
+            RouteStep.ONGOING,
+        ]:
+            raise ValidationError(_("This handover cannot be changed anymore."))
+
+        return super().clean()
 
     def save(self):
         match self.cleaned_data["choice"]:
@@ -263,9 +288,24 @@ class RouteStepRoutingForm(forms.Form):
                     self.step.set_status(RouteStep.COMPLETED)
                     self.step.next_step.set_status(RouteStep.ONGOING)
                     self.step.next_step.save()
-            case self.Choices.NO:
-                # tbd: handle failed handovers
-                assert NotImplemented
+            case self.Choices.REPORT_PROBLEM:
+                mail_text = render_to_string(
+                    "turtlemail/emails/report_problem.jinja",
+                    {
+                        "packet_url": self.request.build_absolute_uri(
+                            reverse("packet_detail", args=[self.step.packet.human_id])
+                        ),
+                        "problem_description": self.cleaned_data["problem_description"],
+                    },
+                )
+                send_mail(
+                    subject="User reported a problem with a turtlemail devliery",
+                    message=mail_text,
+                    from_email=None,
+                    recipient_list=[settings.SUPPORT_EMAIL],
+                )
+
+                self.step.set_status(RouteStep.PROBLEM_REPORTED)
+                self.step.save()
 
         self.step.save()
-        self.step.stay.save()

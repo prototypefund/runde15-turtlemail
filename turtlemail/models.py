@@ -457,6 +457,7 @@ class RouteStep(models.Model):
     ONGOING = "ONGOING"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    PROBLEM_REPORTED = "REPORTED_PROBLEM"
 
     STATUS_CHOICES = [
         (SUGGESTED, _("Suggested")),
@@ -465,6 +466,7 @@ class RouteStep(models.Model):
         (ONGOING, _("Ongoing")),
         (COMPLETED, _("Completed")),
         (CANCELLED, _("Cancelled")),
+        (PROBLEM_REPORTED, _("Problem reported")),
     ]
 
     if TYPE_CHECKING:
@@ -517,7 +519,7 @@ class RouteStep(models.Model):
         verbose_name = _("Route Step")
         verbose_name_plural = _("Route Steps")
 
-        ordering = ["start"]
+        ordering = ["start", "end"]
 
     def get_overlapping_date_range(
         self, other: Self | None
@@ -652,6 +654,10 @@ class DeliveryLog(models.Model):
                 description = _("A user rejected a proposed journey for this delivery")
             elif self.new_step_status == RouteStep.ACCEPTED:
                 description = _("A user confirmed their journey for this delivery")
+            elif self.new_step_status == RouteStep.PROBLEM_REPORTED:
+                description = _(
+                    "A user reported a problem that needs to be addressed by the support team"
+                )
 
         if (
             self.action == self.PACKET_CHANGED_LOCATION

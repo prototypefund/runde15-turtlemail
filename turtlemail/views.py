@@ -70,7 +70,7 @@ class DeliveriesView(LoginRequiredMixin, ListView):
         queryset = queryset.filter(
             Q(sender=self.request.user) | Q(recipient=self.request.user)
         ).distinct()
-        queryset = queryset.union(user_routed_packages).order_by("created_at")
+        queryset = queryset.union(user_routed_packages).order_by("-created_at")
 
         return queryset
 
@@ -86,12 +86,13 @@ class DeliveriesView(LoginRequiredMixin, ListView):
         ]
         routing_steps = RouteStep.objects.filter(
             previous_step__status=RouteStep.ONGOING,
+            status=RouteStep.ACCEPTED,
             stay__user=self.request.user,
             route__status=Route.CURRENT,
         )
         context["routing_forms"] = [
             RouteStepRoutingForm(
-                step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+                step, self.request, initial={"choice": RouteStepRoutingForm.Choices.YES}
             )
             for step in routing_steps
         ]
@@ -172,7 +173,7 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
             "stay", "previous_step", "next_step"
         ).get(id=pk)
         form = RouteStepRoutingForm(
-            step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+            step, self.request, initial={"choice": RouteStepRoutingForm.Choices.YES}
         )
         context = {
             "form": form,
@@ -187,6 +188,7 @@ class HtmxUpdateRouteStepRoutingView(UserPassesTestMixin, TemplateView):
         ).get(id=pk)
         form = RouteStepRoutingForm(
             step,
+            self.request,
             initial={"choice": RouteStepRoutingForm.Choices.YES},
             data=request.POST,
         )

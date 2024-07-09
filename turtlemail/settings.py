@@ -175,6 +175,7 @@ if smtp_url := get_env("EMAIL_SMTP", default=None):
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = get_env("EMAIL_DEFAULT_FROM", default="noreply@turtlemail.app")
+SUPPORT_EMAIL = get_env("SUPPORT_EMAIL", default="team@turtlemail.app")
 
 ASSET_SOURCE = get_env("ASSET_SOURCE", default=None)
 VITE_HOST = get_env("VITE_HOST", default="localhost")
