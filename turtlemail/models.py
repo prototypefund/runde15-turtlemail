@@ -634,11 +634,13 @@ class RouteStep(models.Model):
             for step in self.route.steps.all():
                 system_message = SystemChatMessage()
                 system_message.route_step = step
-                system_message.message_type = SystemChatMessage.SystemMessages.NEW_HANDOVER_CHAT
+                system_message.message_type = (
+                    SystemChatMessage.SystemMessages.NEW_HANDOVER_CHAT
+                )
                 system_message.content = {
-                        "date": step.end,
-                        "location": str(step.stay.location)
-                        }
+                    "date": step.end,
+                    "location": str(step.stay.location),
+                }
                 system_message.status = ChatMessage.StatusChoices.RECEIVED
                 system_message.save()
         # delete chat messages
@@ -791,15 +793,21 @@ class SystemChatMessage(ChatMessage):
     DATE_SERIALIZATION_FORMAT = "%Y-%m-%d"
 
     class SystemMessages(models.IntegerChoices):
-        NEW_HANDOVER_CHAT = 1, _("""
+        NEW_HANDOVER_CHAT = (
+            1,
+            _("""
                         Hello,<br />
                         this chat was created for you to agree on the details of a delivery handover.
                         Be excellent and careful with personal data.<br />
                         Handover is planned on {date} and location {location}.<br />
                         Happy turtlemailing!
-                                 """)
+                                 """),
+        )
 
-    message_type = models.IntegerField(choices=SystemMessages.choices, verbose_name=_("Identifier of predefined system messages"))
+    message_type = models.IntegerField(
+        choices=SystemMessages.choices,
+        verbose_name=_("Identifier of predefined system messages"),
+    )
     content_data = models.TextField(verbose_name="System message data context")
 
     # override of content field with dynamic localized data
@@ -811,34 +819,42 @@ class SystemChatMessage(ChatMessage):
             if value["type"] == "str":
                 format_data[key] = value["data"]
             elif value["type"] == "ts":
-                format_data[key] = formats.date_format(datetime.datetime.strptime(value["data"], self.TS_SERIALIZATION_FORMAT))
+                format_data[key] = formats.date_format(
+                    datetime.datetime.strptime(
+                        value["data"], self.TS_SERIALIZATION_FORMAT
+                    )
+                )
             elif value["type"] == "date":
-                format_data[key] = formats.date_format(datetime.datetime.strptime(value["data"], self.DATE_SERIALIZATION_FORMAT).date())
+                format_data[key] = formats.date_format(
+                    datetime.datetime.strptime(
+                        value["data"], self.DATE_SERIALIZATION_FORMAT
+                    ).date()
+                )
 
         return self.get_message_type_display().format(**format_data)
+
     @content.setter
     def content(self, data: dict):
         # serialize format data to CharField
         serializable = {}
         for key, value in data.items():
             if type(value) == str:
-                serializable[key] = {
-                        "data": value,
-                        "type": "str"
-                        }
+                serializable[key] = {"data": value, "type": "str"}
             # we need dates seperate to localize them on display
             elif type(value) == datetime.datetime:
                 serializable[key] = {
-                        "data": value.strftime(self.TS_SERIALIZATION_FORMAT),
-                        "type": "ts",
-                        }
+                    "data": value.strftime(self.TS_SERIALIZATION_FORMAT),
+                    "type": "ts",
+                }
             elif type(value) == datetime.date:
                 serializable[key] = {
-                        "data": value.strftime(self.DATE_SERIALIZATION_FORMAT),
-                        "type": "date",
-                        }
+                    "data": value.strftime(self.DATE_SERIALIZATION_FORMAT),
+                    "type": "date",
+                }
             else:
-                raise ValueError("Only strings and timestamps are allowed as system message content")
+                raise ValueError(
+                    "Only strings and timestamps are allowed as system message content"
+                )
         self.content_data = json.dumps(serializable)
 
     @property
