@@ -84,6 +84,16 @@ msgstr "Dieses Datum muss gleich oder vor dem Enddatum sein."
 msgid "This date is required."
 msgstr "Dieses Datum ist notwendig."
 
+msgid "This handover cannot be changed anymore."
+msgstr "Diese Übergabe kann nicht mehr verändert werden."
+
+msgid ""
+"If there has been a problem, please describe what went wrong and our "
+"support team will try to resolve it."
+msgstr ""
+"Falls es ein Problem gab, beschreibe es bitte. Unser Support-Team wird "
+"dich kontaktieren, um eine Lösung zu finden."
+
 msgid "The email must be set."
 msgstr "Die E-Mail Adresse muss gewählt werden."
 
@@ -233,6 +243,10 @@ msgstr "Lieferungen"
 msgid "Status"
 msgstr "Status"
 
+#, fuzzy
+msgid "Datetime"
+msgstr "Datumzeit"
+
 msgid "Route"
 msgstr "Route"
 
@@ -256,6 +270,9 @@ msgstr "Erledigt"
 
 msgid "Cancelled"
 msgstr "Storniert"
+
+msgid "Problem reported"
+msgstr "Problem gemeldet"
 
 msgid "Previous Step"
 msgstr "Vorheriger Schritt"
@@ -301,10 +318,6 @@ msgstr "Es konnten keine Reisepläne gefunden werden"
 msgid "Packet arrived at new location"
 msgstr ""
 
-#, fuzzy
-msgid "Datetime"
-msgstr "Datumzeit"
-
 msgid "Action Choices"
 msgstr "Aktionenauswahl"
 
@@ -326,6 +339,9 @@ msgstr "Ein Benutzer hat eine vorgeschlagene Reise für diese Lieferung abgelehn
 
 msgid "A user confirmed their journey for this delivery"
 msgstr "Ein Benutzer hat seine Reise für diese Lieferung bestätigt"
+
+msgid "A user reported a problem that needs to be addressed by the support team"
+msgstr "Jemand hat ein Problem mit dieser Übergabe an das Support-Team gemeldet"
 
 msgid "The delivery has reached its destination."
 msgstr ""
@@ -374,6 +390,10 @@ msgstr "Deutsch"
 
 msgid "English"
 msgstr "Englisch"
+
+#, fuzzy
+msgid "Handover cancelled."
+msgstr "Storniert"
 
 msgid ""
 "There is a delivery relying on this stay. It can't be deleted at the "
@@ -567,14 +587,32 @@ msgstr "Abholung von %(name)s"
 msgid "Hand over to %(name)s"
 msgstr "Übergeben an %(name)s"
 
+#, python-format
+msgid ""
+"Once handed over, %(name)s will report this step as completed on their "
+"side."
+msgstr ""
+"Sobald die Übergabe erfolgt ist, wird %(name)s diesen Schritt als "
+"abgeschlossen markieren."
+
+msgid ""
+"There was a problem reported with this handover. The support team will "
+"reach out to you via email to find a solution."
+msgstr ""
+"Es wurde ein Problem mit dieser Übergabe gemeldet. Das Support-Team wird "
+"sich per E-mail bei dir melden, um eine Lösung zu finden."
+
+msgid "Cancel this handover"
+msgstr "Diese Übergabe absagen"
+
 msgid "Respond to this suggestion"
 msgstr "Auf diesen Vorschlag antworten"
 
 msgid "Update handover status"
-msgstr ""
+msgstr "Übergabestatus aktualisieren"
 
 msgid "You're not involved in the current travel plans for this delivery."
-msgstr "Du bist nicht involviert in die aktuellen Reisepläne für diese Lieferung."
+msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant."
 
 msgid "Activity"
 msgstr "Aktivität"
@@ -628,6 +666,12 @@ msgid ""
 "Cheers,\n"
 "the turtlemail team"
 msgstr "Das turtlemail Team"
+
+msgid "This is the user's description of the problem:"
+msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"
+
+msgid "Link to the delivery:"
+msgstr "Link zur Sendung:"
 
 #, fuzzy
 msgid "Carry"

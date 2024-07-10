@@ -82,3 +82,8 @@ test:
 .PHONY: dump-fixtures
 dump-fixtures:
 	$(COMPOSE) exec backend turtlemailctl dumpdata --format yaml --natural-foreign --natural-primary --exclude auth --exclude contenttypes --exclude sessions > turtlemail/fixtures/initial_data.yaml
+
+.PHONY: format
+format:
+	poetry run djlint turtlemail/templates/**/*.jinja
+	poetry run ruff format turtlemail

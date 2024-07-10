@@ -117,10 +117,13 @@ def get_earliest_estimated_handover(previous_handover: date, next_stay: Stay) ->
 
 
 def get_starting_stay(packet: Packet, calculation_date: date) -> Stay | None:
+    # If the packet has already travelled part of the way, use its
+    # current stay as a starting point
+    if (current_step := packet.get_current_route_step()) is not None:
+        return current_step.stay
+
     # We'll pick the stay of the sender
     # that's closest to the current date
-    # TODO If the packet has already travelled part of the way,
-    # use its current location as a starting point
     is_active = models.Q(inactive_until__isnull=True) | models.Q(
         inactive_until__lt=calculation_date
     )
