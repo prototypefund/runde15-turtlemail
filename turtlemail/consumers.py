@@ -130,7 +130,6 @@ class ChatConsumer(WebsocketConsumer):
         """
         inform clients about updates in chats, that they are not actively reading
         """
-        print(1)
         step = event["step"]
         # does this broadcast concern us?
         if (
@@ -138,7 +137,6 @@ class ChatConsumer(WebsocketConsumer):
         ) or self.step == step:
             # no? do nothing
             return
-        print(2)
         # let's swap the list item (even if swapped already) This is traffic vs db load here.
         chat = ChatsView.get_chat_context(step, self.user, updated=True)
         html = get_template("turtlemail/_chat_list_item.jinja").render(

@@ -267,9 +267,6 @@ class ChatsView(LoginRequiredMixin, TemplateView):
                 & ~Q(chatmessage__userchatmessage__author=user),
             )
         ).filter(new_messages__gt=0)
-        print(updated_chats)
-        for step in updated_chats:
-            print(step.new_messages)
         chat_list = []
         for step in route_steps:
             entry = ChatsView.get_chat_context(

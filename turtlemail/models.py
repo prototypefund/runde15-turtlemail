@@ -1,8 +1,10 @@
+import json
 import datetime
 import secrets
 from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -596,19 +598,15 @@ class RouteStep(models.Model):
             # tbd: We miss multilingual system chat messages! Currently a chat is always in the language of the user
             #      confirming the last route step
             for step in self.route.steps.all():
-                SystemChatMessage.objects.create(
-                    route_step=step,
-                    content=_(
-                        f"""
-                        Hello,<br />
-                        this chat was created for you to agree on the details of a package handover.
-                        Be excellent and careful with personal data.<br />
-                        Handover is planed on {formats.date_format(step.end)} and location {step.stay.location}.<br />
-                        Happy turtlemailing!
-                        """
-                    ),
-                    status=ChatMessage.StatusChoices.RECEIVED,
-                )
+                system_message = SystemChatMessage()
+                system_message.route_step = step
+                system_message.message_type = SystemChatMessage.SystemMessages.NEW_HANDOVER_CHAT
+                system_message.content = {
+                        "date": step.end,
+                        "location": str(step.stay.location)
+                        }
+                system_message.status = ChatMessage.StatusChoices.RECEIVED
+                system_message.save()
         # delete chat messages
         if self.status == self.COMPLETED:
             ChatMessage.objects.filter(route_step=self).delete()
@@ -735,7 +733,6 @@ class ChatMessage(models.Model):
     route_step = models.ForeignKey(
         RouteStep, verbose_name=_("RouteStep context"), on_delete=models.CASCADE
     )
-    content = models.TextField(verbose_name=_("Message content"))
     # status to provide a read feedback
     status = models.CharField(
         max_length=2,
@@ -752,6 +749,60 @@ class ChatMessage(models.Model):
 
 
 class SystemChatMessage(ChatMessage):
+    TS_SERIALIZATION_FORMAT = "%Y-%m-%d %H:%M:%S"
+    DATE_SERIALIZATION_FORMAT = "%Y-%m-%d"
+
+    class SystemMessages(models.IntegerChoices):
+        NEW_HANDOVER_CHAT = 1, _("""
+                        Hello,<br />
+                        this chat was created for you to agree on the details of a delivery handover.
+                        Be excellent and careful with personal data.<br />
+                        Handover is planned on {date} and location {location}.<br />
+                        Happy turtlemailing!
+                                 """)
+
+    message_type = models.IntegerField(choices=SystemMessages.choices, verbose_name=_("Identifier of predefined system messages"))
+    content_data = models.TextField(verbose_name="System message data context")
+
+    # override of content field with dynamic localized data
+    @property
+    def content(self):
+        data = json.loads(self.content_data)
+        format_data = {}
+        for key, value in data.items():
+            if value["type"] == "str":
+                format_data[key] = value["data"]
+            elif value["type"] == "ts":
+                format_data[key] = formats.date_format(datetime.datetime.strptime(value["data"], self.TS_SERIALIZATION_FORMAT))
+            elif value["type"] == "date":
+                format_data[key] = formats.date_format(datetime.datetime.strptime(value["data"], self.DATE_SERIALIZATION_FORMAT).date())
+
+        return self.get_message_type_display().format(**format_data)
+    @content.setter
+    def content(self, data: dict):
+        # serialize format data to CharField
+        serializable = {}
+        for key, value in data.items():
+            if type(value) == str:
+                serializable[key] = {
+                        "data": value,
+                        "type": "str"
+                        }
+            # we need dates seperate to localize them on display
+            elif type(value) == datetime.datetime:
+                serializable[key] = {
+                        "data": value.strftime(self.TS_SERIALIZATION_FORMAT),
+                        "type": "ts",
+                        }
+            elif type(value) == datetime.date:
+                serializable[key] = {
+                        "data": value.strftime(self.DATE_SERIALIZATION_FORMAT),
+                        "type": "date",
+                        }
+            else:
+                raise ValueError("Only strings and timestamps are allowed as system message content")
+        self.content_data = json.dumps(serializable)
+
     @property
     def author(self):
         return _("Turtlemail system")
@@ -764,6 +815,7 @@ class UserChatMessage(ChatMessage):
     author = models.ForeignKey(
         User, verbose_name=_("Message author"), on_delete=models.RESTRICT
     )  # we need to make sure, that no user self delete, removes evidence
+    content = models.TextField(verbose_name=_("Message content"))
 
     def is_system_msg(self):
         return False
