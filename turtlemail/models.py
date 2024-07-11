@@ -5,7 +5,6 @@ import secrets
 from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
 from django.contrib.gis.db.models import PointField
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -838,15 +837,15 @@ class SystemChatMessage(ChatMessage):
         # serialize format data to CharField
         serializable = {}
         for key, value in data.items():
-            if type(value) == str:
+            if isinstance(value, str):
                 serializable[key] = {"data": value, "type": "str"}
             # we need dates seperate to localize them on display
-            elif type(value) == datetime.datetime:
+            elif isinstance(value, datetime.datetime):
                 serializable[key] = {
                     "data": value.strftime(self.TS_SERIALIZATION_FORMAT),
                     "type": "ts",
                 }
-            elif type(value) == datetime.date:
+            elif isinstance(value, datetime.date):
                 serializable[key] = {
                     "data": value.strftime(self.DATE_SERIALIZATION_FORMAT),
                     "type": "date",

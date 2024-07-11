@@ -12,13 +12,13 @@ import os
 from django.core.asgi import get_asgi_application
 
 # needs to be here -> startup race condition
-django_asgi_app = get_asgi_application()
-from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.security.websocket import AllowedHostsOriginValidator
-from channels.auth import AuthMiddlewareStack
-from django.urls import re_path
+django_asgi_app = get_asgi_application() # noqa: E402
+from channels.routing import ProtocolTypeRouter, URLRouter # noqa: E402
+from channels.security.websocket import AllowedHostsOriginValidator # noqa: E402
+from channels.auth import AuthMiddlewareStack # noqa: E402
+from django.urls import re_path # noqa: E402
 
-from . import consumers
+from . import consumers # noqa: E402
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "turtlemail.settings")
 
