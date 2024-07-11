@@ -369,13 +369,26 @@ msgstr "Empfangen"
 msgid "RouteStep context"
 msgstr "Route Schritt"
 
-msgid "Message content"
-msgstr ""
-
 msgid "Chat message"
 msgstr ""
 
 msgid "Chat messages"
+msgstr ""
+
+msgid ""
+"\n"
+"                        Hello,<br />\n"
+"                        this chat was created for you to agree on the "
+"details of a delivery handover.\n"
+"                        Be excellent and careful with personal data.<br "
+"/>\n"
+"                        Handover is planned on {date} and location "
+"{location}.<br />\n"
+"                        Happy turtlemailing!\n"
+"                                 "
+msgstr ""
+
+msgid "Identifier of predefined system messages"
 msgstr ""
 
 #, fuzzy
@@ -383,6 +396,9 @@ msgid "Turtlemail system"
 msgstr "turtlemail"
 
 msgid "Message author"
+msgstr ""
+
+msgid "Message content"
 msgstr ""
 
 msgid "German"

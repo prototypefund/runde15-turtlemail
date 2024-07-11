@@ -13,8 +13,8 @@ export default defineConfig(({ mode }) => {
       svgLoader(),
       vue(),
       inject({
-       htmx: 'htmx.org'
-      })
+        htmx: 'htmx.org',
+      }),
     ],
     resolve: {
       alias: {
