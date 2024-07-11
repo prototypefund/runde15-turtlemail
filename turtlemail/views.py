@@ -374,7 +374,7 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
 
 class HtmxCreateStayView(LoginRequiredMixin, CreateView):
     model = Stay
-    template_name = "turtlemail/_stays_create_form.jinja"
+    template_name = "turtlemail/stays/create_form.jinja"
     prefix = "create_stay"
     success_url = reverse_lazy("stays")
 
@@ -388,13 +388,15 @@ class HtmxCreateStayView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         stay = form.save()
         return render(
-            self.request, "turtlemail/_stays_create_form_success.jinja", {"stay": stay}
+            self.request,
+            "turtlemail/stays/create_form_success.jinja",
+            {"stay": stay},
         )
 
 
 class HtmxStayDetailView(UserPassesTestMixin, DetailView):
     model = Stay
-    template_name = "turtlemail/_stay_detail.jinja"
+    template_name = "turtlemail/stays/detail.jinja"
 
     if TYPE_CHECKING:
         request: AuthedHttpRequest
@@ -406,7 +408,7 @@ class HtmxStayDetailView(UserPassesTestMixin, DetailView):
 
 class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
     model = Stay
-    template_name = "turtlemail/_stays_update_form.jinja"
+    template_name = "turtlemail/stays/update_form.jinja"
     success_url = reverse_lazy("stays")
 
     if TYPE_CHECKING:
@@ -428,7 +430,7 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
 
             return render(
                 self.request,
-                "turtlemail/_stay_detail.jinja",
+                "turtlemail/stays/detail.jinja",
                 {"stay": stay, "include_messages": True},
             )
 
@@ -457,7 +459,7 @@ class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
                 )
                 return render(
                     request,
-                    "turtlemail/_stay_detail.jinja",
+                    "turtlemail/stays/detail.jinja",
                     {"stay": stay, "include_messages": True},
                 )
 
@@ -478,6 +480,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context["locations"] = Location.objects.filter(
             user=self.request.user, deleted=False
         )
+        context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
         return context
 
 

@@ -1,8 +1,0 @@
-{% extends "turtlemail/htmx_response.jinja" %}
-{% block content %}
-    <div id="stay_{{ stay.id }}">{% include "turtlemail/_stay_detail.jinja" %}</div>
-    <button type="button"
-            hx-get="{{ url("htmx-create-stay") }}"
-            hx-swap="outerHTML"
-            class="my-4 btn btn-primary btn-sm">{{ _("Add stay") }}</button>
-{% endblock %}

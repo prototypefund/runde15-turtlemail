@@ -85,6 +85,5 @@ dump-fixtures:
 
 .PHONY: format
 format:
-	poetry run djlint turtlemail/templates/**/*.jinja
 	poetry run djlint --reformat turtlemail/templates/**/*.jinja
 	poetry run ruff format turtlemail

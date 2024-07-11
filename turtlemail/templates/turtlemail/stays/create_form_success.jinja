@@ -1,0 +1,5 @@
+{% extends "turtlemail/htmx_response.jinja" %}
+{% block content %}
+    <div id="stay_{{ stay.id }}">{% include "turtlemail/stays/detail.jinja" %}</div>
+    {% include "turtlemail/stays/create_button.jinja" %}
+{% endblock %}

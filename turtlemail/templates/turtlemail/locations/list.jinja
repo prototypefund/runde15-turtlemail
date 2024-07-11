@@ -4,7 +4,6 @@
         {% for location in locations %}
             {% include "turtlemail/locations/detail.jinja" %}
         {% endfor %}
-        {% if locations|length == 0 %}<p>{{ _("You don't have any locations yet.") }}</p>{% endif %}
         {% include "turtlemail/locations/create_button.jinja" %}
     </div>
 </div>

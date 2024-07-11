@@ -124,7 +124,9 @@ class InviteUserForm(forms.ModelForm):
 class StayForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fields["location"].queryset = Location.objects.filter(user=user)
+        self.fields["location"].queryset = Location.objects.filter(
+            user=user, deleted=False
+        )
 
     class Meta:
         model = Stay
