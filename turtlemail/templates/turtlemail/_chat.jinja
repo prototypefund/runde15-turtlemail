@@ -1,12 +1,10 @@
 <div hx-ext="ws" ws-connect="/ws/chat/{{ object.pk }}/">
-<div id="listofmsgs">
-{% for msg in chat_msgs %}
-{% set index=loop.index0 %}
-{% include "turtlemail/_chat_message.jinja" %}
-{% endfor %}
+    <div id="listofmsgs">
+        {% for msg in chat_msgs %}
+            {% set index = loop.index0 %}
+            {% include "turtlemail/_chat_message.jinja" %}
+        {% endfor %}
+    </div>
+    {% include "turtlemail/_chat_form.jinja" %}
 </div>
-{% include "turtlemail/_chat_form.jinja" %}
-</div>
-<div hx-swap-oob="outerHTML:#chat_list">
-{% include "turtlemail/_chat_list.jinja" %}
-</div>
+<div hx-swap-oob="outerHTML:#chat_list">{% include "turtlemail/_chat_list.jinja" %}</div>

@@ -1,15 +1,24 @@
-{% if new_msg %}<div hx-swap-oob="beforeend:#listofmsgs">
-{% elif update_msg %}<div hx-swap-oop="outerHTML:#msg{{ index }}"{% endif %}
-<div id="msg{{ index }}" class="chat {% if user == msg.author %}chat-end{% else %}chat-start{% endif %}">
-  <div class="chat-header">
-    {{ msg.author }}
-    <time class="text-xs opacity-50">{{ msg.created_at|date }} {{ msg.created_at|time }}</time>
-  </div>
-  <div class="chat-bubble">{{ msg.content|safe }}</div>
-  <div class="chat-footer opacity-50">{% if user == msg.author %}✓{% if msg.status == "R" %}✓{% endif %}{% endif %}</div>
-</div>
-{% if new_msg %}</div>
-<div hx-swap-oob="outerHTML:#msg_form">
-{% include "turtlemail/_chat_form.jinja" %}
-</div>
-{% endif %}
+{% if new_msg %}
+    <div hx-swap-oob="beforeend:#listofmsgs">
+    {% elif update_msg %}
+        <div hx-swap-oop="outerHTML:#msg{{ index }}"
+             {% endif %}
+             div
+             id="msg{{ index }}"
+             class="chat {% if user == msg.author %}chat-end{% else %}chat-start{% endif %}">
+            <div class="chat-header">
+                {{ msg.author }}
+                <time class="text-xs opacity-50">{{ msg.created_at|date }} {{ msg.created_at|time }}</time>
+            </div>
+            <div class="chat-bubble">{{ msg.content|safe }}</div>
+            <div class="chat-footer opacity-50">
+                {% if user == msg.author %}
+                    ✓
+                    {% if msg.status == "R" %}✓{% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if new_msg %}
+        </div>
+        <div hx-swap-oob="outerHTML:#msg_form">{% include "turtlemail/_chat_form.jinja" %}</div>
+    {% endif %}
