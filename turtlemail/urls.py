@@ -16,7 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.contrib.auth.views import LogoutView
 
 from turtlemail import views
@@ -103,4 +103,5 @@ urlpatterns = [
         views.HtmxDeleteStayView.as_view(),
         name="htmx-delete-stay",
     ),
+    path("pages/", include("django.contrib.flatpages.urls")),
 ]
