@@ -1,7 +1,11 @@
-<div id="chat_list" class="w-80">
-    <ul class="menu bg-base-200 rounded-box w-full z-0">
+<div id="chat_list"
+     hx-swap-oob="outerHTML"
+     class="absolute z-10 flex flex-col items-center h-full overflow-hidden bg-base-100 -left-72 w-80">
+    <ul class="flex-grow menu">
         {% for chat in chat_list %}
             {% include "turtlemail/_chat_list_item.jinja" %}
         {% endfor %}
     </ul>
+    <button class="btn-sm btn btn-circle"
+            onclick="this.parentNode.classList.toggle('left-0')">></button>
 </div>

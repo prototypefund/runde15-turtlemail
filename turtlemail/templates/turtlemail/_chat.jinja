@@ -1,5 +1,8 @@
-<div hx-ext="ws" ws-connect="/ws/chat/{{ object.pk }}/">
-    <div id="listofmsgs">
+<div hx-ext="ws"
+     ws-connect="/ws/chat/{{ object.pk }}/"
+     class="relative flex flex-col h-full">
+    <div id="listofmsgs"
+         class="flex-grow p-2 overflow-y-auto md:p-4 rounded-tr-box bg-base-100">
         {% for msg in chat_msgs %}
             {% set index = loop.index0 %}
             {% include "turtlemail/_chat_message.jinja" %}
@@ -7,4 +10,4 @@
     </div>
     {% include "turtlemail/_chat_form.jinja" %}
 </div>
-<div hx-swap-oob="outerHTML:#chat_list">{% include "turtlemail/_chat_list.jinja" %}</div>
+{% include "turtlemail/_chat_list.jinja" %}

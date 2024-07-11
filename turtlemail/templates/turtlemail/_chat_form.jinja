@@ -1,9 +1,10 @@
 <form id="msg_form">
-    <div class="join w-full">
+    <div class="w-full join">
         <input required
-               class="input input-bordered join-item w-full"
+               class="w-full rounded-tl-none rounded-bl-box input input-bordered join-item"
                name="message"
                placeholder="{{ gettext("Message") }}" />
-        <button ws-send class="btn join-item rounded-r-full">{{ gettext("send") }}</button>
+        <button ws-send
+                class="rounded-t-none rounded-br-box btn btn-secondary join-item">{{ gettext("send") }}</button>
     </div>
 </form>
