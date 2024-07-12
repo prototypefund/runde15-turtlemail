@@ -1,18 +1,19 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div class="flex justify-center"
+    <div class="flex justify-center w-full"
          style="height: calc(100svh - (32 * 0.25rem))">
-        <div id="chats" class="flex flex-row items-stretch w-full max-w-6xl">
+        <div id="chats"
+             class="relative flex items-stretch overflow-hidden rounded-box">
             {% if chat_list %}
                 {% include "turtlemail/_chat_list.jinja" %}
-                <div id="chat" class="flex flex-col w-full max-h-full">
+                <div id="chat" class="flex flex-col flex-grow max-h-full">
                     <div id="messages" class="h-full">
                         <p class="p-8 font-bold text-center">{{ gettext("Click a chat from the list to agree upon package exchanges.") }}</p>
                     </div>
                 </div>
             {% else %}
                 <div class="w-full">
-                    <p class="font-bold text-center">{{ gettext("You haven't scheduled any package exchanges.") }}</p>
+                    <p class="font-bold text-center">{{ gettext("You're currently not involved in any deliveries.") }}</p>
                 </div>
             {% endif %}
         </div>

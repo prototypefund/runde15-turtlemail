@@ -9,7 +9,7 @@
         </a>
         <a href="{{ url("chats") }}"
            {% if url_name == "chats" %}class="active"{% endif %}>
-            <span class="btm-nav-label">{{ _("Communication") }}</span>
+            <span class="btm-nav-label">{{ _("Messages") }}</span>
         </a>
         <a href="{{ url("profile") }}"
            {% if url_name == "profile" %}class="active"{% endif %}>
@@ -30,7 +30,7 @@
                 </li>
                 <li>
                     <a href="{{ url("chats") }}"
-                       {% if url_name == "chats" %}class="focus"{% endif %}>{{ _("Communication") }}</a>
+                       {% if url_name == "chats" %}class="focus"{% endif %}>{{ _("Messages") }}</a>
                 </li>
             </ul>
         </div>

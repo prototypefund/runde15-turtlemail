@@ -436,39 +436,19 @@ msgstr "Du wurdest zu turtlemail eingeladen!"
 msgid "Invite sent!"
 msgstr "Einladung gesendet!"
 
+#, fuzzy, python-format
+msgid "%(action)s"
+msgstr "In der Nähe von %(location)s"
+
 msgid "Message"
 msgstr ""
 
+#, fuzzy
+msgid "send"
+msgstr "Versenden"
+
 msgid "Dismiss"
 msgstr "Ablehnen"
-
-#, python-format
-msgid "Will not be included in any deliveries until %(date)s"
-msgstr "Nicht in jeglichen Lieferungen inkludiert bis %(date)s"
-
-msgid "Edit"
-msgstr "Bearbeiten"
-
-msgid "Delete"
-msgstr "Löschen"
-
-#, fuzzy
-msgid "Save"
-msgstr "Aktiv"
-
-msgid "Add stay"
-msgstr "Aufenthalt hinzufügen"
-
-msgid ""
-"This stay is planned for some of your deliveries. Making changes will "
-"cancel these plans."
-msgstr ""
-"Dieser Auftenthalt ist für Lieferungen eingeplant. Wenn du ihn änderst, "
-"wird deine Mithilfe bei diesen Lieferungen abgesagt."
-
-#, fuzzy
-msgid "Cancel"
-msgstr "Stornieren"
 
 msgid "Oops, that didn't work."
 msgstr "Huch, das hat nicht geklappt."
@@ -481,8 +461,8 @@ msgstr ""
 msgid "Click a chat from the list to agree upon package exchanges."
 msgstr ""
 
-msgid "You haven't scheduled any package exchanges."
-msgstr ""
+msgid "You're currently not involved in any deliveries."
+msgstr "Du bist zur Zeit an keinen Lieferungen beteiligt."
 
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"
@@ -730,6 +710,10 @@ msgstr "Nein, aber ich werde zu anderer Zeit an diesem Ort sein, und zwar:"
 msgid "We'll create a new stay for these dates."
 msgstr "Wir werden einen neuen Aufenthalt für diese Daten anlegen."
 
+#, fuzzy
+msgid "Cancel"
+msgstr "Stornieren"
+
 msgid "Send"
 msgstr "Versenden"
 
@@ -783,6 +767,9 @@ msgstr "Mitnehmen"
 msgid "Mastodon"
 msgstr ""
 
+msgid "Menu"
+msgstr "Menü"
+
 msgid "Ready to ship"
 msgstr "Bereit zum Versand"
 
@@ -802,12 +789,15 @@ msgstr "Ort hinzufügen"
 msgid "Click on the map to select a location."
 msgstr "Klicke auf die Karte, um einen Ort auszuwählen."
 
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Delete"
+msgstr "Löschen"
+
 #, fuzzy
 msgid "Your locations"
 msgstr "Deine Orte"
-
-msgid "You don't have any locations yet."
-msgstr "Du hast bis jetzt noch keine Orte angelegt."
 
 msgid "Click on the map to select a new location."
 msgstr "Klick auf die Karte, um einen neuen Ort auszuwählen."
@@ -818,6 +808,24 @@ msgid ""
 msgstr ""
 "Dieser Ort ist für Lieferungen eingeplant. Wenn du ihn änderst, wird "
 "deine Mithilfe bei diesen Lieferungen abgesagt."
+
+#, fuzzy
+msgid "Save"
+msgstr "Aktiv"
+
+msgid "Add stay"
+msgstr "Aufenthalt hinzufügen"
+
+#, python-format
+msgid "Will not be included in any deliveries until %(date)s"
+msgstr "Nicht in jeglichen Lieferungen inkludiert bis %(date)s"
+
+msgid ""
+"This stay is planned for some of your deliveries. Making changes will "
+"cancel these plans."
+msgstr ""
+"Dieser Auftenthalt ist für Lieferungen eingeplant. Wenn du ihn änderst, "
+"wird deine Mithilfe bei diesen Lieferungen abgesagt."
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"
@@ -891,3 +899,6 @@ msgstr ""
 
 #~ msgid "Imprint"
 #~ msgstr "Impressum"
+
+#~ msgid "You don't have any locations yet."
+#~ msgstr "Du hast bis jetzt noch keine Orte angelegt."
