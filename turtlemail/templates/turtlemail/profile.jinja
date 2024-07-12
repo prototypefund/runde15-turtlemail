@@ -17,5 +17,15 @@
             </div>
         </div>
         {% include "turtlemail/locations/list.jinja" %}
+        <footer class="flex justify-center p-4 bg-base-100 rounded-box">
+            <ul class="flex flex-wrap items-center mt-3 text-sm font-medium sm:mt-0">
+                <li>
+                    <a href="{{ url("legal") }}" class="hover:underline me-4 md:me-6">{{ gettext("Legal Notice") }}</a>
+                </li>
+                <li>
+                    <a href="{{ url("privacy") }}" class="hover:underline me-4 md:me-6">{{ gettext("Privacy Policy") }}</a>
+                </li>
+            </ul>
+        </footer>
     </div>
 {% endblock %}

@@ -177,3 +177,18 @@ further and more extensive information.
 
 You can put a custom Django configuration with the name `settings.py`
 in `/etc/turtlemail` on the filesystem. It will be loaded automatically.
+
+## Administration
+
+### Imprint, Privacy Policy etc.
+
+To create pages with static content, use the django admin interface to create "Flat Pages". The system will link to these paths:
+
+- "/pages/legal/"
+- "/pages/privacy/"
+- "/pages/experiment/"
+
+You can use HTML to format your content.
+When creating the pages, in the advanced options enter "flatpages/default.jinja" as the template name.
+
+These pages do not support translations at the moment.

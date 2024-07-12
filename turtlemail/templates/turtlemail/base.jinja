@@ -9,7 +9,7 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta name="theme-color" content="#00543A">
         <link rel="manifest" href="{{ static("turtlemail/manifest.json") }}">
-        <title>turtlemail</title>
+        {% block title %}<title>turtlemail</title>{% endblock %}
         {{ vite_assets("src/style.css") }}
         {{ vite_assets("src/main.ts") }}
     </head>

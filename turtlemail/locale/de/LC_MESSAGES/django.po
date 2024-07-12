@@ -361,9 +361,6 @@ msgstr "Lieferung Log Einträge"
 msgid "German"
 msgstr "Deutsch"
 
-msgid "English"
-msgstr "Englisch"
-
 #, fuzzy
 msgid "Handover cancelled."
 msgstr "Storniert"
@@ -431,9 +428,6 @@ msgstr "Empfangen von %(sender)s"
 msgid "Send to %(recipient)s"
 msgstr "Senden zu %(recipient)s"
 
-msgid "turtlemail"
-msgstr "turtlemail"
-
 msgid "Delivered by Humans"
 msgstr "Delivered by Humans"
 
@@ -445,6 +439,9 @@ msgstr ""
 "Entdecke eine neue Art, Briefe und kleine Päckchen zu verschicken. Wir "
 "nennen sie Tierchen oder Pets. Du kannst jederzeit zur Turtle werden und "
 "dabei helfen, die Pets anderer Menschen ihrem Ziel näherzubringen. "
+
+msgid "Matrix/Element Chat"
+msgstr "Matrix/Element Chat"
 
 msgid "Cartoon-style image of a smiling turtle carrying other animals on its back"
 msgstr ""
@@ -483,36 +480,21 @@ msgstr "Mach mit beim turtlemail-Experiment"
 msgid "Help us to test our software."
 msgstr "Hilf uns, turtlemail zu testen."
 
-msgid ""
-"The experiment will start soon. If you would like to take part, follow us"
-" <a class=\"link\" href=\"#social-links-anchor\">on social media</a> or\n"
-"                <a href=\"#social-links-anchor\" class=\"link\">write us "
-"a mail</a>\n"
-"                to get notified when we start!"
+msgid "Read more about the experiment here."
 msgstr ""
-"Das Experiment beginnt in Kürze. Wenn du über den Start informiert werden"
-" möchtest, folge uns <a class=\"link\" href=\"#social-links-anchor\"> auf"
-" unseren Social Media Kanälen</a> or\n"
-"                <a href=\"#social-links-anchor\" class=\"link\">oder "
-"schreib uns eine kurze E-Mail</a>"
+
+#, fuzzy
+msgid "Create a free account"
+msgstr "Neues Konto erstellen"
 
 msgid "Screenshot showing a request to make a delivery in the turtlemail app"
 msgstr "Bildschirmfoto der turtlemail App mit einer Zustellungsanfrage"
 
-msgid "Funded by the Bundesministerium für Bildung und Forschung"
-msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
-
-msgid "Imprint"
-msgstr "Impressum"
-
-msgid "Privacy Policy"
-msgstr "Datenschutzerklärung"
-
-msgid "Source Code"
-msgstr "Quellcode"
-
 msgid "Send Invitation"
 msgstr "Einladung senden"
+
+msgid "turtlemail"
+msgstr "turtlemail"
 
 msgid "You're sending this delivery to"
 msgstr "Du sendest diese Lieferung an"
@@ -595,6 +577,26 @@ msgstr "Beigetreten"
 
 msgid "Log Out"
 msgstr "Ausloggen"
+
+msgid "Legal Notice"
+msgstr "Impressum"
+
+msgid "Privacy Policy"
+msgstr "Datenschutzerklärung"
+
+#, fuzzy
+msgid "Sign up"
+msgstr "Registrieren"
+
+#, fuzzy
+msgid "Log in"
+msgstr "Anmelden"
+
+msgid "Funded by the Bundesministerium für Bildung und Forschung"
+msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
+
+msgid "Source Code"
+msgstr "Quellcode"
 
 msgid "Hello!"
 msgstr "Hallo!"
@@ -713,5 +715,27 @@ msgstr "Du hast bis jetzt noch keine Orte angelegt."
 #~ "class=\"link\" href=\"%(link)s\">here</a>."
 #~ msgstr ""
 
-#~ msgid "Create a free account"
-#~ msgstr "Lege jetzt ein Benutzerkonto an"
+#~ msgid "English"
+#~ msgstr "Englisch"
+
+#~ msgid ""
+#~ "The experiment will start soon. If "
+#~ "you would like to take part, "
+#~ "follow us <a class=\"link\" href=\"#social-"
+#~ "links-anchor\">on social media</a> or\n"
+#~ "                <a href=\"#social-links-"
+#~ "anchor\" class=\"link\">write us a mail</a>"
+#~ "\n"
+#~ "                to get notified when we start!"
+#~ msgstr ""
+#~ "Das Experiment beginnt in Kürze. Wenn"
+#~ " du über den Start informiert werden"
+#~ " möchtest, folge uns <a class=\"link\" "
+#~ "href=\"#social-links-anchor\"> auf unseren "
+#~ "Social Media Kanälen</a> or\n"
+#~ "                <a href=\"#social-links-"
+#~ "anchor\" class=\"link\">oder schreib uns eine"
+#~ " kurze E-Mail</a>"
+
+#~ msgid "Imprint"
+#~ msgstr "Impressum"
