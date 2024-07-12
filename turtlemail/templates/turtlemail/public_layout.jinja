@@ -1,0 +1,34 @@
+{% extends "turtlemail/base.jinja" %}
+{% block body %}
+    <div class="sticky top-0 z-10">
+        <div class="min-h-0 pb-0 navbar bg-base-100">
+            <div class="navbar-start">
+                <h1>
+                    <a class="text-xl btn btn-ghost" href="{{ url("index") }}">
+                        <img src="{{ static("turtlemail/img/logo/turtlemail-logo.svg") }}" alt="{{ _("turtlemail") }}" class="w-full h-8" />
+                    </a>
+                </h1>
+            </div>
+            <div class="gap-2 navbar-end">
+                <a class="btn btn-sm btn-primary" href="{{ url("signup") }}">{{ _("Sign up") }}</a>
+                <a class="btn btn-sm btn-ghost" href="{{ url("login") }}">{{ _("Log in") }}</a>
+            </div>
+        </div>
+        <div class="z-10 w-full h-6 rotate-180 bg-base-100 mask-waves"></div>
+    </div>
+    {% block content %}{% endblock %}
+    <div class="-mt-8 bg-transparent">
+        <div class="w-full h-8 bg-accent mask-waves"></div>
+    </div>
+    <footer class="p-8 footer footer-center bg-accent text-accent-content">
+        <a href="https://www.bmbf.de">
+            <img src="{{ static("turtlemail/img/logo-bmbf.svg") }}" alt="{{ _("Funded by the Bundesministerium für Bildung und Forschung") }}" class="px-8 py-4 bg-white rounded">
+        </a>
+        <nav class="grid grid-flow-col gap-4">
+            <a href="{{ url("legal") }}" class="link link-hover">{{ _("Legal Notice") }}</a>
+            <a href="{{ url("privacy") }}" class="link link-hover">{{ _("Privacy Policy") }}</a>
+            <a href="https://git.hack-hro.de/turtlemail/turtlemail"
+               class="link link-hover">{{ _("Source Code") }}</a>
+        </nav>
+    </footer>
+{% endblock %}
