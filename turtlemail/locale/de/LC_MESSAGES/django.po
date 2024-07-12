@@ -393,7 +393,7 @@ msgstr ""
 
 #, fuzzy
 msgid "Turtlemail system"
-msgstr "turtlemail"
+msgstr "turtlemail-System"
 
 msgid "Message author"
 msgstr ""
@@ -403,9 +403,6 @@ msgstr ""
 
 msgid "German"
 msgstr "Deutsch"
-
-msgid "English"
-msgstr "Englisch"
 
 #, fuzzy
 msgid "Handover cancelled."
@@ -442,10 +439,6 @@ msgstr "Einladung gesendet!"
 msgid "Message"
 msgstr ""
 
-#, fuzzy
-msgid "send"
-msgstr "Versenden"
-
 msgid "Dismiss"
 msgstr "Ablehnen"
 
@@ -459,8 +452,23 @@ msgstr "Bearbeiten"
 msgid "Delete"
 msgstr "Löschen"
 
+#, fuzzy
+msgid "Save"
+msgstr "Aktiv"
+
 msgid "Add stay"
 msgstr "Aufenthalt hinzufügen"
+
+msgid ""
+"This stay is planned for some of your deliveries. Making changes will "
+"cancel these plans."
+msgstr ""
+"Dieser Auftenthalt ist für Lieferungen eingeplant. Wenn du ihn änderst, "
+"wird deine Mithilfe bei diesen Lieferungen abgesagt."
+
+#, fuzzy
+msgid "Cancel"
+msgstr "Stornieren"
 
 msgid "Oops, that didn't work."
 msgstr "Huch, das hat nicht geklappt."
@@ -479,6 +487,24 @@ msgstr ""
 msgid "Place a delivery"
 msgstr "Eine Lieferung erstellen"
 
+msgid "Type to search by username..."
+msgstr "Tippen, um nach Nutzernamen zu suchen..."
+
+#, fuzzy
+msgid "You can't send a delivery to yourself."
+msgstr "sendet diese Lieferung an dich."
+
+msgid ""
+"There's no turtlemail user with this username yet. But you can still send"
+" your delivery - just invite them!"
+msgstr ""
+"Es gibt noch keinen Account mit diesem Nutzernamen. Du kannst trotzdem "
+"dein Paket versenden - versende einfach eine Einladung!"
+
+#, fuzzy, python-format
+msgid "Invite %(name)s to turtlemail"
+msgstr "Du wurdest zu turtlemail eingeladen!"
+
 #, python-format
 msgid "Receive from %(sender)s"
 msgstr "Empfangen von %(sender)s"
@@ -486,9 +512,6 @@ msgstr "Empfangen von %(sender)s"
 #, python-format
 msgid "Send to %(recipient)s"
 msgstr "Senden zu %(recipient)s"
-
-msgid "turtlemail"
-msgstr "turtlemail"
 
 msgid "Delivered by Humans"
 msgstr "Delivered by Humans"
@@ -501,6 +524,9 @@ msgstr ""
 "Entdecke eine neue Art, Briefe und kleine Päckchen zu verschicken. Wir "
 "nennen sie Tierchen oder Pets. Du kannst jederzeit zur Turtle werden und "
 "dabei helfen, die Pets anderer Menschen ihrem Ziel näherzubringen. "
+
+msgid "Matrix/Element Chat"
+msgstr "Matrix/Element Chat"
 
 msgid "Cartoon-style image of a smiling turtle carrying other animals on its back"
 msgstr ""
@@ -539,40 +565,24 @@ msgstr "Mach mit beim turtlemail-Experiment"
 msgid "Help us to test our software."
 msgstr "Hilf uns, turtlemail zu testen."
 
-msgid ""
-"The experiment will start soon. If you would like to take part, follow us"
-" <a class=\"link\" href=\"#social-links-anchor\">on social media</a> or\n"
-"                <a href=\"#social-links-anchor\" class=\"link\">write us "
-"a mail</a>\n"
-"                to get notified when we start!"
+msgid "Read more about the experiment here."
 msgstr ""
-"Das Experiment beginnt in Kürze. Wenn du über den Start informiert werden"
-" möchtest, folge uns <a class=\"link\" href=\"#social-links-anchor\"> auf"
-" unseren Social Media Kanälen</a> or\n"
-"                <a href=\"#social-links-anchor\" class=\"link\">oder "
-"schreib uns eine kurze E-Mail</a>"
+
+#, fuzzy
+msgid "Create a free account"
+msgstr "Neues Konto erstellen"
 
 msgid "Screenshot showing a request to make a delivery in the turtlemail app"
 msgstr "Bildschirmfoto der turtlemail App mit einer Zustellungsanfrage"
 
-msgid "Funded by the Bundesministerium für Bildung und Forschung"
-msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
-
-msgid "Imprint"
-msgstr "Impressum"
-
-msgid "Privacy Policy"
-msgstr "Datenschutzerklärung"
-
-msgid "Source Code"
-msgstr "Quellcode"
-
 msgid "Send Invitation"
 msgstr "Einladung senden"
 
-#, fuzzy
-msgid "Communication"
-msgstr "Ort"
+msgid "Messages"
+msgstr "Nachrichten"
+
+msgid "turtlemail"
+msgstr "turtlemail"
 
 msgid "You're sending this delivery to"
 msgstr "Du sendest diese Lieferung an"
@@ -656,6 +666,83 @@ msgstr "Beigetreten"
 msgid "Log Out"
 msgstr "Ausloggen"
 
+msgid "Legal Notice"
+msgstr "Impressum"
+
+msgid "Privacy Policy"
+msgstr "Datenschutzerklärung"
+
+#, fuzzy
+msgid "Sign up"
+msgstr "Registrieren"
+
+#, fuzzy
+msgid "Log in"
+msgstr "Anmelden"
+
+msgid "Funded by the Bundesministerium für Bildung und Forschung"
+msgstr "Gefördert vom Bundesministerium für Bildung und Forschung"
+
+msgid "Source Code"
+msgstr "Quellcode"
+
+msgid "Thanks! Would this date and location work instead?"
+msgstr "Danke! Würden dieses Datum und dieser Ort stattdessen passen?"
+
+#, fuzzy
+msgid "Delivery Request: "
+msgstr "Anfrage: "
+
+#, fuzzy, python-format
+msgid "Take from %(person)s"
+msgstr "Empfangen von %(sender)s"
+
+#, fuzzy, python-format
+msgid "Hand over to %(person)s"
+msgstr "Übergeben an %(name)s"
+
+msgid "Can you hand over your packet at the above dates?"
+msgstr "Kannst du dein Paket an diesen Tagen übergeben?"
+
+#, python-format
+msgid ""
+"%(sender)s would like to send a packet to you. Can you take it from "
+"%(user)s at the above dates?"
+msgstr ""
+"%(sender)s würde dir gerne ein Paket schicken. Kannst du es von %(user)s "
+"an den obenstehenden Daten annehmen?"
+
+msgid "Can you help make this delivery at the above dates?"
+msgstr "Kannst du an den obenstehenden Daten helfen, dieses Paket zu überliefern?"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Not in the foreseeable future"
+msgstr "Nicht in der absehbaren Zukunft"
+
+msgid "I don't know right now, ask me again later"
+msgstr "Ich weiß gerade nicht, frag mich später noch einmal"
+
+msgid "No, but I'll be at this location another time:"
+msgstr "Nein, aber ich werde zu anderer Zeit an diesem Ort sein, und zwar:"
+
+msgid "We'll create a new stay for these dates."
+msgstr "Wir werden einen neuen Aufenthalt für diese Daten anlegen."
+
+msgid "Send"
+msgstr "Versenden"
+
+#, fuzzy
+msgid "Delivery Handover: "
+msgstr "Lieferung Log Eintrag"
+
+msgid "Did you receive this package?"
+msgstr "Hast du dieses Paket erhalten?"
+
+msgid "No, there has been a problem"
+msgstr "Nein, es gab ein Problem"
+
 msgid "Hello!"
 msgstr "Hallo!"
 
@@ -702,9 +789,6 @@ msgstr "Bereit zum Versand"
 msgid "Receive"
 msgstr "Empfangen"
 
-msgid "Send"
-msgstr "Versenden"
-
 msgid "Signal Messenger"
 msgstr ""
 
@@ -715,12 +799,25 @@ msgstr ""
 msgid "Add location"
 msgstr "Ort hinzufügen"
 
+msgid "Click on the map to select a location."
+msgstr "Klicke auf die Karte, um einen Ort auszuwählen."
+
 #, fuzzy
 msgid "Your locations"
 msgstr "Deine Orte"
 
 msgid "You don't have any locations yet."
 msgstr "Du hast bis jetzt noch keine Orte angelegt."
+
+msgid "Click on the map to select a new location."
+msgstr "Klick auf die Karte, um einen neuen Ort auszuwählen."
+
+msgid ""
+"This location is planned for some of your deliveries. Making changes will"
+" cancel these plans."
+msgstr ""
+"Dieser Ort ist für Lieferungen eingeplant. Wenn du ihn änderst, wird "
+"deine Mithilfe bei diesen Lieferungen abgesagt."
 
 #~ msgid "Hello %(name)s!"
 #~ msgstr "Hallo %(name)s!"
@@ -773,5 +870,24 @@ msgstr "Du hast bis jetzt noch keine Orte angelegt."
 #~ "class=\"link\" href=\"%(link)s\">here</a>."
 #~ msgstr ""
 
-#~ msgid "Create a free account"
-#~ msgstr "Lege jetzt ein Benutzerkonto an"
+#~ msgid ""
+#~ "The experiment will start soon. If "
+#~ "you would like to take part, "
+#~ "follow us <a class=\"link\" href=\"#social-"
+#~ "links-anchor\">on social media</a> or\n"
+#~ "                <a href=\"#social-links-"
+#~ "anchor\" class=\"link\">write us a mail</a>"
+#~ "\n"
+#~ "                to get notified when we start!"
+#~ msgstr ""
+#~ "Das Experiment beginnt in Kürze. Wenn"
+#~ " du über den Start informiert werden"
+#~ " möchtest, folge uns <a class=\"link\" "
+#~ "href=\"#social-links-anchor\"> auf unseren "
+#~ "Social Media Kanälen</a> or\n"
+#~ "                <a href=\"#social-links-"
+#~ "anchor\" class=\"link\">oder schreib uns eine"
+#~ " kurze E-Mail</a>"
+
+#~ msgid "Imprint"
+#~ msgstr "Impressum"

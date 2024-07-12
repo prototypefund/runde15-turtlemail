@@ -1,0 +1,9 @@
+{% extends "turtlemail/public_layout.jinja" %}
+{% block content %}
+    <div class="flex justify-center mb-8">
+        <div class="py-16 prose">
+            <h1>{{ flatpage.title }}</h1>
+            {{ flatpage.content }}
+        </div>
+    </div>
+{% endblock %}

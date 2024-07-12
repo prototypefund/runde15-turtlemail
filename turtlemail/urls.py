@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LogoutView
+from django.contrib.flatpages import views as flatpages_views
 
 from turtlemail import views
 
@@ -104,5 +105,20 @@ urlpatterns = [
         "htmx/delete-stay/<int:pk>",
         views.HtmxDeleteStayView.as_view(),
         name="htmx-delete-stay",
+    ),
+    path(
+        "pages/legal/", flatpages_views.flatpage, {"url": "/pages/legal/"}, name="legal"
+    ),
+    path(
+        "pages/privacy/",
+        flatpages_views.flatpage,
+        {"url": "/pages/privacy/"},
+        name="privacy",
+    ),
+    path(
+        "pages/experiment/",
+        flatpages_views.flatpage,
+        {"url": "/pages/experiment/"},
+        name="experiment",
     ),
 ]
