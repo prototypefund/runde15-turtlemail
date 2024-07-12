@@ -715,9 +715,6 @@ msgstr "Du hast bis jetzt noch keine Orte angelegt."
 #~ "class=\"link\" href=\"%(link)s\">here</a>."
 #~ msgstr ""
 
-#~ msgid "English"
-#~ msgstr "Englisch"
-
 #~ msgid ""
 #~ "The experiment will start soon. If "
 #~ "you would like to take part, "
