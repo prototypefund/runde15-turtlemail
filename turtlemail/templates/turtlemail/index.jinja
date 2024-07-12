@@ -30,7 +30,7 @@
     <div class="w-full h-8 mt-16 bg-primary mask-waves"></div>
     <section class="flex flex-wrap-reverse items-center justify-center gap-16 px-4 py-12 md:px-8 bg-primary text-primary-content">
         <div class="flex-grow w-1/3 max-w-lg overflow-hidden rounded-lg shadow-md aspect-square">
-            <img class="w-full" src="{{ static("turtlemail/img/screenshots/en/packet_detail.png") }}" alt="{{ _("Screenshot showing data for a delivery in the turtlemail app") }}">
+            <img class="w-full" src="{{ static("turtlemail/img/screenshots/" + request.LANGUAGE_CODE + "/packet_detail.png") }}" alt="{{ _("Screenshot showing data for a delivery in the turtlemail app") }}">
         </div>
         <div class="max-w-md prose-lg">
             <h2 class="text-3xl">{{ _("What makes turtlemail special?") }}</h2>
@@ -57,7 +57,7 @@
             <a class="btn btn-lg btn-primary btn-wide" href="{{ url("signup") }}">{{ _("Create a free account") }}</a>
         </div>
         <div class="flex-grow w-1/3 max-w-lg overflow-hidden rounded-lg shadow-md aspect-[3/2]">
-            <img class="w-full" src="{{ static("turtlemail/img/screenshots/en/request.png") }}" alt="{{ _("Screenshot showing a request to make a delivery in the turtlemail app") }}">
+            <img class="w-full" src="{{ static("turtlemail/img/screenshots/" + request.LANGUAGE_CODE + "/request.png") }}" alt="{{ _("Screenshot showing a request to make a delivery in the turtlemail app") }}">
         </div>
     </section>
 {% endblock %}
