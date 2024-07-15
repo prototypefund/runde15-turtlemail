@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import date, timedelta
+import datetime
 import logging
 import math
 from typing import List, Set, Tuple
@@ -475,3 +476,44 @@ def check_and_recalculate_route(route: Route, starting_date: date) -> Route | No
     route.status = Route.CANCELLED
     route.save()
     return create_new_route(route.packet, starting_date)
+
+
+def recalculate_missing_routes(packets: List[Packet], starting_date: datetime.datetime):
+    for packet in packets:
+        if packet.status() == Packet.Status.NO_ROUTE_FOUND:
+            # We gave up to find a route for this packet.
+            continue
+
+        last_calculation = packet.created_at
+        if (
+            first_log := packet.delivery_logs.filter(
+                action=DeliveryLog.NO_ROUTE_FOUND
+            ).first()
+        ) is not None:
+            last_calculation = first_log.created_at
+
+        first_calculation = packet.created_at
+        current_route = packet.current_route()
+        if current_route is not None:
+            first_calculation = current_route.created_at
+
+        # How many days have we been looking for a route?
+        calculation_days = last_calculation - first_calculation
+
+        # The longer we have been looking for a route, the longer
+        # we want to wait between retries.
+        time_to_wait = timedelta(minutes=5)
+        if calculation_days > timedelta(minutes=20):
+            time_to_wait = timedelta(minutes=30)
+        elif calculation_days > timedelta(hours=6):
+            time_to_wait = timedelta(hours=6)
+        next_calculation = last_calculation + time_to_wait
+
+        if starting_date < next_calculation:
+            # Wait before retrying this calculation.
+            continue
+
+        if current_route is None:
+            create_new_route(packet, starting_date.date())
+        else:
+            check_and_recalculate_route(current_route, starting_date.date())

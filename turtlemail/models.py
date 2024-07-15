@@ -290,6 +290,28 @@ class PacketManager(models.Manager):
     def get_by_natural_key(self, human_id):
         return self.get(human_id=human_id)
 
+    def without_valid_route(self):
+        """Return packets that might need a new route."""
+        no_route = self.filter(
+            ~models.Exists(Route.objects.filter(packet=models.OuterRef("pk")))
+        )
+        no_current_route = self.filter(
+            ~models.Exists(
+                Route.objects.filter(packet=models.OuterRef("pk"), status=Route.CURRENT)
+            )
+        )
+        invalid_route = self.filter(
+            models.Exists(
+                Route.objects.filter(
+                    packet=models.OuterRef("pk"),
+                    status=Route.CURRENT,
+                    steps__status__in=[RouteStep.REJECTED, RouteStep.CANCELLED],
+                )
+            )
+        )
+
+        return no_route.union(no_current_route).union(invalid_route)
+
 
 class Packet(models.Model):
     if TYPE_CHECKING:
@@ -317,7 +339,9 @@ class Packet(models.Model):
                     )
 
                 case self.NO_ROUTE_FOUND:
-                    return _("The system found no way to reach the recipient.")
+                    return _(
+                        "The system found no way to reach the recipient. If you want to retry sending this delivery, please create a new one."
+                    )
 
                 case self.CONFIRMING_ROUTE:
                     return _(
@@ -387,11 +411,10 @@ class Packet(models.Model):
     def status(self):
         route = self.current_route()
         if route is None:
-            newest_log = self.delivery_logs.first()
-            if (
-                newest_log is not None
-                and newest_log.action == DeliveryLog.NO_ROUTE_FOUND
-            ):
+            packet_too_old = (
+                datetime.datetime.now(datetime.UTC) - self.created_at
+            ) > datetime.timedelta(days=30)
+            if packet_too_old:
                 return self.Status.NO_ROUTE_FOUND
 
             return self.Status.CALCULATING_ROUTE
@@ -399,21 +422,28 @@ class Packet(models.Model):
         steps = route.steps.all()
 
         if any([step.status == RouteStep.REJECTED for step in steps]):
-            return self.Status.ROUTE_OUTDATED
+            status = self.Status.ROUTE_OUTDATED
+        elif any([step.status == RouteStep.CANCELLED for step in steps]):
+            status = self.Status.ROUTE_OUTDATED
+        elif any([step.status == RouteStep.SUGGESTED for step in steps]):
+            status = self.Status.CONFIRMING_ROUTE
+        elif all([step.status == RouteStep.ACCEPTED for step in steps]):
+            status = self.Status.READY_TO_SHIP
+        elif all([step.status == RouteStep.COMPLETED for step in steps]):
+            status = self.Status.DELIVERED
+        else:
+            status = self.Status.DELIVERING
 
-        if any([step.status == RouteStep.CANCELLED for step in steps]):
-            return self.Status.ROUTE_OUTDATED
+        route_too_old = (
+            datetime.datetime.now(datetime.UTC) - route.created_at
+        ) > datetime.timedelta(days=30)
 
-        if any([step.status == RouteStep.SUGGESTED for step in steps]):
-            return self.Status.CONFIRMING_ROUTE
+        # if this is True, we've tried for a very long time to find
+        # a new route but didn't succeed.
+        if route_too_old and status == self.Status.ROUTE_OUTDATED:
+            return self.Status.NO_ROUTE_FOUND
 
-        if all([step.status == RouteStep.ACCEPTED for step in steps]):
-            return self.Status.READY_TO_SHIP
-
-        if all([step.status == RouteStep.COMPLETED for step in steps]):
-            return self.Status.DELIVERED
-
-        return self.Status.DELIVERING
+        return status
 
     def get_current_route_step(self) -> "RouteStep | None":
         """Get the RouteStep the packet currently resides at."""
