@@ -1,7 +1,7 @@
 # This configuration is not meant for production use.
 
 services:
-  backend:
+  backend: &backend
     build:
       dockerfile: Dockerfile
       target: dev
@@ -15,6 +15,9 @@ services:
       - ./manage.py:/usr/share/turtlemail/manage.py
       - ./docker/entrypoint.sh:/usr/bin/turtlemailctl
 
+  worker:
+    <<: *backend
+
   nginx:
     depends_on: [backend, vite]
 
@@ -22,7 +25,7 @@ services:
     build:
       dockerfile: docker/vite.Dockerfile
       context: .
-    ports: ["8638:8638"]
+    ports: ['8638:8638']
     volumes:
       - ./turtlemail:/app/turtlemail/
       - ./src/:/app/src/

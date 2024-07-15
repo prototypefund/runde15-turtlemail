@@ -8,34 +8,31 @@ services:
     volumes:
       - turtlemail-db:/var/lib/postgresql/data/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ['CMD-SHELL', 'pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}']
       interval: 10s
       start_period: 20s
       timeout: 5s
       retries: 5
 
-  backend:
+  key-value-store:
+    image: registry.redict.io/redict:7
+    restart: always
+
+  backend: &backend
     build:
       dockerfile: Dockerfile
       context: .
     depends_on:
-      database:
-        condition: service_healthy
+      database: { condition: service_healthy }
+      key-value-store: { condition: service_started }
     env_file: [docker/env]
     volumes:
       - turtlemail-data:/var/lib/turtlemail
       - ./turtlemail_settings.py:/etc/turtlemail/turtlemail_settings.py
 
   worker:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    env_file: [docker/env]
-    volumes:
-      - turtlemail-data:/var/lib/turtlemail
-      - ./turtlemail_settings.py:/etc/turtlemail/turtlemail_settings.py
-    command: "huey"
-    depends_on: [backend]
+    <<: *backend
+    command: ['run_huey']
 
   nginx:
     image: nginx
@@ -43,7 +40,7 @@ services:
     volumes:
       - ./docker/nginx-server.conf:/etc/nginx/nginx.conf
       - ./docker/nginx-app.conf:/etc/nginx/snippets/app.conf
-    ports: ["8637:8637"]
+    ports: ['8637:8637']
 
 volumes:
   turtlemail-data:
