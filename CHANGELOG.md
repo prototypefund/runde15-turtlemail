@@ -2,7 +2,64 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2024-07-16
+
+### #50
+
+- Merge main ([7a3df11](7a3df11c232ae94e944d332b5a3f8aad2e9687d7))
+- Small fixes, reached first draft review state ([dc9ac5b](dc9ac5bcce1b1b06bf70a1ad8f8080fa111bdb52))
+- Review fixes, internationalization of system messages ([87dd6d9](87dd6d91947e43f99b6f7316f86e62c6fc42928e))
+- Linting, rebase on main ([5dacb27](5dacb27dadc39c84c366d4e41d3ff4f1bbd8a34f))
+- Reformat jinja ([07729e6](07729e617aef9bee70f49be90995eb1738d54235))
+- Other linting foo ([9e436da](9e436dab531d71402a9184aa1ad354d9272dc6d4))
+- Other linting foo ([372b2ec](372b2ec1651cb28272b8d742893ab31c279900ce))
+- Other linting foo ([5233d9e](5233d9e7072ef8d220606a510cd065d756e43213))
+
+### Bug Fixes
+
+- Recompile messages after updating them ([bc1fce9](bc1fce9d862e95d175881b282894d06004b32c0c))
+- Remove duplicate translation ([44271b8](44271b86020a82e66fb39e595409838507052cc8))
+- Add missing translations ([c159bb4](c159bb45957f421f07c387a844a84266984d2139))
+- Template lints ([14806a5](14806a5c4ade81a6951460e6f9a8ebc7dc279a7d))
+- Chat menu translations ([ac2e7cb](ac2e7cb7bf1298c3f6ccab401f3d88727ea47f28))
+- Missing translations ([debbf10](debbf104cb193d7e3c6977e2d324b63f7c26e0e1))
+- Only show packet chat link when there is a chat ([2f83332](2f83332b805b6fd6364b9af6dc760dd5cbd1317d))
+- Add translations for stay frequencies ([54137c6](54137c6d90f43b59de63330905dfd55f2200433b))
+- Add other missing translations ([bea1f78](bea1f781517333a1dc68f6138921bbfce8f4d786))
+- Add more missing translations ([97b3ce9](97b3ce98c18e8d9838f5ef02ef13bd8dbdd549d6))
+- Add missing channels-redis dependency ([1f09dd9](1f09dd90b7e93f3ab66ae8bc2391605177d8712a))
+
+### Features
+
+- Added German translation of frontpage ([eee31c9](eee31c9e23c5870d1417613d5c7fd6271d413c45))
+- Add, update and delete locations ([c86792b](c86792b73da6bacb3c86c7fcf3acdbd85cfdca26))
+- Hide signup links on index page ([64bb7db](64bb7dbf6cc9367e4371a10921ec05c7c164849b))
+- Allow users to report problems during handover ([5d4dcbc](5d4dcbc5eb83980412adc66d563ee7db38660329))
+- Allow users to cancel accepted and ongoing route steps ([6dea237](6dea237179d41cee47387c05b3ab2ab724894b6e))
+- Show stay settings in profile ([04f985b](04f985bf0334066df4d05b276cdc8fb1da14e99b))
+- Use index page layout for legal & privacy pages ([8b9e3c7](8b9e3c70c183cd57288a6ecd64805837a49405bb))
+- Add german screenshots to landing page ([cb63079](cb63079928f178d7b759927d1feb8378e447b97d))
+- Setup huey integration ([dcdf0c3](dcdf0c3faa2275c85528e3387f58b44571841996)), Co-authored-by:Konrad Mohrfeldt <km@roko.li>
+- Continuously look for missing routes in the background ([5028b67](5028b675cab2044b1aeebb5bf51d79ad2f17214c))
+- Link to chat from packet page ([80d930b](80d930b740e80047f4ecdad5aab9385b97a8aa69))
+- Make chat UI mobile-friendly ([c11d1d0](c11d1d004ae81d67f0cdd6b0eb46a489e90de21c))
+- Remove some of the weird color names for human ids ([4c3896b](4c3896b41464b959e9d5ccaf61f1e7ff761ddfff))
+- Add django channel configuration through env vars ([1b67a21](1b67a21da6c3458e3f3e08070b2b74e3c4acdb21))
+
+### Miscellaneous Tasks
+
+- Add format make task ([e3c8490](e3c849027f6757bf10d55107c8ce7278bb5c2035))
+- Mount source code in dev worker container ([5cd9e7a](5cd9e7a22b28f21a7b9e0f7e187a29ee38b68df1))
+- Remove old & incorrect fixtures ([1a1ebc1](1a1ebc1914493e2c8659740ef060f8bf41492854))
+
+### Wip
+
+- Design chat layout ([563464c](563464c0d6254685662dcdd01afc8cd1f9fd48ad))
+- Improve chat mobile layout ([49288a3](49288a3da2e914ec7ede726535db6c429c34bfff))
+
 ## [0.6.1] - 2024-07-04
+
+[2f07b94](2f07b947abeebe414843fbd1853e919045d3a4aa)...[8316d04](8316d0413c2e9510a218a63a32d52a8337747dfa)
 
 ### Bug Fixes
 
@@ -20,7 +77,16 @@ All notable changes to this project will be documented in this file.
 
 ### Bump
 
-- Release v0.6.1 ([8190b5b](8190b5bc84dc472d347b9f1e025487ee5a0df2f6))
+- Release v0.6.1 ([8316d04](8316d0413c2e9510a218a63a32d52a8337747dfa))
+
+### Wip
+
+- Rebase main ([64f3a94](64f3a9411cbe096879d14ca50f8d6e8b3094dcb0))
+- #50 Packetübergabe Chat: django channels ([b62bfa2](b62bfa299d28433ad0a57afdf5737daeff74f7b9))
+- #50 Packetübergabe Chat: chat ugly but working ([e4ebeed](e4ebeed88621006529b95bb4f61300eacf4af0f4))
+- #50 Packetübergabe Chat: message receipts ([58ca30c](58ca30c8c9392fbf4f0fd38462abe26942ff08fb))
+- #50 Packetübergabe Chat: highlight active chat ([df6e39b](df6e39b8c02c25516a6ed43f3c6bbc7da20e3442))
+- #50 Packetübergabe Chat: highlight updated chats ([c51cbad](c51cbad4eb9b5f821f10f8bf21328d91a8af5fbb))
 
 ## [0.6.0] - 2024-07-01
 
@@ -29,6 +95,10 @@ All notable changes to this project will be documented in this file.
 ### #43
 
 - Rebase to main ([5d24285](5d24285469c79efe3478a4ffb2d59b4ef99e92b8))
+
+### #50
+
+- WIP Paketübergabe Chat, models, basic stuff ([bc9a454](bc9a4540800ab0235107a9f9d6b703320dd48ba5))
 
 ### Bug Fixes
 
@@ -62,6 +132,11 @@ All notable changes to this project will be documented in this file.
 ### Bump
 
 - Release v0.6.0 ([2f07b94](2f07b947abeebe414843fbd1853e919045d3a4aa))
+
+### Wip
+
+- #50 Packetübergabe Chat ([a6cec75](a6cec759a77ab74ae7fccb1aa8b74c43fa2f0bf0))
+- #50 Packetübergabe Chat ([9f0851d](9f0851d3b03ada9450af940e65ce103af4bfc17b))
 
 ## [0.5.0] - 2024-06-17
 
