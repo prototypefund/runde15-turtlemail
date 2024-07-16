@@ -412,6 +412,14 @@ msgstr "Deutsch"
 msgid "Handover cancelled."
 msgstr "Storniert"
 
+#, fuzzy, python-format
+msgid "Package handover to %(user)s on %(date)s"
+msgstr "Übergeben an %(name)s am %(date)s"
+
+#, fuzzy, python-format
+msgid "Package takeover from %(user)s on %(date)s"
+msgstr "Empfangen von %(sender)s am %(date)s"
+
 msgid ""
 "There is a delivery relying on this stay. It can't be deleted at the "
 "moment."
@@ -906,3 +914,6 @@ msgstr ""
 
 #~ msgid "You don't have any locations yet."
 #~ msgstr "Du hast bis jetzt noch keine Orte angelegt."
+
+#~ msgid "Send message"
+#~ msgstr "Nachrichten"

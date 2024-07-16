@@ -263,13 +263,15 @@ class ChatsView(LoginRequiredMixin, TemplateView):
         entry = {}
         entry["step_id"] = step.pk
         if step.stay.user == user:
-            entry["chat_title"] = _(f"""
-                                    Package handover to {step.next_step.stay.user} on {formats.date_format(step.end)}
-                                    """)
+            entry["chat_title"] = _("Package handover to %(user)s on %(date)s") % {
+                "user": step.next_step.stay.user.username,
+                "date": formats.date_format(step.end),
+            }
         else:
-            entry["chat_title"] = _(f"""
-                                    Package take over from {step.stay.user} on {formats.date_format(step.end)}
-                                    """)
+            entry["chat_title"] = _("Package takeover from %(user)s on %(date)s") % {
+                "user": step.stay.user.username,
+                "date": formats.date_format(step.end),
+            }
         entry["active"] = active
         entry["updated"] = updated
         return entry
