@@ -623,6 +623,10 @@ msgstr ""
 msgid "Cancel this handover"
 msgstr "Diese Übergabe absagen"
 
+#, fuzzy
+msgid "Send message"
+msgstr "Nachrichten"
+
 msgid "Respond to this suggestion"
 msgstr "Auf diesen Vorschlag antworten"
 
@@ -914,6 +918,3 @@ msgstr ""
 
 #~ msgid "You don't have any locations yet."
 #~ msgstr "Du hast bis jetzt noch keine Orte angelegt."
-
-#~ msgid "Send message"
-#~ msgstr "Nachrichten"

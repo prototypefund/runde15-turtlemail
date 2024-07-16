@@ -76,6 +76,8 @@
                               hx-push-url="false">
                             <button class="w-full join-item btn">{{ _("Cancel this handover") }}</button>
                         </form>
+                        <a class="w-full btn join-item btn-primary"
+                           href="{{ url("chats") }}?chat_step_id={{ step.id }}">{{ _("Send message") }}</a>
                     {% endif %}
                     {% if step.status == step.SUGGESTED %}
                         <a href="{{ url("update_route_step_request", pk=step.id) }}?on_packet_detail_page=true"

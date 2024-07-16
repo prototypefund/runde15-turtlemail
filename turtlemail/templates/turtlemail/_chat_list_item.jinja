@@ -4,6 +4,7 @@
         <a hx-get="{{ url("chat", chat.step_id) }}"
            hx-target="#messages"
            hx-swap="innerHTML"
+           {% if request.GET['chat_step_id'] == chat.step_id|string %}hx-trigger="load once"{% endif %}
            class="{% if chat.active %}font-bold{% endif %}">{{ chat.chat_title }}</a>
     </li>
     {% if htmx %}</div>{% endif %}
