@@ -1,7 +1,9 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
     <div class="flex justify-center w-full"
+        {# djlint:off #}
          style="height: calc(100svh - (32 * 0.25rem))">
+        {# djlint:on #}
         <div id="chats"
              class="relative flex items-stretch overflow-hidden rounded-box">
             {% if chat_list %}
