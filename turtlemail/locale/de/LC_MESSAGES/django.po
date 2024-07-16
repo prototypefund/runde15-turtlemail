@@ -325,16 +325,16 @@ msgid "User's journey changed"
 msgstr "Die Reise des Benutzers hat sich geändert"
 
 msgid "Making new travel plans"
-msgstr "Neue Reisepläne werden erstellt"
+msgstr "Neue Reisepläne werden gesucht"
 
 msgid "Found new travel plans"
 msgstr "Neue Reisepläne wurden gefunden"
 
 msgid "Unable to find travel plans"
-msgstr "Es konnten keine Reisepläne gefunden werden"
+msgstr "Es konnten keine passenden Reisepläne gefunden werden"
 
 msgid "Packet arrived at new location"
-msgstr ""
+msgstr "Lieferung ist an einem neuen Ort"
 
 msgid "Action Choices"
 msgstr "Aktionenauswahl"
@@ -343,7 +343,7 @@ msgid "New Route Step Status"
 msgstr "Neuer Routen Schritt Status"
 
 msgid "Human readable log entry"
-msgstr ""
+msgstr "Menschenlesbarer Log-Eintrag"
 
 #, python-format
 msgid "A journey involved in this delivery changed: %(status)sstatus"
@@ -362,13 +362,15 @@ msgid "A user reported a problem that needs to be addressed by the support team"
 msgstr "Jemand hat ein Problem mit dieser Übergabe an das Support-Team gemeldet"
 
 msgid "The delivery has reached its destination."
-msgstr ""
+msgstr "Die Lieferung hat ihr Ziel erreicht."
 
 #, python-format
 msgid ""
 "The packet reached station %(i)s of %(n)s. It is still %(distance)s "
 "kilometers from its destination.i"
 msgstr ""
+"Die Lieferung hat Schritt %(i)s von %(n)s erreicht. Sie ist noch "
+"%(distance)s Kilometer vom Ziel entfernt."
 
 msgid "Delivery Log Entry"
 msgstr "Lieferung Log Eintrag"
