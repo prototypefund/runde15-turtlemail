@@ -141,7 +141,7 @@ msgstr "Name"
 
 #, fuzzy
 msgid "Home"
-msgstr "?"
+msgstr "Zu Hause"
 
 msgid "Location"
 msgstr "Ort"
@@ -250,7 +250,7 @@ msgstr "Erstellt am"
 
 #, fuzzy
 msgid "Code"
-msgstr "?"
+msgstr "Kennung"
 
 msgid "Delivery"
 msgstr "Lieferung"
@@ -664,11 +664,11 @@ msgstr "Lieferung erstellt"
 
 #, fuzzy
 msgid "staff"
-msgstr "?"
+msgstr "turtlemail-team"
 
 #, fuzzy
 msgid "superuser"
-msgstr "?"
+msgstr "Administrator"
 
 msgid "deactivated"
 msgstr "deaktiviert"
