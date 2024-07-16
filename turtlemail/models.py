@@ -886,8 +886,7 @@ class SystemChatMessage(ChatMessage):
                 )
         self.content_data = json.dumps(serializable)
 
-    @property
-    def author(self):
+    def author_name(self):
         return _("Turtlemail system")
 
     def is_system_msg(self):
@@ -899,6 +898,9 @@ class UserChatMessage(ChatMessage):
         User, verbose_name=_("Message author"), on_delete=models.RESTRICT
     )  # we need to make sure, that no user self delete, removes evidence
     content = models.TextField(verbose_name=_("Message content"))
+
+    def author_name(self):
+        return self.author.username
 
     def is_system_msg(self):
         return False

@@ -1,6 +1,6 @@
 <div hx-ext="ws"
      ws-connect="/ws/chat/{{ object.pk }}/"
-     class="relative flex flex-col h-full max-w-xl border-l border-base-300">
+     class="relative flex flex-col h-full max-w-xl ">
     <div id="listofmsgs"
          class="flex-grow p-2 overflow-y-auto md:p-4 rounded-tr-box bg-base-100">
         {% for msg in chat_msgs %}

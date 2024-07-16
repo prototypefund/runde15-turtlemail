@@ -1,10 +1,11 @@
 {% if htmx %}<div hx-swap-oob="outerHTML:#chat{{ chat.step_id }}">{% endif %}
-    <li class="{% if chat.updated %}bg-slate-600{% endif %}"
-        id="chat{{ chat.step_id }}">
-        <a hx-get="{{ url("chat", chat.step_id) }}"
-           hx-target="#messages"
-           hx-swap="innerHTML"
-           {% if request.GET['chat_step_id'] == chat.step_id|string %}hx-trigger="load once"{% endif %}
-           class="{% if chat.active %}font-bold{% endif %}">{{ chat.chat_title }}</a>
+    <li id="chat{{ chat.step_id }}">
+        <a {% if not active %}hx-get="{{ url("chat", chat.step_id) }}" hx-target="#messages" hx-swap="innerHTML" {% if request.GET['chat_step_id'] == chat.step_id|string %}hx-trigger="load once"{% endif %}
+           {% endif %}
+           class="{% if chat.active %}active{% endif %}">
+            {% if chat.updated %}
+                <span class="w-6 ">{% include "turtlemail/icons/email.jinja" %}</span>
+            {% endif %}
+        {{ chat.chat_title }}</a>
     </li>
     {% if htmx %}</div>{% endif %}

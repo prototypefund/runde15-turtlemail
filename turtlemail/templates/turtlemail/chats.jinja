@@ -2,7 +2,7 @@
 {% block content %}
     <div class="flex justify-center w-full"
         {# djlint:off #}
-         style="height: calc(100svh - (32 * 0.25rem))">
+         style="height: calc(100svh - (38 * 0.25rem))">
         {# djlint:on #}
         <div id="chats"
              class="relative flex items-stretch overflow-hidden rounded-box">
@@ -10,7 +10,9 @@
                 {% include "turtlemail/_chat_list.jinja" %}
                 <div id="chat" class="flex flex-col flex-grow max-h-full">
                     <div id="messages" class="h-full">
-                        <p class="p-8 font-bold text-center">{{ gettext("Click a chat from the list to agree upon package exchanges.") }}</p>
+                        <p class="h-full p-8 font-bold text-center bg-base-100">
+                            {{ gettext("Click a chat from the list to agree upon package exchanges.") }}
+                        </p>
                     </div>
                 </div>
             {% else %}
