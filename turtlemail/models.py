@@ -531,6 +531,7 @@ class RouteStep(models.Model):
         id: int
 
         delivery_logs: RelatedManager["DeliveryLog"]
+        chatmessage_set: RelatedManager["ChatMessage"]
 
     stay = models.ForeignKey(
         Stay,
@@ -800,7 +801,9 @@ class ChatMessage(models.Model):
     objects = InheritanceManager()
     created_at = models.DateTimeField(verbose_name=_("Datetime"), auto_now_add=True)
     route_step = models.ForeignKey(
-        RouteStep, verbose_name=_("RouteStep context"), on_delete=models.CASCADE
+        RouteStep,
+        verbose_name=_("RouteStep context"),
+        on_delete=models.CASCADE,
     )
     # status to provide a read feedback
     status = models.CharField(
