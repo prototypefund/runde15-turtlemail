@@ -17,6 +17,9 @@ EMAIL_DEFAULT_FROM=noreply@example.org
 
 # worker configuration
 HUEY_REDIS_URL=redis://key-value-store:6379/0
+# channels configuration
+CHANNEL_LAYER_URL=redis://key-value-store:6379/1
+SQIDS_SALT=not-a-very-secret-salt
 
 # SMTP server to send emails with
 # EMAIL_SMTP=smtp://localhost:25

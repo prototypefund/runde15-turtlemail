@@ -20,7 +20,7 @@ from django_jinja.builtins import DEFAULT_EXTENSIONS
 from django.utils.translation import gettext_lazy as _
 
 from turtlemail import __version__
-from turtlemail.base.env import get_env, get_env_list, is_env_true
+from turtlemail.base.env import get_env, get_env_list, is_env_true, parse_channel_layers
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -242,8 +242,10 @@ TURTLEMAIL_MAX_ROUTE_LENGTH = timedelta(
 )
 
 # channels for websocket connections: chat, push notifications
-CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
-SQIDS_SALT = get_env("SQIDS_SALT", default="something secure")
+CHANNEL_LAYERS = parse_channel_layers(
+    "CHANNEL_LAYER_URL", default="memory://" if "test" in sys.argv else None
+)
+SQIDS_SALT = get_env("SQIDS_SALT", default=None)
 
 _huey_redis_url = get_env("HUEY_REDIS_URL", default=DEBUG)
 _huey_debug = is_env_true("HUEY_DEBUG", default=False)
