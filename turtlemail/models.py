@@ -828,7 +828,7 @@ class SystemChatMessage(ChatMessage):
                         Hello,<br />
                         this chat was created for you to agree on the details of a delivery handover.
                         Be excellent and careful with personal data.<br />
-                        Handover is planned on {date} and location {location}.<br />
+                        Handover is planned on {date} near {location}.<br />
                         Happy turtlemailing!
                                  """),
         )
