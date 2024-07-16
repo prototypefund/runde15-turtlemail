@@ -195,10 +195,10 @@ class Stay(models.Model):
     ONCE = "ONCE"
 
     FREQUENCY_CHOICES = [
-        (DAILY, "Daily"),
-        (WEEKLY, "Weekly"),
-        (SOMETIMES, "Sometimes"),
-        (ONCE, "Once"),
+        (DAILY, _("Daily")),
+        (WEEKLY, _("Weekly")),
+        (SOMETIMES, _("Sometimes")),
+        (ONCE, _("Once")),
     ]
 
     if TYPE_CHECKING:

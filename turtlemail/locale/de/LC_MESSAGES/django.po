@@ -152,6 +152,20 @@ msgstr "Benutzer"
 msgid "Locations"
 msgstr "Orte"
 
+#, fuzzy
+msgid "Daily"
+msgstr "Täglich"
+
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+msgid "Sometimes"
+msgstr "Ab und Zu"
+
+#, fuzzy
+msgid "Once"
+msgstr "Einmal"
+
 msgid "Frequency"
 msgstr "Häufigkeit"
 
