@@ -24,6 +24,7 @@ channels = "^4.1.0"
 websockets = "^12.0"
 django-huey = "^1.2.1"
 redis = "^5.0.6"
+channels-redis = "^4.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
