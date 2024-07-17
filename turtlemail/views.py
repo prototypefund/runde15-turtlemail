@@ -31,6 +31,7 @@ from django.views.generic import (
     ListView,
 )
 from django.utils import formats
+from django.core import serializers
 
 from channels.layers import get_channel_layer
 
@@ -368,7 +369,7 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
                 f"chat_{str(self.object.pk)}",
                 {
                     "type": "chat_message",
-                    "message": message,
+                    "message": serializers.serialize("json", [message,])[1:-1],
                     "index": messages_count - now_read_messages_count,
                     "update": True,
                 },

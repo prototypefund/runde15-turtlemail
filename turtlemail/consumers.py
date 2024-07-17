@@ -1,5 +1,6 @@
 import json
 from django.utils.html import escape
+from django.core import serializers
 from django.template.loader import get_template
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -7,6 +8,15 @@ from channels.generic.websocket import WebsocketConsumer
 from turtlemail.views import ChatsView
 from .models import ChatMessage, RouteStep, UserChatMessage
 
+
+class MessageSerializer:
+    @staticmethod
+    def serialize(message: ChatMessage) -> dict:
+        message_json = {}
+        return message_json
+
+class RouteStepSerializer:
+    ...
 
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -79,7 +89,7 @@ class ChatConsumer(WebsocketConsumer):
             self.group_name,
             {
                 "type": "chat_message",
-                "message": message,
+                "message": serializers.serialize("json", [message,])[1:-1],
                 "index": ChatMessage.objects.filter(route_step=self.step).count(),
                 "update": False,
             },
@@ -89,7 +99,7 @@ class ChatConsumer(WebsocketConsumer):
             "all",
             {
                 "type": "update_chat_list_item",
-                "step": self.step,
+                "step": serializers.serialize("json", [self.step,])[1:-1],
             },
         )
 
@@ -97,7 +107,7 @@ class ChatConsumer(WebsocketConsumer):
         """
         add or replace chat message to all involved parties
         """
-        message = event["message"]
+        message = next(serializers.deserialize("json", "["+event["message"]+"]")).object
         # message receipt
         if (
             self.user != message.author
@@ -110,14 +120,14 @@ class ChatConsumer(WebsocketConsumer):
                 self.group_name,
                 {
                     "type": "chat_message",
-                    "message": message,
+                    "message": serializers.serialize("json", [message,])[1:-1],
                     "index": index,
                     "update": True,
                 },
             )
         html = get_template("turtlemail/_chat_message.jinja").render(
             context={
-                "msg": event["message"],
+                "msg": message,
                 "new_msg": not event["update"],
                 "update_msg": event["update"],
                 "user": self.user,
@@ -130,7 +140,7 @@ class ChatConsumer(WebsocketConsumer):
         """
         inform clients about updates in chats, that they are not actively reading
         """
-        step = event["step"]
+        step = next(serializers.deserialize("json", "["+event["step"]+"]")).object
         # does this broadcast concern us?
         if (
             self.user != step.stay.user and self.user != step.next_step.stay.user
