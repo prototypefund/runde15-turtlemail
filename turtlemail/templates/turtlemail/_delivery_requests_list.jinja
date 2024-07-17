@@ -1,0 +1,8 @@
+{% if htmx %}<div hx-swap-oob="innerHTML:#delivery_request_block">{% endif %}
+    {% for form in routing_forms %}
+        {% include "turtlemail/route_step_routing_form.jinja" %}
+    {% endfor %}
+    {% for form in request_forms %}
+        {% include "turtlemail/route_step_request_form.jinja" %}
+    {% endfor %}
+    {% if htmx %}</div>{% endif %}

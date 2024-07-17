@@ -80,6 +80,31 @@ class DeliveriesView(LoginRequiredMixin, ListView):
     if TYPE_CHECKING:
         request: AuthedHttpRequest
 
+    @staticmethod
+    def get_context_forms(user):
+        context = {}
+        requested_steps = RouteStep.objects.filter(
+            status=RouteStep.SUGGESTED,
+            stay__user=user,
+            route__status=Route.CURRENT,
+        ).all()
+        context["request_forms"] = [
+            RouteStepRequestForm(step) for step in requested_steps
+        ]
+        routing_steps = RouteStep.objects.filter(
+            previous_step__status=RouteStep.ONGOING,
+            status=RouteStep.ACCEPTED,
+            stay__user=user,
+            route__status=Route.CURRENT,
+        )
+        context["routing_forms"] = [
+            RouteStepRoutingForm(
+                step, initial={"choice": RouteStepRoutingForm.Choices.YES}
+            )
+            for step in routing_steps
+        ]
+        return context
+
     def get_queryset(self):
         queryset = super().get_queryset()
         user_routed_packages = queryset.filter(
@@ -94,26 +119,7 @@ class DeliveriesView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        requested_steps = RouteStep.objects.filter(
-            status=RouteStep.SUGGESTED,
-            stay__user=self.request.user,
-            route__status=Route.CURRENT,
-        ).all()
-        context["request_forms"] = [
-            RouteStepRequestForm(step) for step in requested_steps
-        ]
-        routing_steps = RouteStep.objects.filter(
-            previous_step__status=RouteStep.ONGOING,
-            status=RouteStep.ACCEPTED,
-            stay__user=self.request.user,
-            route__status=Route.CURRENT,
-        )
-        context["routing_forms"] = [
-            RouteStepRoutingForm(
-                step, self.request, initial={"choice": RouteStepRoutingForm.Choices.YES}
-            )
-            for step in routing_steps
-        ]
+        context.update(self.get_context_forms(self.request.user))
         return context
 
 

@@ -2,12 +2,10 @@
 {% block content %}
     <div class="grid gap-8 w-full max-w-lg">
         <a href="{{ url("create_packet") }}" class="btn btn-lg btn-primary">{{ _("Place a delivery") }}</a>
-        {% for form in routing_forms %}
-            {% include "turtlemail/route_step_routing_form.jinja" %}
-        {% endfor %}
-        {% for form in request_forms %}
-            {% include "turtlemail/route_step_request_form.jinja" %}
-        {% endfor %}
+        <div class="grid gap-8"
+             id="delivery_request_block"
+             hx-ext="ws"
+             ws-connect="/ws/">{% include "turtlemail/_delivery_requests_list.jinja" %}</div>
         <div class="flex flex-col items-center justify-center gap-8">
             {% for item in object_list %}
                 <a href="{{ url("packet_detail", item.human_id) }}"

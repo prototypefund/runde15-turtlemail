@@ -13,10 +13,10 @@ from django.contrib.auth.forms import (
     UsernameField,
 )
 from django.forms import ValidationError
-from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.contrib.sites.models import Site
 
 from turtlemail import widgets
 
@@ -273,11 +273,8 @@ class RouteStepRoutingForm(forms.Form):
         ),
     )
 
-    def __init__(
-        self, instance: RouteStep, request: HttpRequest, *args, **kwargs
-    ) -> None:
+    def __init__(self, instance: RouteStep, *args, **kwargs) -> None:
         self.step = instance
-        self.request = request
         self.prefix = f"request-{instance.id}"
         super().__init__(*args, **kwargs)
 
@@ -309,9 +306,7 @@ class RouteStepRoutingForm(forms.Form):
                 mail_text = render_to_string(
                     "turtlemail/emails/report_problem.jinja",
                     {
-                        "packet_url": self.request.build_absolute_uri(
-                            reverse("packet_detail", args=[self.step.packet.human_id])
-                        ),
+                        "packet_url": f"https://{Site.objects.get_current().domain}{reverse('packet_detail', args=[self.step.packet.human_id])}",
                         "problem_description": self.cleaned_data["problem_description"],
                     },
                 )
