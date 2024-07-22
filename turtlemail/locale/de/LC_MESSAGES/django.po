@@ -379,7 +379,7 @@ msgid "Delivery Log Entries"
 msgstr "Lieferung Log Einträge"
 
 msgid "new"
-msgstr ""
+msgstr "neu"
 
 #, fuzzy
 msgid "received"
@@ -390,10 +390,10 @@ msgid "RouteStep context"
 msgstr "Route Schritt"
 
 msgid "Chat message"
-msgstr ""
+msgstr "Nachricht"
 
 msgid "Chat messages"
-msgstr ""
+msgstr "Nachrichten"
 
 msgid ""
 "\n"
@@ -415,17 +415,17 @@ msgstr ""
 " Viel Spaß!"
 
 msgid "Identifier of predefined system messages"
-msgstr ""
+msgstr "Identifizierung von voreingestellten Systemnachrichten"
 
 #, fuzzy
 msgid "Turtlemail system"
 msgstr "turtlemail-System"
 
 msgid "Message author"
-msgstr ""
+msgstr "Autor"
 
 msgid "Message content"
-msgstr ""
+msgstr "Inhalt"
 
 msgid "German"
 msgstr "Deutsch"
@@ -475,7 +475,7 @@ msgid "%(action)s"
 msgstr "In der Nähe von %(location)s"
 
 msgid "Message"
-msgstr ""
+msgstr "Nachricht"
 
 #, fuzzy
 msgid "send"
@@ -580,7 +580,7 @@ msgid "Help us to test our software."
 msgstr "Hilf uns, turtlemail zu testen."
 
 msgid "Read more about the experiment here."
-msgstr ""
+msgstr "Erfahre hier mehr über das Experiment."
 
 #, fuzzy
 msgid "Create a free account"
@@ -803,7 +803,7 @@ msgid "Carry"
 msgstr "Mitnehmen"
 
 msgid "Mastodon"
-msgstr ""
+msgstr "Mastodon"
 
 msgid "Menu"
 msgstr "Menü"
@@ -815,10 +815,10 @@ msgid "Receive"
 msgstr "Empfangen"
 
 msgid "Signal Messenger"
-msgstr ""
+msgstr "Signal"
 
 msgid "Telegram"
-msgstr ""
+msgstr "Telegram"
 
 #, fuzzy
 msgid "Add location"
