@@ -70,6 +70,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         stay_set: RelatedManager["Stay"]
         sent_packets: RelatedManager["Packet"]
         received_packets: RelatedManager["Packet"]
+        sent_invites: RelatedManager["Invite"]
+        from_invite: "Invite"
 
     email = models.EmailField(
         verbose_name=_("email address"),
@@ -115,18 +117,33 @@ def default_invite_token():
 
 
 class Invite(models.Model):
-    invited_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    invited_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="sent_invites"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(
         max_length=255,
         unique=True,
         error_messages={"unique": _("This user has already been invited.")},
     )
+    accepted_at = models.DateTimeField(null=True, blank=True)
+    created_user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="from_invite",
+    )
+    # Once the inviting user has seen that the invite was accepted,
+    # they can dismiss it.
+    dismissed = models.BooleanField(default=False)
 
     token = models.TextField(default=default_invite_token)
 
     class Meta:
         indexes = [models.Index(fields=["token"])]
+
+        ordering = ["-accepted_at", "-created_at"]
 
     def __str__(self):
         return f"{self.email} (from {self.invited_by.username})"

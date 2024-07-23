@@ -18,8 +18,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -50,6 +50,7 @@ from turtlemail.types import AuthedHttpRequest
 
 from .forms import (
     AuthenticationForm,
+    DismissInviteForm,
     InviteUserForm,
     LocationForm,
     PacketForm,
@@ -114,6 +115,11 @@ class DeliveriesView(LoginRequiredMixin, ListView):
             )
             for step in routing_steps
         ]
+        context["accepted_invites"] = Invite.objects.filter(
+            invited_by=self.request.user, accepted_at__isnull=False, dismissed=False
+        )
+        context["dismiss_invite_form"] = DismissInviteForm(initial={"dismissed": True})
+
         return context
 
 
@@ -589,8 +595,24 @@ class SignUpView(CreateView):
 
     def get_initial(self) -> dict[str, Any]:
         initial = super().get_initial()
-        initial["email"] = self.request.GET.get("email") or None
+
+        if (invite := self.get_invite()) is not None:
+            initial["email"] = invite.email
         return initial
+
+    def get_invite(self) -> Invite | None:
+        invite_token = self.request.GET.get("invite_token", default=None)
+        if invite_token is not None:
+            return Invite.objects.get(token=invite_token)
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        res = super().form_valid(form)
+        if (invite := self.get_invite()) is not None:
+            invite.accepted_at = timezone.now()
+            invite.created_user = form.instance
+            invite.save()
+
+        return res
 
 
 class LoginView(_LoginView):
@@ -604,9 +626,14 @@ class CreatePacketView(LoginRequiredMixin, TemplateView):
     if TYPE_CHECKING:
         request: AuthedHttpRequest
 
-    def get(self, _request: AuthedHttpRequest, *args, **kwargs):
+    def get(self, request: AuthedHttpRequest, *args, **kwargs):
         form = PacketForm()
         context = self.get_context_data(**kwargs)
+        if (
+            initial_recipient_id := request.GET.get("initial_recipient_id", None)
+        ) is not None:
+            form.initial["recipient_id"] = initial_recipient_id
+            context["recipient"] = User.objects.get(id=initial_recipient_id)
         context["form"] = form
         return self.render_to_response(context)
 
@@ -706,7 +733,7 @@ class HtmxInviteUserView(LoginRequiredMixin, CreateView):
                 {
                     "invited_by": self.request.user,
                     "invite_url": self.request.build_absolute_uri(
-                        reverse("accept_invite", args=[invite.token])
+                        f"{reverse('signup')}?invite_token={invite.token}"
                     ),
                 },
             )
@@ -717,12 +744,23 @@ class HtmxInviteUserView(LoginRequiredMixin, CreateView):
                 recipient_list=[form.cleaned_data["email"]],
             )
             messages.add_message(self.request, messages.SUCCESS, _("Invite sent!"))
-            return super().form_valid(form)
+            super().form_valid(form)
+
+            # Somehow, a normal redirect causes the "invite sent" message
+            # to be shown multiple times.
+            # I don't know why, but this fixes that.
+            res = HttpResponse()
+            res.status_code = 200
+            res["HX-Redirect"] = reverse("deliveries")
+
+            return res
 
 
-class AcceptInviteView(View):
-    def get(self, _request: HttpRequest, token: str):
-        invite = Invite.objects.get(token=token)
-        url = reverse("signup")
-        query_params = urlencode({"email": invite.email})
-        return redirect(f"{url}?{query_params}")
+class HtmxDismissInvite(LoginRequiredMixin, UpdateView):
+    model = Invite
+    form_class = DismissInviteForm
+    template_name = "turtlemail/htmx_response.jinja"
+    success_url = reverse_lazy("deliveries")
+
+    if TYPE_CHECKING:
+        request: AuthedHttpRequest

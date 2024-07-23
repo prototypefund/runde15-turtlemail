@@ -520,6 +520,13 @@ msgid "Invite %(name)s to turtlemail"
 msgstr "Du wurdest zu turtlemail eingeladen!"
 
 #, python-format
+msgid "%(user)s accepted your invitation!"
+msgstr "%(user)s hat deine Einladung angenommen!"
+
+msgid "Send them something"
+msgstr "Ein Paket schicken"
+
+#, python-format
 msgid "Receive from %(sender)s"
 msgstr "Empfangen von %(sender)s"
 
