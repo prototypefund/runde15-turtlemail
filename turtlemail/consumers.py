@@ -8,16 +8,6 @@ from channels.generic.websocket import WebsocketConsumer
 from turtlemail.views import ChatsView
 from .models import ChatMessage, RouteStep, UserChatMessage
 
-
-class MessageSerializer:
-    @staticmethod
-    def serialize(message: ChatMessage) -> dict:
-        message_json = {}
-        return message_json
-
-class RouteStepSerializer:
-    ...
-
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -89,7 +79,9 @@ class ChatConsumer(WebsocketConsumer):
             self.group_name,
             {
                 "type": "chat_message",
-                "message": serializers.serialize("json", [message,])[1:-1],
+                "message": serializers.serialize(
+                    "json", [message, message.chatmessage_ptr]
+                ),
                 "index": ChatMessage.objects.filter(route_step=self.step).count(),
                 "update": False,
             },
@@ -99,7 +91,12 @@ class ChatConsumer(WebsocketConsumer):
             "all",
             {
                 "type": "update_chat_list_item",
-                "step": serializers.serialize("json", [self.step,])[1:-1],
+                "step": serializers.serialize(
+                    "json",
+                    [
+                        self.step,
+                    ],
+                )[1:-1],
             },
         )
 
@@ -107,24 +104,13 @@ class ChatConsumer(WebsocketConsumer):
         """
         add or replace chat message to all involved parties
         """
-        message = next(serializers.deserialize("json", "["+event["message"]+"]")).object
-        # message receipt
-        if (
-            self.user != message.author
-            and message.status == UserChatMessage.StatusChoices.NEW
-        ):
-            index = ChatMessage.objects.filter(route_step=self.step).count()
-            message.status = UserChatMessage.StatusChoices.RECEIVED
-            message.save()
-            async_to_sync(self.channel_layer.group_send)(
-                self.group_name,
-                {
-                    "type": "chat_message",
-                    "message": serializers.serialize("json", [message,])[1:-1],
-                    "index": index,
-                    "update": True,
-                },
-            )
+        generator = serializers.deserialize("json", event["message"])
+        message = next(generator).object
+        message_parent = next(generator).object
+        message.chatmessage_ptr = message_parent
+        message.created_at = message_parent.created_at
+        message.route_step = message_parent.route_step
+        message.status = message_parent.status
         html = get_template("turtlemail/_chat_message.jinja").render(
             context={
                 "msg": message,
@@ -134,13 +120,34 @@ class ChatConsumer(WebsocketConsumer):
                 "index": event["index"],
             }
         )
-        self.send(text_data=html)
+        if not event["update"] or self.user == message.author:
+            self.send(text_data=html)
+        # message receipt
+        if (
+            self.user != message.author
+            and message.status == UserChatMessage.StatusChoices.NEW
+        ):
+            index = ChatMessage.objects.filter(route_step=self.step).count()
+            message.status = UserChatMessage.StatusChoices.RECEIVED
+            message.save()
+            message.content = "WTF"
+            async_to_sync(self.channel_layer.group_send)(
+                self.group_name,
+                {
+                    "type": "chat_message",
+                    "message": serializers.serialize(
+                        "json", [message, message.chatmessage_ptr]
+                    ),
+                    "index": index,
+                    "update": True,
+                },
+            )
 
     def update_chat_list_item(self, event):
         """
         inform clients about updates in chats, that they are not actively reading
         """
-        step = next(serializers.deserialize("json", "["+event["step"]+"]")).object
+        step = next(serializers.deserialize("json", "[" + event["step"] + "]")).object
         # does this broadcast concern us?
         if (
             self.user != step.stay.user and self.user != step.next_step.stay.user

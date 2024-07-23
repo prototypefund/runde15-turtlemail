@@ -359,7 +359,8 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
         # mark all foreign messages read and update htmx ws
         messages_count = ChatMessage.objects.filter(route_step=self.object).count()
         now_read_messages = UserChatMessage.objects.filter(
-            route_step=self.object
+            route_step=self.object,
+            status=ChatMessage.StatusChoices.NEW,
         ).exclude(author=self.request.user)
         now_read_messages_count = now_read_messages.count()
         now_read_messages.update(status=ChatMessage.StatusChoices.RECEIVED)
@@ -369,7 +370,9 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
                 f"chat_{str(self.object.pk)}",
                 {
                     "type": "chat_message",
-                    "message": serializers.serialize("json", [message,])[1:-1],
+                    "message": serializers.serialize(
+                        "json", [message, message.chatmessage_ptr]
+                    ),
                     "index": messages_count - now_read_messages_count,
                     "update": True,
                 },
