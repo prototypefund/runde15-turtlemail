@@ -8,6 +8,7 @@ from channels.generic.websocket import WebsocketConsumer
 from turtlemail.views import ChatsView
 from .models import ChatMessage, RouteStep, UserChatMessage
 
+
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

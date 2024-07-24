@@ -1,4 +1,4 @@
-<div {% if new_msg -%} hx-swap-oob="beforeend:#listofmsgs" {% elif update_msg -%} hx-swap-oop="outerHTML:#msg{{ index }}" {% endif -%}>
+<div hx-swap-oob=" {%- if new_msg -%}beforeend:#listofmsgs {%- elif update_msg -%}outerHTML:#msg{{ index }} {%- endif -%}">
     <div id="msg{{ index }}"
          class="chat {% if user == msg.author %}chat-end{% else %}chat-start{% endif %}">
         <div class="chat-header">
