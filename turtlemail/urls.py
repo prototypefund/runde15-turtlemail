@@ -57,6 +57,11 @@ urlpatterns = [
         name="packet_detail",
     ),
     path(
+        "htmx/deliveries/<slug:slug>/expand_logs/",
+        views.HtmxExpandActivitiesView.as_view(),
+        name="expand_packet_logs",
+    ),
+    path(
         "accept_invite/<str:token>",
         views.AcceptInviteView.as_view(),
         name="accept_invite",

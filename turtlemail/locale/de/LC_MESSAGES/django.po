@@ -474,6 +474,14 @@ msgstr "Einladung gesendet!"
 msgid "%(action)s"
 msgstr "In der Nähe von %(location)s"
 
+#, fuzzy
+msgid "Expand"
+msgstr "Mehr anzeigen"
+
+msgid "Delivery created"
+msgstr "Lieferung erstellt"
+
+#, fuzzy
 msgid "Message"
 msgstr "Nachricht"
 
@@ -660,9 +668,6 @@ msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant.
 
 msgid "Activity"
 msgstr "Aktivität"
-
-msgid "Delivery created"
-msgstr "Lieferung erstellt"
 
 #, fuzzy
 msgid "staff"

@@ -5,6 +5,7 @@ from django.contrib.gis.db.models import Count
 from django.db.models import Q
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
@@ -13,6 +14,7 @@ from django.contrib.auth.mixins import (
 from django.contrib.auth.views import LoginView as _LoginView
 from django.core.mail import send_mail
 from django.db import transaction
+from django.db.models.base import Model as Model
 from django.forms import BaseModelForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
@@ -662,6 +664,11 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
             )
         else:
             cx["users_route_steps"] = []
+
+        cx["delivery_logs"] = packet.delivery_logs.all()[: settings.ACTIVITY_LENGTH]
+        cx["has_more_delivery_logs"] = (
+            len(packet.delivery_logs.all()) > settings.ACTIVITY_LENGTH
+        )
         return cx
 
     def test_func(self) -> bool | None:
@@ -681,6 +688,28 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
             or is_part_of_route
             or self.request.user.is_superuser
         )
+
+
+class HtmxExpandActivitiesView(DetailView):
+    template_name = "turtlemail/_activities.jinja"
+    model = DeliveryLog
+    context_object_name = "logs"
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get("slug")
+
+        packet = Packet.objects.get_by_natural_key(human_id=slug)
+        queryset = packet.delivery_logs.all()
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        cx = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        packet = Packet.objects.get_by_natural_key(human_id=slug)
+        cx["delivery_logs"] = packet.delivery_logs.all()
+        cx["packet"] = packet
+        return cx
 
 
 class HtmxInviteUserView(LoginRequiredMixin, CreateView):

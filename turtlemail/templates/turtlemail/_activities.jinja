@@ -1,0 +1,29 @@
+{% for log in delivery_logs %}
+    <li class="flex flex-col">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+            <div class="text-base-content/80">{{ log.created_at|date }}</div>
+        </div>
+        <div class="px-3 pb-2 ml-1 border-l border-base-300">{{ log.description }}</div>
+    </li>
+{% endfor %}
+{% if has_more_delivery_logs %}
+    <div class="border-l border-dashed border-base-300 px-3 pb-2 ml-1 ">
+        <button hx-get={{ url('expand_packet_logs', packet.human_id) }} hx-target="#log-container" hx-swap="innerHTML" id="load-more-btn" class="flex items-center m-2 p-2 mx-2 mt-2 border border-primary hover:border-primary/80 hover:text-slate-500 rounded">
+            <span>{{ _("Expand") }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 16 16"
+                 fill="currentColor"
+                 class="size-4">
+                <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+{% endif %}
+<li class="flex flex-col">
+    <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-primary">&nbsp</span>
+        <div class="text-base-content/80">{{ packet.created_at|date }}</div>
+    </div>
+    <div class="px-3 ml-1">{{ _("Delivery created") }}</div>
+</li>

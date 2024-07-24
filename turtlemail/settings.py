@@ -282,3 +282,6 @@ if SENTRY_DSN:
         environment=ENVIRONMENT,
         traces_sample_rate=0,
     )
+
+
+ACTIVITY_LENGTH = 3
