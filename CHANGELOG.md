@@ -2,7 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.1] - 2024-07-25
+
+[a1bc504](a1bc5046281352032c693b9e89faba07fd135c7a)...[5c358c8](5c358c872e25770e30b75901425ec35378b41ff7)
+
+### Bug Fixes
+
+- Add missing translations ([a8926c6](a8926c696a9482ab81e98a17553303b8c5f703f6))
+- Line endings ([27afd70](27afd70190c1f45d8b74590496aee4a1a95d6cdb))
+- Redis channels serialization errors ([691ce21](691ce2188bf3c2e990e7061af5e467b1b5c5ad4f))
+- Live message status updates ([7cf0689](7cf06892086ca77beaf1b51e3b1c0b6c4b163afa))
+
+### Features
+
+- Add new illustrations ([b288767](b288767af4c635fa78c890d862e8eb7db96b624b))
+
+### WIP
+
+- Fix serialization errors in django-channels ([10842b9](10842b96f5e02228a3375dbd273f3fb4ceb543da))
+
+### Bump
+
+- Release v0.7.1 ([5c358c8](5c358c872e25770e30b75901425ec35378b41ff7))
+
 ## [0.7.0] - 2024-07-16
+
+[8316d04](8316d0413c2e9510a218a63a32d52a8337747dfa)...[a1bc504](a1bc5046281352032c693b9e89faba07fd135c7a)
 
 ### #50
 
@@ -51,6 +76,10 @@ All notable changes to this project will be documented in this file.
 - Add format make task ([e3c8490](e3c849027f6757bf10d55107c8ce7278bb5c2035))
 - Mount source code in dev worker container ([5cd9e7a](5cd9e7a22b28f21a7b9e0f7e187a29ee38b68df1))
 - Remove old & incorrect fixtures ([1a1ebc1](1a1ebc1914493e2c8659740ef060f8bf41492854))
+
+### Bump
+
+- Release v0.7.0 ([a1bc504](a1bc5046281352032c693b9e89faba07fd135c7a))
 
 ### Wip
 
