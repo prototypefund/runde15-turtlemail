@@ -542,6 +542,9 @@ msgstr "Senden zu %(recipient)s"
 msgid "Carry"
 msgstr "Mitnehmen"
 
+msgid "Involved in past plans"
+msgstr "Nicht mehr beteiligt"
+
 msgid "Delivered by Humans"
 msgstr "Delivered by Humans"
 

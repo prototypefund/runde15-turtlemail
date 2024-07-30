@@ -21,7 +21,7 @@
                 <a href="{{ url("packet_detail", item.human_id) }}"
                    class="w-full p-8 bg-white border-4 rounded-box {{ item_color_class }}">
                     <div class="flex flex-col gap-2">
-                        <div>{{ item.human_id }}</div>
+                        <div>📦 {{ item.human_id }}</div>
                         <div>
                             {% if item.recipient == request.user %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">
@@ -33,10 +33,15 @@
                                     {% include "turtlemail/icons/send.jinja" %}
                                     {{ _("Send to %(recipient)s", recipient = item.recipient.username) }}
                                 </div>
-                            {% else %}
+                            {% elif item.current_route() is not none and item.current_route().is_user_involved(request.user) %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/carry.jinja" %}
                                     {{ _("Carry") }}
+                                </div>
+                            {% else %}
+                                <div class="flex flex-row gap-2 text-lg">
+                                    {% include "turtlemail/icons/carry.jinja" %}
+                                    {{ _("Involved in past plans") }}
                                 </div>
                             {% endif %}
                         </div>

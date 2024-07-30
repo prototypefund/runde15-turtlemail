@@ -511,6 +511,9 @@ class Route(models.Model):
     def completed_steps(self):
         return self.steps.filter(status=RouteStep.COMPLETED)
 
+    def is_user_involved(self, user: User):
+        return self.steps.filter(stay__user=user).exists()
+
 
 class RouteStep(models.Model):
     SUGGESTED = "SUGGESTED"
