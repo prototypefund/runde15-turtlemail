@@ -538,6 +538,10 @@ msgstr "Empfangen von %(sender)s"
 msgid "Send to %(recipient)s"
 msgstr "Senden zu %(recipient)s"
 
+#, fuzzy
+msgid "Carry"
+msgstr "Mitnehmen"
+
 msgid "Delivered by Humans"
 msgstr "Delivered by Humans"
 
@@ -805,10 +809,6 @@ msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"
 
 msgid "Link to the delivery:"
 msgstr "Link zur Sendung:"
-
-#, fuzzy
-msgid "Carry"
-msgstr "Mitnehmen"
 
 msgid "Mastodon"
 msgstr "Mastodon"
