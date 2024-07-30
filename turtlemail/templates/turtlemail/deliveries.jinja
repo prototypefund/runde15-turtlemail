@@ -10,8 +10,16 @@
         {% endfor %}
         <div class="flex flex-col items-center justify-center gap-8">
             {% for item in object_list %}
+                {% set item_color_class = "border-info hover:border-info/60" %}
+                {% if item.status() == item.Status.DELIVERED %}
+                    {% set item_color_class = "border-success hover:border-success/80" %}
+                {% elif item.status() == item.Status.DELIVERING %}
+                    {% set item_color_class = "border-success/60 hover:border-success/40" %}
+                {% elif item.status() == item.Status.NO_ROUTE_FOUND %}
+                    {% set item_color_class = "border-error hover:border-error/60" %}
+                {% endif %}
                 <a href="{{ url("packet_detail", item.human_id) }}"
-                   class="w-full p-8 rounded-box bg-white border-4 {% if item.recipient == request.user %} border-primary hover:border-primary/80 {% elif item.sender == request.user %} border-secondary hover:border-secondary/80 {% else %} border-accent hover:border-accent/80 {% endif %}">
+                   class="w-full p-8 bg-white border-4 rounded-box {{ item_color_class }}">
                     <div class="flex flex-col gap-2">
                         <div>{{ item.human_id }}</div>
                         <div>
