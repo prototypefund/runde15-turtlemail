@@ -1,6 +1,6 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
-    <div class="grid gap-8 w-full max-w-lg">
+    <div class="grid w-full max-w-lg gap-8">
         <a href="{{ url("create_packet") }}" class="btn btn-lg btn-primary">{{ _("Place a delivery") }}</a>
         {% for form in routing_forms %}
             {% include "turtlemail/route_step_routing_form.jinja" %}
@@ -18,12 +18,12 @@
                             {% if item.recipient == request.user %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/receive.jinja" %}
-                                    {{ _("Receive from %(sender)s", sender = item.sender) }}
+                                    {{ _("Receive from %(sender)s", sender = item.sender.username) }}
                                 </div>
                             {% elif item.sender == request.user %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">
                                     {% include "turtlemail/icons/send.jinja" %}
-                                    {{ _("Send to %(recipient)s", recipient = item.recipient) }}
+                                    {{ _("Send to %(recipient)s", recipient = item.recipient.username) }}
                                 </div>
                             {% else %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">

@@ -107,7 +107,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.email = self.__class__.objects.normalize_email(self.email)
 
     def __str__(self):
-        return self.email
+        return self.username
 
 
 def default_invite_token():
