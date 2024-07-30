@@ -869,6 +869,11 @@ msgstr "Aufenthalt hinzufügen"
 msgid "Will not be included in any deliveries until %(date)s"
 msgstr "Nicht in jeglichen Lieferungen inkludiert bis %(date)s"
 
+msgid "Add a location above, then create stays here!"
+msgstr ""
+"Füge oben einen Ort hinzu - dann kannst du hier einen Aufenthalt damit "
+"erstellen."
+
 msgid ""
 "This stay is planned for some of your deliveries. Making changes will "
 "cancel these plans."
@@ -876,7 +881,7 @@ msgstr ""
 "Dieser Auftenthalt ist für Lieferungen eingeplant. Wenn du ihn änderst, "
 "wird deine Mithilfe bei diesen Lieferungen abgesagt."
 
-#~ msgid "Hello %(name)s!"
+#~ msgid "Hello %s!"
 #~ msgstr "Hallo %(name)s!"
 
 #~ msgid "Who would you like to send your packet to?"

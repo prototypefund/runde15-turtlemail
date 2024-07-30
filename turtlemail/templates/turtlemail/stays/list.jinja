@@ -4,6 +4,9 @@
         {% for stay in stays %}
             <div id="stay_{{ stay.id }}">{% include "turtlemail/stays/detail.jinja" %}</div>
         {% endfor %}
+        {% if request.user.location_set.filter(deleted=False).count() == 0 %}
+            <div class="p-4 text-center text-base-content">{{ _("Add a location above, then create stays here!") }}</div>
+        {% endif %}
         {% include "turtlemail/stays/create_button.jinja" %}
     </div>
 </div>
