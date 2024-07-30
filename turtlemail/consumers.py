@@ -131,7 +131,6 @@ class ChatConsumer(WebsocketConsumer):
             index = ChatMessage.objects.filter(route_step=self.step).count()
             message.status = UserChatMessage.StatusChoices.RECEIVED
             message.save()
-            message.content = "WTF"
             async_to_sync(self.channel_layer.group_send)(
                 self.group_name,
                 {
