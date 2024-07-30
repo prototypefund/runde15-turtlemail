@@ -7,6 +7,7 @@
             {% set index = loop.index0 %}
             {% include "turtlemail/_chat_message.jinja" %}
         {% endfor %}
+        <a href="{{ url("packet_detail", object.packet.human_id) }}">{{ gettext("Click here to view package details. 📦") }}</a>
     </div>
     {% include "turtlemail/_chat_form.jinja" %}
 </div>

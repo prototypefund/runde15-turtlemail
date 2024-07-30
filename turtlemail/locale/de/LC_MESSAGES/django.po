@@ -490,6 +490,9 @@ msgstr "Mehr anzeigen"
 msgid "Delivery created"
 msgstr "Lieferung erstellt"
 
+msgid "Click here to view package details. 📦"
+msgstr ""
+
 #, fuzzy
 msgid "Message"
 msgstr "Nachricht"
