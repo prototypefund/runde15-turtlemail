@@ -462,6 +462,11 @@ class Packet(models.Model):
         # Walk through steps one by one to find the last one that
         # was not completed
         step = last_route.steps.filter(previous_step__isnull=True).first()
+        if step is not None and step.status != step.COMPLETED:
+            # Delivery on this route hasn't started.
+            # The packet is still with the sender
+            return None
+
         while step is not None:
             if step.status != step.COMPLETED:
                 debug("Found first incomplete routing step: %s", step)
