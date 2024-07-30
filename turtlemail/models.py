@@ -343,7 +343,7 @@ class Packet(models.Model):
 
                 case self.NO_ROUTE_FOUND:
                     return _(
-                        "The system found no way to reach the recipient. If you want to retry sending this delivery, please create a new one."
+                        "The system found no way to reach the recipient. Try adding more stays to your profile!"
                     )
 
                 case self.CONFIRMING_ROUTE:
