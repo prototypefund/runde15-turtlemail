@@ -345,8 +345,8 @@ msgstr "Neuer Routen Schritt Status"
 msgid "Human readable log entry"
 msgstr "Menschenlesbarer Log-Eintrag"
 
-#, python-format
-msgid "A journey involved in this delivery changed: %(status)sstatus"
+#, fuzzy, python-format
+msgid "A journey involved in this delivery changed: %(status)s"
 msgstr "Eine Reise in dieser Lieferung hat sich geändert: %(status)sstatus"
 
 msgid "A user cancelled their journey for this delivery"
@@ -364,10 +364,10 @@ msgstr "Jemand hat ein Problem mit dieser Übergabe an das Support-Team gemeldet
 msgid "The delivery has reached its destination."
 msgstr "Die Lieferung hat ihr Ziel erreicht."
 
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The packet reached station %(i)s of %(n)s. It is still %(distance)s "
-"kilometers from its destination.i"
+"kilometers from its destination."
 msgstr ""
 "Die Lieferung hat Schritt %(i)s von %(n)s erreicht. Sie ist noch "
 "%(distance)s Kilometer vom Ziel entfernt."

@@ -733,8 +733,8 @@ class DeliveryLog(models.Model):
         if self.action == self.ROUTE_STEP_CHANGE:
             description = _(
                 "A journey involved in this delivery changed: %(status)s"
-                % {"status": self.get_new_step_status_display()}  # type: ignore
-            )
+            ) % {"status": self.get_new_step_status_display()}  # type: ignore
+
             if self.new_step_status == RouteStep.CANCELLED:
                 description = _("A user cancelled their journey for this delivery")
             elif self.new_step_status == RouteStep.REJECTED:
@@ -760,24 +760,23 @@ class DeliveryLog(models.Model):
             else:
                 description = _(
                     "The packet reached station %(i)s of %(n)s. It is still %(distance)s kilometers from its destination."
-                    % {
-                        "i": str(
-                            self.route.steps.filter(status=RouteStep.COMPLETED).count()
-                            + 1  # this is called step pre save -> missing 1
-                        ),
-                        "n": str(self.route.steps.count()),
-                        "distance": str(
-                            round(
-                                self.route_step.stay.location.point.distance(
-                                    self.route.steps.get(
-                                        next_step__isnull=True
-                                    ).stay.location.point
-                                ),
-                                2,
-                            )
-                        ),
-                    }
-                )
+                ) % {
+                    "i": str(
+                        self.route.steps.filter(status=RouteStep.COMPLETED).count()
+                        + 1  # this is called step pre save -> missing 1
+                    ),
+                    "n": str(self.route.steps.count()),
+                    "distance": str(
+                        round(
+                            self.route_step.stay.location.point.distance(
+                                self.route.steps.get(
+                                    next_step__isnull=True
+                                ).stay.location.point
+                            ),
+                            2,
+                        )
+                    ),
+                }
         self.description = description
 
         return description
