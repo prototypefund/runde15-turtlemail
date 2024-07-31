@@ -106,12 +106,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        UserSettings(user=self).save()
+
     def __str__(self):
         return self.username
 
 
 def default_invite_token():
     return secrets.token_urlsafe(32)
+
+
+class UserSettings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="settings")
+    # settings
+    wants_email_notifications_chat = models.BooleanField(default=True)
 
 
 class Invite(models.Model):
@@ -803,6 +813,7 @@ class DeliveryLog(models.Model):
 class ChatMessage(models.Model):
     class StatusChoices(models.TextChoices):
         NEW = "N", _("new")
+        NOTIFIED = "NO", _("notified")
         RECEIVED = "R", _("received")
 
     objects = InheritanceManager()

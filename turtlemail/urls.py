@@ -112,6 +112,11 @@ urlpatterns = [
         name="htmx-delete-stay",
     ),
     path(
+        "htmx/user-settings/",
+        views.HtmxUpdateUserSettingsView.as_view(),
+        name="htmx-user-settings",
+    ),
+    path(
         "pages/legal/", flatpages_views.flatpage, {"url": "/pages/legal/"}, name="legal"
     ),
     path(

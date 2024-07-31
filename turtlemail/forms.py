@@ -13,6 +13,7 @@ from django.contrib.auth.forms import (
     UsernameField,
 )
 from django.forms import ValidationError
+from django.forms.renderers import Jinja2
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -20,7 +21,7 @@ from django.utils.translation import gettext_lazy as _
 
 from turtlemail import widgets
 
-from .models import Invite, Location, Route, RouteStep, Stay, User
+from .models import Invite, Location, Route, RouteStep, Stay, User, UserSettings
 
 
 class UserCreationForm(BaseUserCreationForm):
@@ -118,6 +119,23 @@ class InviteUserForm(forms.ModelForm):
         fields = ("email",)
         labels = {
             "email": _("Please enter the email of the person you'd like to invite:")
+        }
+
+
+class UserSettingFormRenderer(Jinja2):
+    form_template_name = "_form_div.jinja"
+
+
+class UserSettingsForm(forms.ModelForm):
+    default_renderer = UserSettingFormRenderer
+
+    class Meta:
+        model = UserSettings
+        fields = ("wants_email_notifications_chat",)
+        labels = {
+            "wants_email_notifications_chat": _(
+                "I want to be notified by email, if somebody messages me in a chat."
+            )
         }
 
 

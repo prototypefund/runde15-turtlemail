@@ -56,6 +56,9 @@ msgstr "Mit diesem Empfänger fortfahren"
 msgid "Please enter the email of the person you'd like to invite:"
 msgstr "Gib die E-mail Adresse der Person, die Du einladen möchtest an:"
 
+msgid "I want to be notified by email, if somebody messages me in a chat."
+msgstr ""
+
 msgid "The start date must be at or before the end date."
 msgstr "Das Startdatum muss gleich oder vor dem Enddatum sein."
 
@@ -384,6 +387,9 @@ msgstr "Lieferung Log Einträge"
 msgid "new"
 msgstr "neu"
 
+msgid "notified"
+msgstr ""
+
 #, fuzzy
 msgid "received"
 msgstr "Empfangen"
@@ -698,6 +704,9 @@ msgstr "Beigetreten"
 
 msgid "Log Out"
 msgstr "Ausloggen"
+
+msgid "Settings"
+msgstr ""
 
 msgid "Legal Notice"
 msgstr "Impressum"

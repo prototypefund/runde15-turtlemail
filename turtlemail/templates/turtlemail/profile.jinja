@@ -16,6 +16,12 @@
                 <a href="{{ url("logout") }}" class="btn">{{ _("Log Out") }}</a>
             </div>
         </div>
+        <div class="p-8 bg-base-100 rounded-box basis-80">
+            <h2 class="text-2xl font-bold">{{ gettext("Settings") }}</h2>
+            {% with form=settings_form %}
+                {% include "turtlemail/_user_settings_form.jinja" %}
+            {% endwith %}
+        </div>
         {% include "turtlemail/locations/list.jinja" %}
         {% include "turtlemail/stays/list.jinja" %}
         <footer class="flex justify-center p-4 bg-base-100 rounded-box">

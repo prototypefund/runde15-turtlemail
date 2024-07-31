@@ -48,6 +48,7 @@ from turtlemail.models import (
     Route,
     UserChatMessage,
     Location,
+    UserSettings,
 )
 from turtlemail.types import AuthedHttpRequest
 
@@ -61,6 +62,7 @@ from .forms import (
     UserCreationForm,
     RouteStepRequestForm,
     RouteStepRoutingForm,
+    UserSettingsForm,
 )
 
 channel_layer = get_channel_layer()
@@ -443,6 +445,25 @@ class HtmxUpdateStayView(LoginRequiredMixin, UpdateView):
             )
 
 
+class HtmxUpdateUserSettingsView(LoginRequiredMixin, UpdateView):
+    # hx-boost fallback without js is not implemented as low prio
+    model = UserSettings
+    template_name = "turtlemail/_user_settings_form.jinja"
+    success_url = reverse_lazy("profile")
+    form_class = UserSettingsForm
+
+    def get_object(self):
+        return self.request.user.settings
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        self.object = form.save()
+        return render(
+            self.request,
+            "turtlemail/_user_settings_form.jinja",
+            {"form": form},
+        )
+
+
 class HtmxDeleteStayView(LoginRequiredMixin, DeleteView):
     model = Stay
     success_url = reverse_lazy("stays")
@@ -489,6 +510,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             user=self.request.user, deleted=False
         )
         context["stays"] = Stay.objects.filter(user=self.request.user, deleted=False)
+        # hx-boost fallback without js is not impelemented as low prio
+        context["settings_form"] = UserSettingsForm(instance=self.request.user.settings)
         return context
 
 
