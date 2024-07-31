@@ -108,7 +108,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        UserSettings(user=self).save()
+        if not hasattr(self, "settings"):
+            UserSettings(user=self).save()
 
     def __str__(self):
         return self.username
