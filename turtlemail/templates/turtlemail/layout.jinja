@@ -34,7 +34,9 @@
                 </li>
             </ul>
         </div>
-        <div class="navbar-end">
+        <div class="gap-4 navbar-end">
+            <a href="{{ url("deliveries") }}#instructions"
+               class="btn btn-circle btn-outline btn-sm border-base-300 text-base-content/60">?</a>
             <a href="{{ url("profile") }}"
                class="h-8 px-4 mr-4 badge hover:bg-base-200 {% if url_name == "profile" %}badge-neutral{% endif %}">{{ request.user.username }}</a>
         </div>

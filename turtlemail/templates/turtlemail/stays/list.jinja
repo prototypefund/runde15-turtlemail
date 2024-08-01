@@ -1,5 +1,6 @@
 <div id="stays" class="px-4 py-8 bg-base-100 rounded-box md:px-8">
     <h2 class="mb-6 text-2xl font-bold">{{ _("Stays") }}</h2>
+    <p class="mb-6">{{ _("Specify how often or when you visit your locations.") }}</p>
     <div id="stays_list" class="divide-y">
         {% for stay in stays %}
             <div id="stay_{{ stay.id }}">{% include "turtlemail/stays/detail.jinja" %}</div>

@@ -1,8 +1,11 @@
 {% extends "turtlemail/base.jinja" %}
 {% block body %}
-    <div class="flex items-center h-screen bg-base-200 align-center">
-        <div class="w-full p-10 mx-2 mx-auto my-auto space-y-6 md:w-1/3 bg-base-100 rounded-box">
+    <div class="flex items-center min-h-screen p-8 bg-base-200 align-center">
+        <div class="w-full p-10 mx-auto my-auto space-y-6 md:w-1/3 bg-base-100 rounded-box">
             <h1 class="text-4xl text-center">{{ form.action }}</h1>
+            {% if request.resolver_match.url_name == "signup" %}
+                <p>{{ _("Your username is your public alias in the app.") }}</p>
+            {% endif %}
             <form method="post">
                 {% csrf_token %}
                 {% if form.errors %}
