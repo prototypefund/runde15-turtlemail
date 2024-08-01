@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.8.0] - 2024-08-01
+
+### #83
+
+- Insert link to package in chat window ([8e0d09e](8e0d09e2ec4e4ca4ea767ea6978980fc4ed4a84d))
+
+### Bug Fixes
+
+- Refer to users by username instead of email ([cdcc2bc](cdcc2bc5cea64851f5cedff0a48622fae76bd05d))
+- Remove debug message ([8103836](8103836ae64416eeaa83b646a7df74a1305ac93a))
+- Translation interpolation ([fd62025](fd620259388ce7c2dc6f88ead15d615616f23ae2))
+- Routing starting at wrong stay in some cases ([7e441c3](7e441c37c1c083117d5a44799725c6eccb145494))
+- Missing translation ([bd22b57](bd22b57172aa8e768980c7eec54888b68e5931ff))
+
+### Features
+
+- Visualize packet status using colors ([7c7f889](7c7f8895d58eaae7985a1dbb173393c54511a294))
+- Show hint when no route was found ([12cf860](12cf860273c8e56444784268d3aa68c8fca568f1))
+- Show note for past delivieries ([fe8ddaa](fe8ddaada84dcc17f46bfab85d69b78f257d17ae))
+- Show hint for creating locations before stays ([67b3633](67b36334720b659a21df032e08ffc7de61ddfd3a))
+- Add instructions ([7aefd29](7aefd292af65a861ca87023e04c76322acbf3f57))
+
+### Miscellaneous Tasks
+
+- Update changelog ([6f1f666](6f1f66637201a904452a72ec1071aa4623c6ff03))
+
+### Refactor
+
+- Move packet link to top of chat message list ([8af6def](8af6def53abb90e584dfc2864e6c7de81142feaf))
+
 ## [0.7.1] - 2024-07-25
 
 [a1bc504](a1bc5046281352032c693b9e89faba07fd135c7a)...[5c358c8](5c358c872e25770e30b75901425ec35378b41ff7)
