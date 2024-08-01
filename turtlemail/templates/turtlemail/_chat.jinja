@@ -3,11 +3,15 @@
      class="relative flex flex-col h-full max-w-xl ">
     <div id="listofmsgs"
          class="flex-grow p-2 overflow-y-auto md:p-4 rounded-tr-box bg-base-100">
+        <p>
+            🧸
+            <a class="link"
+               href="{{ url("packet_detail", object.packet.human_id) }}">{{ object.packet.human_id }}</a>
+        </p>
         {% for msg in chat_msgs %}
             {% set index = loop.index0 %}
             {% include "turtlemail/_chat_message.jinja" %}
         {% endfor %}
-        <a href="{{ url("packet_detail", object.packet.human_id) }}">{{ gettext("Click here to view package details. 📦") }}</a>
     </div>
     {% include "turtlemail/_chat_form.jinja" %}
 </div>

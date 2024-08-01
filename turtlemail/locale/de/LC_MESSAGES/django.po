@@ -30,14 +30,12 @@ msgstr "Kennwort"
 msgid "Password confirmation"
 msgstr "Kennwortbestätigung"
 
-#, fuzzy
 msgid "Sign Up"
 msgstr "Registrieren"
 
 msgid "Log into an existing account"
 msgstr "Mit bestehendem Konto anmelden"
 
-#, fuzzy
 msgid "Log In"
 msgstr "Anmelden"
 
@@ -97,11 +95,9 @@ msgstr ""
 msgid "The email must be set."
 msgstr "Die E-Mail Adresse muss gewählt werden."
 
-#, fuzzy
 msgid "Superuser must have is_staff=True."
 msgstr "Beim Superuser muss die Variable is_stuff=True gesetzt sein."
 
-#, fuzzy
 msgid "Superuser must have is_superuser=True."
 msgstr "Beim Superuser muss die Variable is_superuser=True gesetzt sein."
 
@@ -139,7 +135,6 @@ msgstr "Dieser Benutzer wurde bereits eingeladen."
 msgid "Name"
 msgstr "Name"
 
-#, fuzzy
 msgid "Home"
 msgstr "Zu Hause"
 
@@ -152,7 +147,6 @@ msgstr "Benutzer"
 msgid "Locations"
 msgstr "Orte"
 
-#, fuzzy
 msgid "Daily"
 msgstr "Täglich"
 
@@ -162,7 +156,6 @@ msgstr "Wöchentlich"
 msgid "Sometimes"
 msgstr "Ab und Zu"
 
-#, fuzzy
 msgid "Once"
 msgstr "Einmal"
 
@@ -208,7 +201,6 @@ msgstr "Zugestellt"
 msgid "The system is currently looking for people who can make this delivery."
 msgstr "Das System sucht aktuell nach Menschen, die diese Lieferung machen können."
 
-#, fuzzy
 msgid ""
 "The system found no way to reach the recipient. Try adding more stays to "
 "your profile!"
@@ -251,7 +243,6 @@ msgstr "Empfänger"
 msgid "Created at"
 msgstr "Erstellt am"
 
-#, fuzzy
 msgid "Code"
 msgstr "Kennung"
 
@@ -264,9 +255,8 @@ msgstr "Lieferungen"
 msgid "Status"
 msgstr "Status"
 
-#, fuzzy
 msgid "Datetime"
-msgstr "Datumzeit"
+msgstr "Datum und Uhrzeit"
 
 msgid "Route"
 msgstr "Route"
@@ -490,9 +480,6 @@ msgstr "Mehr anzeigen"
 msgid "Delivery created"
 msgstr "Lieferung erstellt"
 
-msgid "Click here to view package details. 📦"
-msgstr ""
-
 #, fuzzy
 msgid "Message"
 msgstr "Nachricht"
@@ -672,7 +659,6 @@ msgstr ""
 msgid "Cancel this handover"
 msgstr "Diese Übergabe absagen"
 
-#, fuzzy
 msgid "Send message"
 msgstr "Nachrichten"
 
@@ -688,11 +674,9 @@ msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant.
 msgid "Activity"
 msgstr "Aktivität"
 
-#, fuzzy
 msgid "staff"
 msgstr "turtlemail-team"
 
-#, fuzzy
 msgid "superuser"
 msgstr "Administrator"
 
@@ -714,11 +698,9 @@ msgstr "Impressum"
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#, fuzzy
 msgid "Sign up"
 msgstr "Registrieren"
 
-#, fuzzy
 msgid "Log in"
 msgstr "Anmelden"
 
@@ -731,7 +713,6 @@ msgstr "Quellcode"
 msgid "Thanks! Would this date and location work instead?"
 msgstr "Danke! Würden dieses Datum und dieser Ort stattdessen passen?"
 
-#, fuzzy
 msgid "Delivery Request: "
 msgstr "Anfrage: "
 
@@ -772,14 +753,12 @@ msgstr "Nein, aber ich werde zu anderer Zeit an diesem Ort sein, und zwar:"
 msgid "We'll create a new stay for these dates."
 msgstr "Wir werden einen neuen Aufenthalt für diese Daten anlegen."
 
-#, fuzzy
 msgid "Cancel"
 msgstr "Stornieren"
 
 msgid "Send"
 msgstr "Versenden"
 
-#, fuzzy
 msgid "Delivery Handover: "
 msgstr "Lieferung Log Eintrag"
 
@@ -810,7 +789,6 @@ msgstr ""
 msgid "To accept the invitation, click here: %(url)s"
 msgstr "Um diese Einladung zu akzeptieren, klicke hier: %(url)s"
 
-#, fuzzy
 msgid ""
 "Cheers,\n"
 "the turtlemail team"
@@ -873,7 +851,6 @@ msgstr ""
 "Dieser Ort ist für Lieferungen eingeplant. Wenn du ihn änderst, wird "
 "deine Mithilfe bei diesen Lieferungen abgesagt."
 
-#, fuzzy
 msgid "Save"
 msgstr "Aktiv"
 
