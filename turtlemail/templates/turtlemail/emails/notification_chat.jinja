@@ -1,0 +1,7 @@
+{{ gettext("Hello") }} {{ user.username }},
+{{ gettext("You have unread chat messages in your turtlemail account!") }}
+{{ gettext("Your following package handover chats have new messages:") }}
+{% for chat in chat_list %}
+    {% if chat.updated %}- {{ chat.chat_title }}{% endif %}
+{% endfor %}
+{{ gettext("Happy turtlemailing!") }}

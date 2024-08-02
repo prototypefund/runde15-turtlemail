@@ -1,6 +1,5 @@
 import datetime
 from typing import TYPE_CHECKING, Any
-from asgiref.sync import async_to_sync
 from django.contrib.gis.db.models import Count
 from django.db.models import Q
 from urllib.parse import urlencode
@@ -31,9 +30,7 @@ from django.views.generic import (
     ListView,
 )
 from django.utils import formats
-from django.core import serializers
 
-from channels.layers import get_channel_layer
 
 from turtlemail import routing
 from turtlemail.human_id import human_id
@@ -46,10 +43,10 @@ from turtlemail.models import (
     Invite,
     Stay,
     Route,
-    UserChatMessage,
     Location,
     UserSettings,
 )
+from turtlemail.notification_service import NotificationService
 from turtlemail.types import AuthedHttpRequest
 
 from .forms import (
@@ -64,8 +61,6 @@ from .forms import (
     RouteStepRoutingForm,
     UserSettingsForm,
 )
-
-channel_layer = get_channel_layer()
 
 
 class IndexView(TemplateView):
@@ -303,7 +298,12 @@ class ChatsView(LoginRequiredMixin, TemplateView):
         updated_chats = route_steps.annotate(
             new_messages=Count(
                 "chatmessage__userchatmessage",
-                filter=Q(chatmessage__status=ChatMessage.StatusChoices.NEW)
+                filter=Q(
+                    chatmessage__status__in=(
+                        ChatMessage.StatusChoices.NEW,
+                        ChatMessage.StatusChoices.NOTIFIED,
+                    )
+                )
                 & ~Q(chatmessage__userchatmessage__author=user),
             )
         ).filter(new_messages__gt=0)
@@ -359,26 +359,7 @@ class HtmxChatView(UserPassesTestMixin, DetailView):
             self.request.user, active_chat=self.object
         )
         # mark all foreign messages read and update htmx ws
-        messages_count = ChatMessage.objects.filter(route_step=self.object).count()
-        now_read_messages = UserChatMessage.objects.filter(
-            route_step=self.object,
-            status=ChatMessage.StatusChoices.NEW,
-        ).exclude(author=self.request.user)
-        now_read_messages_count = now_read_messages.count()
-        now_read_messages.update(status=ChatMessage.StatusChoices.RECEIVED)
-        for message in now_read_messages:
-            now_read_messages_count -= 1
-            async_to_sync(channel_layer.group_send)(
-                f"chat_{str(self.object.pk)}",
-                {
-                    "type": "chat_message",
-                    "message": serializers.serialize(
-                        "json", [message, message.chatmessage_ptr]
-                    ),
-                    "index": messages_count - now_read_messages_count,
-                    "update": True,
-                },
-            )
+        NotificationService.notify_messages_read(self.request.user, self.object)
         return context
 
 

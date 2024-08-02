@@ -436,6 +436,9 @@ msgstr "Autor"
 msgid "Message content"
 msgstr "Inhalt"
 
+msgid "You've new chat messages in your turtlemail account."
+msgstr ""
+
 msgid "German"
 msgstr "Deutsch"
 
@@ -815,6 +818,20 @@ msgid ""
 "Cheers,\n"
 "the turtlemail team"
 msgstr "Das turtlemail Team"
+
+#, fuzzy
+msgid "Hello"
+msgstr "Hallo!"
+
+msgid "You have unread chat messages in your turtlemail account!"
+msgstr ""
+
+msgid "Your following package handover chats have new messages:"
+msgstr ""
+
+#, fuzzy
+msgid "Happy turtlemailing!"
+msgstr "turtlemail"
 
 msgid "This is the user's description of the problem:"
 msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"

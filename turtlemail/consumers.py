@@ -124,9 +124,9 @@ class ChatConsumer(WebsocketConsumer):
         if not event["update"] or self.user == message.author:
             self.send(text_data=html)
         # message receipt
-        if (
-            self.user != message.author
-            and message.status == UserChatMessage.StatusChoices.NEW
+        if self.user != message.author and message.status in (
+            UserChatMessage.StatusChoices.NEW,
+            UserChatMessage.StatusChoices.NOTIFIED,
         ):
             index = ChatMessage.objects.filter(route_step=self.step).count()
             message.status = UserChatMessage.StatusChoices.RECEIVED

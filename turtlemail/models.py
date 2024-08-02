@@ -19,6 +19,8 @@ from django.utils.translation import gettext_lazy as _
 
 from model_utils.managers import InheritanceManager
 
+from turtlemail.notification_service import NotificationService
+
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
 
@@ -681,17 +683,9 @@ class RouteStep(models.Model):
             # tbd: We miss multilingual system chat messages! Currently a chat is always in the language of the user
             #      confirming the last route step
             for step in self.route.steps.all():
-                system_message = SystemChatMessage()
-                system_message.route_step = step
-                system_message.message_type = (
-                    SystemChatMessage.SystemMessages.NEW_HANDOVER_CHAT
+                NotificationService.send_system_chat_message(
+                    step, SystemChatMessage.SystemMessages.NEW_HANDOVER_CHAT
                 )
-                system_message.content = {
-                    "date": step.end,
-                    "location": str(step.stay.location),
-                }
-                system_message.status = ChatMessage.StatusChoices.RECEIVED
-                system_message.save()
         # delete chat messages
         if self.status == self.COMPLETED:
             ChatMessage.objects.filter(route_step=self).delete()
