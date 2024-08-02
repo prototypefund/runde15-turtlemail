@@ -4,6 +4,7 @@ from logging import debug
 import secrets
 from typing import TYPE_CHECKING, ClassVar, Set, Self, Tuple
 
+from channels.generic.websocket import async_to_sync
 from django.contrib.gis.db.models import PointField
 from django.db import models, transaction
 from django.contrib.auth.models import (
@@ -17,7 +18,11 @@ from django.template.defaultfilters import date
 from django.utils import formats, timezone
 from django.utils.translation import gettext_lazy as _
 
+from channels.layers import get_channel_layer
+
 from model_utils.managers import InheritanceManager
+
+channel_layer = get_channel_layer()
 
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
@@ -656,6 +661,7 @@ class RouteStep(models.Model):
         """
         logic to start routing once all steps got accepted
         and start/delete chats
+        trigger websocket updates
         """
         save = super().save(*args, **kwargs)
         if (
@@ -667,8 +673,6 @@ class RouteStep(models.Model):
             first_step.save()
 
             # start chats
-            # tbd: We miss multilingual system chat messages! Currently a chat is always in the language of the user
-            #      confirming the last route step
             for step in self.route.steps.all():
                 system_message = SystemChatMessage()
                 system_message.route_step = step
@@ -684,6 +688,14 @@ class RouteStep(models.Model):
         # delete chat messages
         if self.status == self.COMPLETED:
             ChatMessage.objects.filter(route_step=self).delete()
+        # trigger update in ws connections
+        if self.status in [self.SUGGESTED, self.ACCEPTED] and self.stay:
+            async_to_sync(channel_layer.group_send)(
+                f"user_{str(self.stay.user.pk)}",
+                {
+                    "type": "update_delivery_request_items",
+                },
+            )
 
         return save
 

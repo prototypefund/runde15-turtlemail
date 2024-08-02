@@ -5,7 +5,7 @@ from django.template.loader import get_template
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-from turtlemail.views import ChatsView
+from turtlemail.views import ChatsView, DeliveriesView
 from .models import ChatMessage, RouteStep, UserChatMessage
 
 
@@ -41,19 +41,11 @@ class ChatConsumer(WebsocketConsumer):
             # another group for everybody to transmit updates in other chats
             async_to_sync(self.channel_layer.group_add)("all", self.channel_name)
 
-        # # user joined notification
-        # html = get_template("partial/join.html").render(context={"user":self.user})
-        # self.send(text_data=html)
-
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(
             self.group_name, self.channel_name
         )
-        # html = get_template("partial/leave.html").render(context={"user":self.user})
-        # self.send(
-        #     text_data=html
-        # )
-        # self.room.online.remove(self.user)
+        async_to_sync(self.channel_layer.group_discard)("all", self.channel_name)
 
     def receive(self, text_data=None, bytes_data=None):
         """
@@ -161,5 +153,39 @@ class ChatConsumer(WebsocketConsumer):
                 "chat": chat,
                 "htmx": True,
             }
+        )
+        self.send(text_data=html)
+
+
+class UserConsumer(WebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
+        self.group_name = None
+
+    def connect(self):
+        self.user = self.scope["user"]
+        self.group_name = f"user_{str(self.user.pk)}"
+
+        # accept connection if the user is involved in this route step
+        self.accept()
+
+        # join the personel channel group
+        async_to_sync(self.channel_layer.group_add)(self.group_name, self.channel_name)
+
+    def disconnect(self, code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.group_name, self.channel_name
+        )
+
+    def update_delivery_request_items(self, event):
+        """
+        update the whole delivery request block
+        this is triggered from sync django code in models or views
+        """
+        context = DeliveriesView.get_context_forms(self.user)
+        context["htmx"] = True
+        html = get_template("turtlemail/_delivery_requests_list.jinja").render(
+            context=context
         )
         self.send(text_data=html)
