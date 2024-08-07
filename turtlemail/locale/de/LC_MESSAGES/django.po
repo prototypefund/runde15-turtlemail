@@ -58,6 +58,8 @@ msgstr "Gib die E-mail Adresse der Person, die Du einladen möchtest an:"
 
 msgid "I want to be notified by email, if somebody messages me in a chat."
 msgstr ""
+"Ich möchte per E-mail benachrichtigt werden, wenn jemand mir eine "
+"Nachricht schreibt."
 
 msgid "The start date must be at or before the end date."
 msgstr "Das Startdatum muss gleich oder vor dem Enddatum sein."
@@ -388,7 +390,7 @@ msgid "new"
 msgstr "neu"
 
 msgid "notified"
-msgstr ""
+msgstr "benachrichtigt"
 
 #, fuzzy
 msgid "received"
@@ -437,7 +439,7 @@ msgid "Message content"
 msgstr "Inhalt"
 
 msgid "You've new chat messages in your turtlemail account."
-msgstr ""
+msgstr "Du hast neue Nachrichten bekommen"
 
 msgid "German"
 msgstr "Deutsch"
@@ -709,7 +711,7 @@ msgid "Log Out"
 msgstr "Ausloggen"
 
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 msgid "Legal Notice"
 msgstr "Impressum"
@@ -824,14 +826,14 @@ msgid "Hello"
 msgstr "Hallo!"
 
 msgid "You have unread chat messages in your turtlemail account!"
-msgstr ""
+msgstr "Du hast ungelesene Nachrichten in deinem turtlemail-Account."
 
 msgid "Your following package handover chats have new messages:"
-msgstr ""
+msgstr "Zu den folgenden Pets gibt es neue Nachrichten:"
 
 #, fuzzy
 msgid "Happy turtlemailing!"
-msgstr "turtlemail"
+msgstr "Happy turtlemailing!"
 
 msgid "This is the user's description of the problem:"
 msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"
