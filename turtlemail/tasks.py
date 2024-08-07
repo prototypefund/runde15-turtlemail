@@ -15,7 +15,7 @@ def every_minute():
     recalculate_missing_routes(packets, datetime.datetime.now(datetime.UTC))
 
 
-@periodic_task(crontab(minute="*/1"))
+@periodic_task(crontab(minute="*/60"))
 @lock_task("send_chat_notifications")
 def send_chat_notifications():
     messages = UserChatMessage.objects.filter(status=ChatMessage.StatusChoices.NEW)
