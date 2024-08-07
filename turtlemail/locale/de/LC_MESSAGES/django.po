@@ -818,6 +818,9 @@ msgstr "Du hast ungelesene Nachrichten in deinem turtlemail-Account."
 msgid "Your following package handover chats have new messages:"
 msgstr "Zu den folgenden Pets gibt es neue Nachrichten:"
 
+msgid "Click here to view your new messages:"
+msgstr "Klicke hier um deine neuen Nachrichten anzusehen:"
+
 #, fuzzy
 msgid "Happy turtlemailing!"
 msgstr "Happy turtlemailing!"

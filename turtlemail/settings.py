@@ -35,6 +35,8 @@ DATA_DIR.mkdir(exist_ok=True)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+BASE_URL = get_env("BASE_URL", default="http://localhost:8637")
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env("SECRET_KEY", default=None)
 

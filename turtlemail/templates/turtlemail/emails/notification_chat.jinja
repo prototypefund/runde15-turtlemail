@@ -4,4 +4,5 @@
 {% for chat in chat_list %}
     {% if chat.updated %}- {{ chat.chat_title }}{% endif %}
 {% endfor %}
+{{ gettext("Click here to view your new messages:") }} {{ communication_url }}
 {{ gettext("Happy turtlemailing!") }}

@@ -2,9 +2,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.conf import settings
 from django.core import serializers
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 if TYPE_CHECKING:
@@ -64,11 +66,13 @@ class NotificationService:
         from turtlemail.views import ChatsView
 
         chat_list = ChatsView.get_chat_list_context(user)
+        communication_url = settings.BASE_URL + reverse("chats")
         mail_text = render_to_string(
             "turtlemail/emails/notification_chat.jinja",
             {
                 "user": user,
                 "chat_list": chat_list,
+                "communication_url": communication_url,
             },
         )
         send_mail(
