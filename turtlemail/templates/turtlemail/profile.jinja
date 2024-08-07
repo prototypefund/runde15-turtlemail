@@ -1,7 +1,7 @@
 {% extends "turtlemail/layout.jinja" %}
 {% block content %}
     <div class="flex flex-col w-full max-w-4xl gap-4">
-        <div class="p-8 bg-base-100 rounded-box basis-80">
+        <div class="p-8 bg-base-100 rounded-box">
             <h2 class="text-2xl font-bold">
                 {{ request.user.username }}
                 {% if request.user.is_staff %}<span class="ml-1 badge">{{ _("staff") }}</span>{% endif %}
@@ -16,7 +16,7 @@
                 <a href="{{ url("logout") }}" class="btn">{{ _("Log Out") }}</a>
             </div>
         </div>
-        <div class="p-8 bg-base-100 rounded-box basis-80">
+        <div class="p-8 bg-base-100 rounded-box">
             <h2 class="text-2xl font-bold">{{ gettext("Settings") }}</h2>
             {% with form=settings_form %}
                 {% include "turtlemail/_user_settings_form.jinja" %}

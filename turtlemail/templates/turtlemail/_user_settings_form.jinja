@@ -1,15 +1,14 @@
-<form class="h-full"
-      action="{{ url("htmx-user-settings") }}"
+<form action="{{ url("htmx-user-settings") }}"
       method="post"
       hx-post="{{ url("htmx-user-settings") }}"
       hx-swap="outerHTML"
       hx-boost="true"
       hx-target="this">
-    <div class="h-full flex flex-col justify-between">
+    <div class="flex flex-col justify-between gap-4">
         {% csrf_token %}
         <div>{{ form }}</div>
-        <div class="pb-5 self-end">
-            <input class="btn btn-success align-bottom" type="submit" value="Submit">
+        <div class="self-end">
+            <input class="align-bottom btn btn-success" type="submit" value="Submit">
         </div>
     </div>
 </form>
