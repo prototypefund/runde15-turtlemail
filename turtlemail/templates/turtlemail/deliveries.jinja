@@ -21,7 +21,7 @@
                 <a href="{{ url("packet_detail", item.human_id) }}"
                    class="w-full p-8 bg-white border-4 rounded-box {{ item_color_class }}">
                     <div class="flex flex-col gap-2">
-                        <div>📦 {{ item.human_id }}</div>
+                        <div>🧸 {{ item.human_id }}</div>
                         <div>
                             {% if item.recipient == request.user %}
                                 <div class="flex flex-row gap-2 text-lg font-bold">
@@ -54,5 +54,6 @@
                 </a>
             {% endfor %}
         </div>
+        <div class="p-8 border border-base-300 rounded-box bg-base-100">{% include "turtlemail/_instructions.jinja" %}</div>
     </div>
 {% endblock %}

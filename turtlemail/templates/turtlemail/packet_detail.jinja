@@ -2,7 +2,7 @@
 {% block content %}
     <div class="grid w-full max-w-lg gap-4">
         <div class="grid p-8 bg-base-100 rounded-box">
-            <h2 class="text-xl font-bold">📦 {{ packet.human_id }}</h2>
+            <h2 class="text-xl font-bold">🧸 {{ packet.human_id }}</h2>
             {% if packet.is_sender_or_recipient(request.user) %}
                 {% if packet.sender.id == request.user.id %}
                     <h3 class="mt-2 text-sm text-base-content/60">{{ _("Recipient") }}</h3>

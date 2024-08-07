@@ -1,5 +1,6 @@
 <div class="px-4 py-8 md:px-8 bg-base-100 rounded-box">
     <h2 class="mb-6 text-2xl font-bold">{{ _("Your locations") }}</h2>
+    <p class="mb-6">{{ _("Add locations you frequently visit.") }}</p>
     <div class="flex flex-col gap-8">
         {% for location in locations %}
             {% include "turtlemail/locations/detail.jinja" %}

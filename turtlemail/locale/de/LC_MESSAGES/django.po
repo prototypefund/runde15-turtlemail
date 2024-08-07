@@ -30,14 +30,12 @@ msgstr "Kennwort"
 msgid "Password confirmation"
 msgstr "Kennwortbestätigung"
 
-#, fuzzy
 msgid "Sign Up"
 msgstr "Registrieren"
 
 msgid "Log into an existing account"
 msgstr "Mit bestehendem Konto anmelden"
 
-#, fuzzy
 msgid "Log In"
 msgstr "Anmelden"
 
@@ -102,11 +100,9 @@ msgstr ""
 msgid "The email must be set."
 msgstr "Die E-Mail Adresse muss gewählt werden."
 
-#, fuzzy
 msgid "Superuser must have is_staff=True."
 msgstr "Beim Superuser muss die Variable is_stuff=True gesetzt sein."
 
-#, fuzzy
 msgid "Superuser must have is_superuser=True."
 msgstr "Beim Superuser muss die Variable is_superuser=True gesetzt sein."
 
@@ -144,7 +140,6 @@ msgstr "Dieser Benutzer wurde bereits eingeladen."
 msgid "Name"
 msgstr "Name"
 
-#, fuzzy
 msgid "Home"
 msgstr "Zu Hause"
 
@@ -157,7 +152,6 @@ msgstr "Benutzer"
 msgid "Locations"
 msgstr "Orte"
 
-#, fuzzy
 msgid "Daily"
 msgstr "Täglich"
 
@@ -167,7 +161,6 @@ msgstr "Wöchentlich"
 msgid "Sometimes"
 msgstr "Ab und Zu"
 
-#, fuzzy
 msgid "Once"
 msgstr "Einmal"
 
@@ -213,7 +206,6 @@ msgstr "Zugestellt"
 msgid "The system is currently looking for people who can make this delivery."
 msgstr "Das System sucht aktuell nach Menschen, die diese Lieferung machen können."
 
-#, fuzzy
 msgid ""
 "The system found no way to reach the recipient. Try adding more stays to "
 "your profile!"
@@ -256,7 +248,6 @@ msgstr "Empfänger"
 msgid "Created at"
 msgstr "Erstellt am"
 
-#, fuzzy
 msgid "Code"
 msgstr "Kennung"
 
@@ -269,9 +260,8 @@ msgstr "Lieferungen"
 msgid "Status"
 msgstr "Status"
 
-#, fuzzy
 msgid "Datetime"
-msgstr "Datumzeit"
+msgstr "Datum und Uhrzeit"
 
 msgid "Route"
 msgstr "Route"
@@ -420,10 +410,9 @@ msgid ""
 msgstr ""
 "\n"
 "Hallo,<br />\n"
-"hier kannst du ein Datum und einen Ort für eine Paketübergabe ausmachen. "
-"Bitte teile keine persönlichen Daten und nimm Rücksicht auf dein "
-"Gegenüber. Die Übergabe ist am {date} in der Nähe von {location} geplant."
-" Viel Spaß!"
+"hier kannst du ein Datum und einen Ort für eine Übergabe ausmachen. Bitte"
+" teile keine persönlichen Daten und nimm Rücksicht auf dein Gegenüber. "
+"Die Übergabe ist am {date} in der Nähe von {location} geplant. Viel Spaß!"
 
 msgid "Identifier of predefined system messages"
 msgstr "Identifizierung von voreingestellten Systemnachrichten"
@@ -484,6 +473,13 @@ msgstr "Du wurdest zu turtlemail eingeladen!"
 msgid "Invite sent!"
 msgstr "Einladung gesendet!"
 
+msgid "Your username is your public alias in the app."
+msgstr ""
+"Dein Benutzername ist als dein Alias gedacht und wird überall in der App "
+"verwendet. Wähle also einen Namen, mit dem du dich wohl fühlst. Er wird "
+"für alle sichtbar sein und andere müssen ihn kennen, um dir etwas "
+"schicken zu können."
+
 #, fuzzy, python-format
 msgid "%(action)s"
 msgstr "In der Nähe von %(location)s"
@@ -521,7 +517,7 @@ msgid "You're currently not involved in any deliveries."
 msgstr "Du bist zur Zeit an keinen Lieferungen beteiligt."
 
 msgid "Place a delivery"
-msgstr "Eine Lieferung erstellen"
+msgstr "Ein Pet verschicken"
 
 msgid "Type to search by username..."
 msgstr "Tippen, um nach Nutzernamen zu suchen..."
@@ -535,7 +531,7 @@ msgid ""
 " your delivery - just invite them!"
 msgstr ""
 "Es gibt noch keinen Account mit diesem Nutzernamen. Du kannst trotzdem "
-"dein Paket versenden - versende einfach eine Einladung!"
+"dein Pet versenden - versende einfach eine Einladung!"
 
 #, fuzzy, python-format
 msgid "Invite %(name)s to turtlemail"
@@ -674,7 +670,6 @@ msgstr ""
 msgid "Cancel this handover"
 msgstr "Diese Übergabe absagen"
 
-#, fuzzy
 msgid "Send message"
 msgstr "Nachrichten"
 
@@ -690,11 +685,9 @@ msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant.
 msgid "Activity"
 msgstr "Aktivität"
 
-#, fuzzy
 msgid "staff"
 msgstr "turtlemail-team"
 
-#, fuzzy
 msgid "superuser"
 msgstr "Administrator"
 
@@ -719,11 +712,9 @@ msgstr "Impressum"
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
-#, fuzzy
 msgid "Sign up"
 msgstr "Registrieren"
 
-#, fuzzy
 msgid "Log in"
 msgstr "Anmelden"
 
@@ -736,7 +727,6 @@ msgstr "Quellcode"
 msgid "Thanks! Would this date and location work instead?"
 msgstr "Danke! Würden dieses Datum und dieser Ort stattdessen passen?"
 
-#, fuzzy
 msgid "Delivery Request: "
 msgstr "Anfrage: "
 
@@ -749,18 +739,18 @@ msgid "Hand over to %(person)s"
 msgstr "Übergeben an %(name)s"
 
 msgid "Can you hand over your packet at the above dates?"
-msgstr "Kannst du dein Paket an diesen Tagen übergeben?"
+msgstr "Kannst du dein Pet an diesen Tagen übergeben?"
 
 #, python-format
 msgid ""
 "%(sender)s would like to send a packet to you. Can you take it from "
 "%(user)s at the above dates?"
 msgstr ""
-"%(sender)s würde dir gerne ein Paket schicken. Kannst du es von %(user)s "
-"an den obenstehenden Daten annehmen?"
+"%(sender)s würde dir gerne ein Pet schicken. Kannst du es von %(user)s an"
+" den obenstehenden Daten annehmen?"
 
 msgid "Can you help make this delivery at the above dates?"
-msgstr "Kannst du an den obenstehenden Daten helfen, dieses Paket zu überliefern?"
+msgstr "Kannst du an den obenstehenden Daten helfen, dieses Pet zu überliefern?"
 
 msgid "Yes"
 msgstr "Ja"
@@ -777,19 +767,17 @@ msgstr "Nein, aber ich werde zu anderer Zeit an diesem Ort sein, und zwar:"
 msgid "We'll create a new stay for these dates."
 msgstr "Wir werden einen neuen Aufenthalt für diese Daten anlegen."
 
-#, fuzzy
 msgid "Cancel"
 msgstr "Stornieren"
 
 msgid "Send"
 msgstr "Versenden"
 
-#, fuzzy
 msgid "Delivery Handover: "
 msgstr "Lieferung Log Eintrag"
 
 msgid "Did you receive this package?"
-msgstr "Hast du dieses Paket erhalten?"
+msgstr "Hast du dieses Pet erhalten?"
 
 msgid "No, there has been a problem"
 msgstr "Nein, es gab ein Problem"
@@ -815,7 +803,6 @@ msgstr ""
 msgid "To accept the invitation, click here: %(url)s"
 msgstr "Um diese Einladung zu akzeptieren, klicke hier: %(url)s"
 
-#, fuzzy
 msgid ""
 "Cheers,\n"
 "the turtlemail team"
@@ -859,7 +846,6 @@ msgstr "Signal"
 msgid "Telegram"
 msgstr "Telegram"
 
-#, fuzzy
 msgid "Add location"
 msgstr "Ort hinzufügen"
 
@@ -872,9 +858,16 @@ msgstr "Bearbeiten"
 msgid "Delete"
 msgstr "Löschen"
 
-#, fuzzy
 msgid "Your locations"
 msgstr "Deine Orte"
+
+msgid "Add locations you frequently visit."
+msgstr ""
+"Wähle hier einen oder mehrere Standorte aus, wo du öfter hingehst/dich "
+"aufhältst. Diese gelten als Basis, von wo aus du Pets versendest, "
+"empfängst oder an andere übergibst. (Noch gibt es keine Such-Funktion, du"
+" musst die Standorte manuell auf der Karte suchen und anklicken.) Du "
+"kannst jedem Standort einen individuellen Namen geben."
 
 msgid "Click on the map to select a new location."
 msgstr "Klick auf die Karte, um einen neuen Ort auszuwählen."
@@ -886,7 +879,6 @@ msgstr ""
 "Dieser Ort ist für Lieferungen eingeplant. Wenn du ihn änderst, wird "
 "deine Mithilfe bei diesen Lieferungen abgesagt."
 
-#, fuzzy
 msgid "Save"
 msgstr "Aktiv"
 
@@ -896,6 +888,11 @@ msgstr "Aufenthalt hinzufügen"
 #, python-format
 msgid "Will not be included in any deliveries until %(date)s"
 msgstr "Nicht in jeglichen Lieferungen inkludiert bis %(date)s"
+
+msgid "Specify how often or when you visit your locations."
+msgstr ""
+"Hier kannst du angeben, wie oft du dich an deinen Standorten befindest, "
+"z.B. täglich, wöchentlich oder nur ab und zu."
 
 msgid "Add a location above, then create stays here!"
 msgstr ""
