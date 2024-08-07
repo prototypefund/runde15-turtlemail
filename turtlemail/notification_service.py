@@ -81,3 +81,28 @@ class NotificationService:
             from_email=None,
             recipient_list=[user.email],
         )
+
+    @classmethod
+    def send_email_notification_requests(cls, user: User):
+        from turtlemail.models import RouteStep, Route
+
+        requested_steps = RouteStep.objects.filter(
+            status=RouteStep.SUGGESTED,
+            stay__user=user,
+            route__status=Route.CURRENT,
+        )
+        deliveries_url = settings.BASE_URL + reverse("deliveries")
+        mail_text = render_to_string(
+            "turtlemail/emails/notification_requests.jinja",
+            {
+                "user": user,
+                "requested_steps": requested_steps,
+                "deliveries_url": deliveries_url,
+            },
+        )
+        send_mail(
+            subject=_("You've open routing requests in your turtlemail account."),
+            message=mail_text,
+            from_email=None,
+            recipient_list=[user.email],
+        )

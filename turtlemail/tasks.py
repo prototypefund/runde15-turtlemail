@@ -2,7 +2,7 @@ import datetime
 from logging import debug
 from huey import crontab
 from huey.contrib.djhuey import periodic_task, lock_task
-from turtlemail.models import ChatMessage, Packet, UserChatMessage
+from turtlemail.models import ChatMessage, Packet, RouteStep, User, UserChatMessage
 from turtlemail.notification_service import NotificationService
 from turtlemail.routing import recalculate_missing_routes
 
@@ -45,3 +45,14 @@ def send_chat_notifications():
                 )
                 notified_users.append(message.route_step.stay.user)
     messages.update(status=ChatMessage.StatusChoices.NOTIFIED)
+
+
+@periodic_task(crontab(minute="*/1"))
+@lock_task("send_requests_notifications")
+def send_requests_notifications():
+    users = User.objects.filter(
+        stay__route_steps__status=RouteStep.SUGGESTED,
+        settings__wants_email_notifications_requests=True,
+    ).distinct()
+    for user in users:
+        NotificationService.send_email_notification_requests(user)

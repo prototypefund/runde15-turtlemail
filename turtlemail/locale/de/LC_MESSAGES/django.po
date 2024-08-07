@@ -59,6 +59,11 @@ msgstr ""
 "Ich möchte per E-mail benachrichtigt werden, wenn jemand mir eine "
 "Nachricht schreibt."
 
+msgid ""
+"I want to be notified by email, if turtlemail systems requests feedback "
+"for new routing requests."
+msgstr ""
+
 msgid "The start date must be at or before the end date."
 msgstr "Das Startdatum muss gleich oder vor dem Enddatum sein."
 
@@ -428,6 +433,10 @@ msgid "Message content"
 msgstr "Inhalt"
 
 msgid "You've new chat messages in your turtlemail account."
+msgstr "Du hast neue Nachrichten bekommen"
+
+#, fuzzy
+msgid "You've open routing requests in your turtlemail account."
 msgstr "Du hast neue Nachrichten bekommen"
 
 msgid "German"
@@ -824,6 +833,17 @@ msgstr "Klicke hier um deine neuen Nachrichten anzusehen:"
 #, fuzzy
 msgid "Happy turtlemailing!"
 msgstr "Happy turtlemailing!"
+
+#, fuzzy
+msgid "You have open routing requests in your turtlemail account!"
+msgstr "Du hast ungelesene Nachrichten in deinem turtlemail-Account."
+
+msgid "The following deliveries wait for your answer:"
+msgstr ""
+
+#, fuzzy
+msgid "Click here to view your deliveries:"
+msgstr "Klicke hier um deine neuen Nachrichten anzusehen:"
 
 msgid "This is the user's description of the problem:"
 msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"

@@ -125,6 +125,7 @@ class UserSettings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="settings")
     # settings
     wants_email_notifications_chat = models.BooleanField(default=True)
+    wants_email_notifications_requests = models.BooleanField(default=True)
 
 
 class Invite(models.Model):

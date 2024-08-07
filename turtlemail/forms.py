@@ -131,11 +131,17 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = UserSettings
-        fields = ("wants_email_notifications_chat",)
+        fields = (
+            "wants_email_notifications_chat",
+            "wants_email_notifications_requests",
+        )
         labels = {
             "wants_email_notifications_chat": _(
                 "I want to be notified by email, if somebody messages me in a chat."
-            )
+            ),
+            "wants_email_notifications_requests": _(
+                "I want to be notified by email, if turtlemail systems requests feedback for new routing requests."
+            ),
         }
 
 
