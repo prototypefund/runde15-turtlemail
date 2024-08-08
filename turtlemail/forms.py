@@ -158,7 +158,7 @@ class StayForm(forms.ModelForm):
         cleaned_data = super().clean()
         stay_start = cleaned_data["start"]
         stay_end = cleaned_data["end"]
-        frequency = cleaned_data["frequency"]
+        frequency = cleaned_data.get("frequency", None)
         needs_dates = frequency == Stay.ONCE
         if (stay_start and stay_end) and (stay_end < stay_start):
             self.add_error(
