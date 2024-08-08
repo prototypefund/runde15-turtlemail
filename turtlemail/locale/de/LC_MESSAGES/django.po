@@ -63,6 +63,8 @@ msgid ""
 "I want to be notified by email, if turtlemail systems requests feedback "
 "for new routing requests."
 msgstr ""
+"Ich möchte per E-mail benachrichtigt werden, wenn neue Anfragen für die "
+"Mitnahme von Pets ankommen."
 
 msgid "The start date must be at or before the end date."
 msgstr "Das Startdatum muss gleich oder vor dem Enddatum sein."
@@ -301,11 +303,9 @@ msgstr "Vorheriger Schritt"
 msgid "Next Step"
 msgstr "Nächster Schritt"
 
-#, fuzzy
 msgid "Route Step"
 msgstr "Route Schritt"
 
-#, fuzzy
 msgid "Route Steps"
 msgstr "Routen Schritte"
 
@@ -317,9 +317,9 @@ msgstr "Zwischen %(start_date)s und %(end_date)s"
 msgid "After %(date)s"
 msgstr "Nach %(date)s"
 
-#, fuzzy, python-format
-msgid "Before %(date)sdate"
-msgstr "Vor %(date)sdate"
+#, python-format
+msgid "Before %(date)s"
+msgstr "Vor %(date)s"
 
 msgid "At some point"
 msgstr "Irgendwann"
@@ -348,9 +348,9 @@ msgstr "Neuer Routen Schritt Status"
 msgid "Human readable log entry"
 msgstr "Menschenlesbarer Log-Eintrag"
 
-#, fuzzy, python-format
+#, python-format
 msgid "A journey involved in this delivery changed: %(status)s"
-msgstr "Eine Reise in dieser Lieferung hat sich geändert: %(status)sstatus"
+msgstr "Eine Reise in dieser Lieferung hat sich geändert: %(status)s"
 
 msgid "A user cancelled their journey for this delivery"
 msgstr "Ein Benutzer hat seine Reise für diese Lieferung storniert"
@@ -367,7 +367,7 @@ msgstr "Jemand hat ein Problem mit dieser Übergabe an das Support-Team gemeldet
 msgid "The delivery has reached its destination."
 msgstr "Die Lieferung hat ihr Ziel erreicht."
 
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The packet reached station %(i)s of %(n)s. It is still %(distance)s "
 "kilometers from its destination."
@@ -387,13 +387,11 @@ msgstr "neu"
 msgid "notified"
 msgstr "benachrichtigt"
 
-#, fuzzy
 msgid "received"
 msgstr "Empfangen"
 
-#, fuzzy
 msgid "RouteStep context"
-msgstr "Route Schritt"
+msgstr "Route Schritt Kontext"
 
 msgid "Chat message"
 msgstr "Nachricht"
@@ -422,7 +420,6 @@ msgstr ""
 msgid "Identifier of predefined system messages"
 msgstr "Identifizierung von voreingestellten Systemnachrichten"
 
-#, fuzzy
 msgid "Turtlemail system"
 msgstr "turtlemail-System"
 
@@ -435,24 +432,22 @@ msgstr "Inhalt"
 msgid "You've new chat messages in your turtlemail account."
 msgstr "Du hast neue Nachrichten bekommen"
 
-#, fuzzy
 msgid "You've open routing requests in your turtlemail account."
-msgstr "Du hast neue Nachrichten bekommen"
+msgstr "Pets auf turtlemail brauchen deine Hilfe"
 
 msgid "German"
 msgstr "Deutsch"
 
-#, fuzzy
 msgid "Handover cancelled."
 msgstr "Storniert"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Package handover to %(user)s on %(date)s"
-msgstr "Übergeben an %(name)s am %(date)s"
+msgstr "Übergeben an %(user)s am %(date)s"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Package takeover from %(user)s on %(date)s"
-msgstr "Empfangen von %(sender)s am %(date)s"
+msgstr "Empfangen von %(user)s am %(date)s"
 
 msgid ""
 "There is a delivery relying on this stay. It can't be deleted at the "
@@ -464,15 +459,13 @@ msgstr ""
 msgid "Stay deleted."
 msgstr "Aufenthalt gelöscht."
 
-#, fuzzy
 msgid ""
 "There is a delivery relying on this location. It can't be deleted at the "
 "moment."
 msgstr ""
-"Eine Lieferung ist abhängig von diesem Aufenthalt. Im Moment kann es "
+"Eine Lieferung ist abhängig von diesem Aufenthalt. Im Moment kann er "
 "nicht gelöscht werden."
 
-#, fuzzy
 msgid "Location deleted."
 msgstr "Aufenthalt gelöscht."
 
@@ -489,22 +482,19 @@ msgstr ""
 "für alle sichtbar sein und andere müssen ihn kennen, um dir etwas "
 "schicken zu können."
 
-#, fuzzy, python-format
+#, python-format
 msgid "%(action)s"
-msgstr "In der Nähe von %(location)s"
+msgstr "%(action)s"
 
-#, fuzzy
 msgid "Expand"
 msgstr "Mehr anzeigen"
 
 msgid "Delivery created"
 msgstr "Lieferung erstellt"
 
-#, fuzzy
 msgid "Message"
 msgstr "Nachricht"
 
-#, fuzzy
 msgid "send"
 msgstr "Versenden"
 
@@ -531,9 +521,8 @@ msgstr "Ein Pet verschicken"
 msgid "Type to search by username..."
 msgstr "Tippen, um nach Nutzernamen zu suchen..."
 
-#, fuzzy
 msgid "You can't send a delivery to yourself."
-msgstr "sendet diese Lieferung an dich."
+msgstr "Du kannst keine Lieferung an dich selbst schicken."
 
 msgid ""
 "There's no turtlemail user with this username yet. But you can still send"
@@ -542,9 +531,9 @@ msgstr ""
 "Es gibt noch keinen Account mit diesem Nutzernamen. Du kannst trotzdem "
 "dein Pet versenden - versende einfach eine Einladung!"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Invite %(name)s to turtlemail"
-msgstr "Du wurdest zu turtlemail eingeladen!"
+msgstr "%(name)s zu turtlemail einladen"
 
 #, python-format
 msgid "Receive from %(sender)s"
@@ -554,7 +543,6 @@ msgstr "Empfangen von %(sender)s"
 msgid "Send to %(recipient)s"
 msgstr "Senden zu %(recipient)s"
 
-#, fuzzy
 msgid "Carry"
 msgstr "Mitnehmen"
 
@@ -616,7 +604,6 @@ msgstr "Hilf uns, turtlemail zu testen."
 msgid "Read more about the experiment here."
 msgstr "Erfahre hier mehr über das Experiment."
 
-#, fuzzy
 msgid "Create a free account"
 msgstr "Neues Konto erstellen"
 
@@ -739,13 +726,13 @@ msgstr "Danke! Würden dieses Datum und dieser Ort stattdessen passen?"
 msgid "Delivery Request: "
 msgstr "Anfrage: "
 
-#, fuzzy, python-format
+#, python-format
 msgid "Take from %(person)s"
-msgstr "Empfangen von %(sender)s"
+msgstr "Empfangen von %(person)s"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Hand over to %(person)s"
-msgstr "Übergeben an %(name)s"
+msgstr "Übergeben an %(person)s"
 
 msgid "Can you hand over your packet at the above dates?"
 msgstr "Kannst du dein Pet an diesen Tagen übergeben?"
@@ -817,7 +804,6 @@ msgid ""
 "the turtlemail team"
 msgstr "Das turtlemail Team"
 
-#, fuzzy
 msgid "Hello"
 msgstr "Hallo!"
 
@@ -830,20 +816,17 @@ msgstr "Zu den folgenden Pets gibt es neue Nachrichten:"
 msgid "Click here to view your new messages:"
 msgstr "Klicke hier um deine neuen Nachrichten anzusehen:"
 
-#, fuzzy
 msgid "Happy turtlemailing!"
 msgstr "Happy turtlemailing!"
 
-#, fuzzy
 msgid "You have open routing requests in your turtlemail account!"
-msgstr "Du hast ungelesene Nachrichten in deinem turtlemail-Account."
+msgstr "Pets auf turtlemail brauchen deine Hilfe"
 
 msgid "The following deliveries wait for your answer:"
-msgstr ""
+msgstr "Bei den folgenden Pets könntest du bei der Auslieferung helfen:"
 
-#, fuzzy
 msgid "Click here to view your deliveries:"
-msgstr "Klicke hier um deine neuen Nachrichten anzusehen:"
+msgstr "Klicke hier um die Anfragen zu beantworten:"
 
 msgid "This is the user's description of the problem:"
 msgstr "Das Problem wurde vom Nutzer wie folgt beschrieben:"
