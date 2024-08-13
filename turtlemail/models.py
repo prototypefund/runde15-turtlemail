@@ -594,6 +594,9 @@ class RouteStep(models.Model):
     route = models.ForeignKey(
         Route, verbose_name=_("Route"), on_delete=models.CASCADE, related_name="steps"
     )
+    notified_at = models.DateTimeField(
+        verbose_name=_("Last notification sent"), null=True
+    )
 
     class Meta:
         verbose_name = _("Route Step")

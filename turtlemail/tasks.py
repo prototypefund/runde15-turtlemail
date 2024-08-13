@@ -1,5 +1,7 @@
 import datetime
 from logging import debug
+from django.conf import settings
+from django.contrib.gis.db.models import Q
 from huey import crontab
 from huey.contrib.djhuey import periodic_task, lock_task
 from turtlemail.models import ChatMessage, Packet, RouteStep, User, UserChatMessage
@@ -47,12 +49,18 @@ def send_chat_notifications():
     messages.update(status=ChatMessage.StatusChoices.NOTIFIED)
 
 
-@periodic_task(crontab(minute="*/1"))
+@periodic_task(crontab(minute="*/15"))
 @lock_task("send_requests_notifications")
 def send_requests_notifications():
+    resend_interval_filter = Q(stay__route_steps__notified_at__isnull=True) | Q(
+        stay__route_steps__notified_at__lte=datetime.datetime.now()
+        - datetime.timedelta(hours=settings.ROUTING_REQUEST_NOTIFICATION_INTERVAL)
+    )
     users = User.objects.filter(
+        resend_interval_filter,
         stay__route_steps__status=RouteStep.SUGGESTED,
         settings__wants_email_notifications_requests=True,
     ).distinct()
     for user in users:
+        debug(f"Send chat notification email to {user}.")
         NotificationService.send_email_notification_requests(user)

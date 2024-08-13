@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime
 from typing import TYPE_CHECKING
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
@@ -106,3 +107,4 @@ class NotificationService:
             from_email=None,
             recipient_list=[user.email],
         )
+        requested_steps.update(notified_at=datetime.now())

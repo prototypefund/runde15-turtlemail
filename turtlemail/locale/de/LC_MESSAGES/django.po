@@ -301,6 +301,9 @@ msgstr "Vorheriger Schritt"
 msgid "Next Step"
 msgstr "Nächster Schritt"
 
+msgid "Last notification sent"
+msgstr ""
+
 #, fuzzy
 msgid "Route Step"
 msgstr "Route Schritt"
