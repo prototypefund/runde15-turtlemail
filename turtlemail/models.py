@@ -646,7 +646,7 @@ class RouteStep(models.Model):
         elif start is not None:
             return _("After %(date)s") % {"date": date(start)}
         elif end is not None:
-            return _("Before %(date)s" % {"date": date(end)})
+            return _("Before %(date)s") % {"date": date(end)}
         else:
             return _("At some point")
 
