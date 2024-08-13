@@ -1,6 +1,10 @@
 {{ gettext("Hello") }} {{ user.username }},
 {{ gettext("You have open routing requests in your turtlemail account!") }}
 {{ gettext("The following deliveries wait for your answer:") }}
-{% for step in requested_steps %}- {{ step.packet.human_id }}{% endfor %}
+{# djlint:off #}
+{% for step in requested_steps %}
+  - {{ step.packet.human_id }}
+{% endfor %}
+{# djlint:on #}
 {{ gettext("Click here to view your deliveries:") }} {{ deliveries_url }}
 {{ gettext("Happy turtlemailing!") }}
