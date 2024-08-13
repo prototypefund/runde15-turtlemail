@@ -4,7 +4,7 @@
           class="overflow-hidden border rounded-md border-neutral/20"
           hx-swap="outerHTML">
         <tm-location-selector label="{{ form.point.label }}"
-        {% if form.cleaned_data is defined and form.cleaned_data.point is not none %}
+        {% if form.cleaned_data is defined and 'point' in form.cleaned_data %}
             lat="{{ form.cleaned_data.point[1] }}" lng="{{ form.cleaned_data.point[0] }}"
         {% endif %}
         id="{{ form.point.id_for_label }}" style="width: 100%; height: 500px; max-height: 70vh;" editable></tm-location-selector>
