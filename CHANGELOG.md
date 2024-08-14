@@ -2,7 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.9.0] - 2024-08-14
+
+### #71
+
+- Email notifications for requests ([631e3a0](631e3a01f098b10f3adf9dedfa496ff0a865a657))
+- Email notifications for requests, feature notification interval ([b842035](b842035ddee84ebd6c0bcce31efa3079fbd9d152))
+- Email notifications for requests, rebase ([52b75dd](52b75dd8a9a689a135d87b84abdc02dced79a555))
+- Email notifications for requests, djlint issue ([2e830f6](2e830f6d863e2f31df0934a102ca2cb1417bea40))
+
+### Bug Fixes
+
+- Error handling when missing point for new location ([0cda834](0cda834bbc9ce8087cf2c4bfce3c8f689f6029c7))
+- Error handling when missing frequency for stay ([17804f9](17804f9a9f7f2b5aeca251328021464892c63589))
+- Dont send empty route request notification mails ([cd27743](cd277431077bf2254dee56d0f4ec907ce201a79e))
+- Remove extraneous newlines in route request mails ([422734a](422734a821c47107cf2aded7e83c65a832d392b3))
+- Add missing filter condition for route request notification user query ([3a89fad](3a89fad9af50459b119d144382b4d3ca2ba34051))
+- Handover dates on packet detail page ([b45989c](b45989ceda088e622b5c45d47e354f2c00adbe17))
+
+### Features
+
+- German translations for route request notifications ([f291f52](f291f523a7b224f7b6182ce50000a49ebd11949a))
+- Send route request notifications every 48 hours by default ([f7f0de5](f7f0de5502a8d63baa4e9a57b1e7a798538c272e))
+
 ## [0.8.0] - 2024-08-01
+
+[5c358c8](5c358c872e25770e30b75901425ec35378b41ff7)...[ab13d9a](ab13d9a31891b538c2fa2db6285229c883c7c968)
+
+### #70
+
+- Prerequirement app settings section and model ([235435e](235435e9fa1507eb333cc47e582eeafacb559416))
+- Fix flaw in User save settings creation ([cf3989c](cf3989ce736b356c4ff249d64147c1691048a471))
+- NotificationService and email notifications for new chat messages as huey task ([d5705ab](d5705abcf340283e92fec9757feedd45b747185b))
 
 ### #83
 
@@ -15,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - Translation interpolation ([fd62025](fd620259388ce7c2dc6f88ead15d615616f23ae2))
 - Routing starting at wrong stay in some cases ([7e441c3](7e441c37c1c083117d5a44799725c6eccb145494))
 - Missing translation ([bd22b57](bd22b57172aa8e768980c7eec54888b68e5931ff))
+- Styling for settings in profile ([5bccc9d](5bccc9dc9777948f76045d9975455b7c9ec0a32e))
 
 ### Features
 
@@ -22,6 +54,7 @@ All notable changes to this project will be documented in this file.
 - Show hint when no route was found ([12cf860](12cf860273c8e56444784268d3aa68c8fca568f1))
 - Show note for past delivieries ([fe8ddaa](fe8ddaada84dcc17f46bfab85d69b78f257d17ae))
 - Show hint for creating locations before stays ([67b3633](67b36334720b659a21df032e08ffc7de61ddfd3a))
+- German translations for mail notifications ([ceea094](ceea09400084b50d21725aa228e1defd5c71df07))
 - Add instructions ([7aefd29](7aefd292af65a861ca87023e04c76322acbf3f57))
 
 ### Miscellaneous Tasks
@@ -30,7 +63,12 @@ All notable changes to this project will be documented in this file.
 
 ### Refactor
 
+- Use 1hr frequency for message notifications ([c61d704](c61d704ed72b04ea50ad788e554c0abe406d982d))
 - Move packet link to top of chat message list ([8af6def](8af6def53abb90e584dfc2864e6c7de81142feaf))
+
+### Bump
+
+- Release v0.8.0 ([ab13d9a](ab13d9a31891b538c2fa2db6285229c883c7c968))
 
 ## [0.7.1] - 2024-07-25
 
