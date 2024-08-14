@@ -46,7 +46,7 @@
                         <p>{{ _("Near %(location)s", location = step.stay.location.name) }}</p>
                         {% if step.previous_step and step.previous_step.stay.user != step.stay.user %}
                             <p>
-                                {% set date_description = step.describe_overlapping_date_range(step.next_step) %}
+                                {% set date_description = step.describe_overlapping_date_range(step.previous_step) %}
                                 <strong>{{ date_description }}</strong>:
                                 {{ _("Pick up from %(name)s", name=step.previous_step.stay.user.username) }}
                             </p>
