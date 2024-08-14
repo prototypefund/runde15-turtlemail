@@ -288,5 +288,5 @@ if SENTRY_DSN:
 
 ACTIVITY_LENGTH = 3
 ROUTING_REQUEST_NOTIFICATION_INTERVAL = get_env(
-    "ROUTING_REQUEST_NOTIFICATION_INTERVAL", cast=int, default=12
-)  # after how many ours a notification mail is resent for an open routing request
+    "ROUTING_REQUEST_NOTIFICATION_INTERVAL", cast=int, default=48
+)  # after how many hours a notification mail is resent for an open routing request
