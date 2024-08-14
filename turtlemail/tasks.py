@@ -4,7 +4,14 @@ from django.conf import settings
 from django.contrib.gis.db.models import Q
 from huey import crontab
 from huey.contrib.djhuey import periodic_task, lock_task
-from turtlemail.models import ChatMessage, Packet, RouteStep, User, UserChatMessage
+from turtlemail.models import (
+    ChatMessage,
+    Packet,
+    Route,
+    RouteStep,
+    User,
+    UserChatMessage,
+)
 from turtlemail.notification_service import NotificationService
 from turtlemail.routing import recalculate_missing_routes
 
@@ -59,8 +66,9 @@ def send_requests_notifications():
     users = User.objects.filter(
         resend_interval_filter,
         stay__route_steps__status=RouteStep.SUGGESTED,
+        stay__route_steps__route__status=Route.CURRENT,
         settings__wants_email_notifications_requests=True,
     ).distinct()
     for user in users:
-        debug(f"Send chat notification email to {user}.")
+        debug(f"Send route request notification email to {user}.")
         NotificationService.send_email_notification_requests(user)
