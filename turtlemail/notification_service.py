@@ -92,6 +92,9 @@ class NotificationService:
             stay__user=user,
             route__status=Route.CURRENT,
         )
+        if len(requested_steps) == 0:
+            return
+
         deliveries_url = settings.BASE_URL + reverse("deliveries")
         mail_text = render_to_string(
             "turtlemail/emails/notification_requests.jinja",
