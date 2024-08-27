@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2024-08-27
+
+### Bug Fixes
+
+- Redirect to deliveries view from index view when logged in ([29a2191](29a2191826e8448ad0ee5f688ecd1da95a3891de))
+
+### Features
+
+- Add index page that can always be accessed ([85565ac](85565acc9a90ee83dca173c42772475eb3972259))
+
 ## [0.9.0] - 2024-08-14
+
+[ab13d9a](ab13d9a31891b538c2fa2db6285229c883c7c968)...[ec1e817](ec1e817a526a162cd197cd621f238edb64d63ca0)
 
 ### #71
 
@@ -24,6 +36,10 @@ All notable changes to this project will be documented in this file.
 
 - German translations for route request notifications ([f291f52](f291f523a7b224f7b6182ce50000a49ebd11949a))
 - Send route request notifications every 48 hours by default ([f7f0de5](f7f0de5502a8d63baa4e9a57b1e7a798538c272e))
+
+### Bump
+
+- Release v0.9.0 ([ec1e817](ec1e817a526a162cd197cd621f238edb64d63ca0))
 
 ## [0.8.0] - 2024-08-01
 
