@@ -29,6 +29,11 @@ urlpatterns = [
         views.IndexView.as_view(),
         name="index",
     ),
+    path(
+        "index",
+        views.ExplicitIndexView.as_view(),
+        name="explicit_index",
+    ),
     # TODO this route should be named "packets" to stay consistent with
     # the rest of the backend code.
     path("deliveries", views.DeliveriesView.as_view(), name="deliveries"),

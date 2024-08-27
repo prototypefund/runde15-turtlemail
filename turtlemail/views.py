@@ -73,6 +73,15 @@ class IndexView(TemplateView):
         return self.render_to_response({})
 
 
+class ExplicitIndexView(TemplateView):
+    """Always show the index page, no matter if the user is logged in or not."""
+
+    template_name = "turtlemail/index.jinja"
+
+    def get(self, request: HttpRequest):
+        return self.render_to_response({})
+
+
 class DeliveriesView(LoginRequiredMixin, ListView):
     template_name = "turtlemail/deliveries.jinja"
     model = Packet
