@@ -1,0 +1,200 @@
+- model: sites.site
+  fields:
+    domain: example.com
+    name: example.com
+- model: turtlemail.user
+  fields:
+    password: pbkdf2_sha256$600000$OQw9LhRxSLTxaI7MFHbAup$cfesKwrc3YijvElaHaRVv/uVmY5wX1cUNmoT01/8VNI=
+    last_login: 2024-08-28 10:14:05.915957+00:00
+    is_superuser: false
+    email: hansolo@turtlemail.app
+    username: hansolo
+    is_staff: false
+    is_active: true
+    date_joined: 2024-08-28 10:05:51.596461+00:00
+    groups: []
+    user_permissions: []
+- model: turtlemail.user
+  fields:
+    password: pbkdf2_sha256$600000$leisa9RyV2LmUf3g0cyKvP$KgmdR5aUjphgUJ36JQPuP6eAjJVo2w9O3xh/X545Jro=
+    last_login: 2024-08-28 10:09:33.152151+00:00
+    is_superuser: false
+    email: skywalker@turtlemail.app
+    username: skywalker
+    is_staff: false
+    is_active: true
+    date_joined: 2024-08-28 10:08:58.431080+00:00
+    groups: []
+    user_permissions: []
+- model: turtlemail.user
+  fields:
+    password: pbkdf2_sha256$600000$MXEruoKO8VGHTGzzypuNOD$54pBuwuxoYK8OO0DYT5bralacnlN9DBj7NU9KNzwrWc=
+    last_login: 2024-08-28 10:11:03.149302+00:00
+    is_superuser: false
+    email: leia@turtlemail.app
+    username: leia
+    is_staff: false
+    is_active: true
+    date_joined: 2024-08-28 10:09:12.975431+00:00
+    groups: []
+    user_permissions: []
+- model: turtlemail.user
+  fields:
+    password: pbkdf2_sha256$600000$b9tHt3uPUBnb418tkUWXpr$5iUA8JwS5V6jgZ7cjp/vP/b8Jgq9g+GXHsYlbdPIZhU=
+    last_login: 2024-08-28 10:13:37.809503+00:00
+    is_superuser: false
+    email: chewbacca@turtlemail.app
+    username: chewbacca
+    is_staff: false
+    is_active: true
+    date_joined: 2024-08-28 10:09:25.757036+00:00
+    groups: []
+    user_permissions: []
+- model: turtlemail.usersettings
+  pk: 1
+  fields:
+    user:
+    - hansolo@turtlemail.app
+    wants_email_notifications_chat: true
+    wants_email_notifications_requests: true
+- model: turtlemail.usersettings
+  pk: 2
+  fields:
+    user:
+    - skywalker@turtlemail.app
+    wants_email_notifications_chat: true
+    wants_email_notifications_requests: true
+- model: turtlemail.usersettings
+  pk: 3
+  fields:
+    user:
+    - leia@turtlemail.app
+    wants_email_notifications_chat: true
+    wants_email_notifications_requests: true
+- model: turtlemail.usersettings
+  pk: 4
+  fields:
+    user:
+    - chewbacca@turtlemail.app
+    wants_email_notifications_chat: true
+    wants_email_notifications_requests: true
+- model: turtlemail.location
+  pk: 1
+  fields:
+    name: Hamburg
+    is_home: false
+    point: SRID=4326;POINT (10.000534054124728 53.55445055533183)
+    user:
+    - hansolo@turtlemail.app
+    deleted: false
+- model: turtlemail.location
+  pk: 2
+  fields:
+    name: Hamburg
+    is_home: false
+    point: SRID=4326;POINT (10.000762932468207 53.55716986683632)
+    user:
+    - skywalker@turtlemail.app
+    deleted: false
+- model: turtlemail.location
+  pk: 3
+  fields:
+    name: Berlin
+    is_home: false
+    point: SRID=4326;POINT (13.390045159030707 52.524020016524034)
+    user:
+    - skywalker@turtlemail.app
+    deleted: false
+- model: turtlemail.location
+  pk: 4
+  fields:
+    name: Berlin
+    is_home: false
+    point: SRID=4326;POINT (13.387756333686415 52.53515926325546)
+    user:
+    - leia@turtlemail.app
+    deleted: false
+- model: turtlemail.location
+  pk: 5
+  fields:
+    name: Leipzig
+    is_home: false
+    point: SRID=4326;POINT (12.375183098483832 51.349199346317164)
+    user:
+    - leia@turtlemail.app
+    deleted: false
+- model: turtlemail.location
+  pk: 6
+  fields:
+    name: Leipzig
+    is_home: false
+    point: SRID=4326;POINT (12.37083434709348 51.3471979483911)
+    user:
+    - chewbacca@turtlemail.app
+    deleted: false
+- model: turtlemail.stay
+  pk: 1
+  fields:
+    location: 1
+    user:
+    - hansolo@turtlemail.app
+    frequency: DAILY
+    start: null
+    end: null
+    inactive_until: null
+    deleted: false
+- model: turtlemail.stay
+  pk: 2
+  fields:
+    location: 3
+    user:
+    - skywalker@turtlemail.app
+    frequency: DAILY
+    start: null
+    end: null
+    inactive_until: null
+    deleted: false
+- model: turtlemail.stay
+  pk: 3
+  fields:
+    location: 2
+    user:
+    - skywalker@turtlemail.app
+    frequency: ONCE
+    start: 2024-09-06
+    end: 2024-09-08
+    inactive_until: null
+    deleted: false
+- model: turtlemail.stay
+  pk: 4
+  fields:
+    location: 4
+    user:
+    - leia@turtlemail.app
+    frequency: DAILY
+    start: null
+    end: null
+    inactive_until: null
+    deleted: false
+- model: turtlemail.stay
+  pk: 5
+  fields:
+    location: 5
+    user:
+    - leia@turtlemail.app
+    frequency: ONCE
+    start: 2024-09-12
+    end: 2024-09-14
+    inactive_until: null
+    deleted: false
+- model: turtlemail.stay
+  pk: 6
+  fields:
+    location: 6
+    user:
+    - chewbacca@turtlemail.app
+    frequency: DAILY
+    start: null
+    end: null
+    inactive_until: null
+    deleted: false

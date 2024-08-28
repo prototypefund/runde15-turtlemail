@@ -75,13 +75,17 @@ update-translations:
 fixtures: migrate
 	$(COMPOSE) exec -it backend turtlemailctl initdata
 
+.PHONY: fixtures
+fixtures-demo: migrate
+	$(COMPOSE) exec -it backend turtlemailctl initdata --demo
+
 .PHONY: test
 test:
 	$(COMPOSE) exec backend turtlemailctl test turtlemail
 
 .PHONY: dump-fixtures
 dump-fixtures:
-	$(COMPOSE) exec backend turtlemailctl dumpdata --format yaml --natural-foreign --natural-primary --exclude auth --exclude contenttypes --exclude sessions > turtlemail/fixtures/initial_data.yaml
+	$(COMPOSE) exec backend turtlemailctl dumpdata --format yaml --natural-foreign --natural-primary --exclude auth --exclude contenttypes --exclude sessions > turtlemail/fixtures/dev_data.yaml
 
 .PHONY: format
 format:
