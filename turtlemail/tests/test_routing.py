@@ -216,7 +216,7 @@ class FindRouteTestCase(TestCase):
     def stays_from_nodes(self, nodes: List[routing.RoutingNode]):
         return [node.stay for node in nodes]
 
-    def assert_route_valid():
+    def assert_route_valid(self):
         # TODO check that all routesteps have overlapping times and correct date ranges
         pass
 
