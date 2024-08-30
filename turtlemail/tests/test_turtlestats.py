@@ -77,4 +77,4 @@ class StatsTestCase(TestDataMixin, TestCase):
         )
 
     def test_number_of_stays(self):
-        self.assertEqual(stats.number_of_stays(), {"min": 1, "max": 3, "median": 1.5})
+        self.assertEqual(stats.get_stay_stats(), {"min": 1, "max": 3, "median": 1.5})
