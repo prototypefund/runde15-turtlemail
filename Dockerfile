@@ -1,4 +1,4 @@
-FROM node:lts-alpine as assets
+FROM node:lts-alpine AS assets
 USER root
 RUN apk add coreutils make
 WORKDIR /home/node
@@ -10,7 +10,7 @@ ADD turtlemail/ ./turtlemail/
 RUN make assets
 
 
-FROM debian:bookworm as base
+FROM debian:bookworm AS base
 
 ARG build_version
 
@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 ENV POETRY_VIRTUALENVS_OPTIONS_SYSTEM_SITE_PACKAGES=true
 ENV POETRY_VIRTUALENVS_IN_PROJECT=true
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 ENV PYTHONPATH=/usr/share/turtlemail
 ENV DJANGO_SETTINGS_MODULE=turtlemail.settings
@@ -62,11 +62,11 @@ CMD ["uvicorn", "0.0.0.0:8000"]
 HEALTHCHECK --start-period=20s CMD nc -z localhost 8000
 
 
-FROM base as dev
+FROM base AS dev
 RUN poetry --directory /usr/share/turtlemail/ run pip3 install 'pydevd-pycharm'
 EXPOSE 28472
 USER _turtlemail
 
 
-FROM base as production
+FROM base AS production
 USER _turtlemail
