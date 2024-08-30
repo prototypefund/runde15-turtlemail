@@ -1,24 +1,11 @@
 from datetime import date, datetime, timedelta
 from typing import List
 from django.conf import settings
-from django.contrib.gis.geos import Point
 from django.test import TestCase
 
 from turtlemail import routing
 from turtlemail.models import Location, Packet, Stay, User
-
-
-HAMBURG = Point(9.58292, 53.33145)
-BERLIN = Point(13.431700, 52.592879)
-MUNICH = Point(11.33371, 48.08565)
-BREMEN = Point(53.04052, 8.56428)
-
-POINTS = {
-    "Hamburg": HAMBURG,
-    "Berlin": BERLIN,
-    "Munich": MUNICH,
-    "Bremen": BREMEN,
-}
+from turtlemail.tests import TestLocations
 
 
 class ReachableStaysTestCase(TestCase):
@@ -33,7 +20,7 @@ class ReachableStaysTestCase(TestCase):
             sender=self.sender, recipient=self.recipient, human_id="test_id"
         )
         location = Location.objects.create(
-            is_home=False, point=HAMBURG, user=self.sender
+            is_home=False, point=TestLocations.HAMBURG.value, user=self.sender
         )
         self.start_stay = Stay.objects.create(
             location=location,
@@ -47,7 +34,10 @@ class ReachableStaysTestCase(TestCase):
             email="other@turtlemail.app", username="other"
         )
         location = Location.objects.create(
-            is_home=False, point=HAMBURG, user=self.other_user, name="Hamburg"
+            is_home=False,
+            point=TestLocations.HAMBURG.value,
+            user=self.other_user,
+            name="Hamburg",
         )
         self.reachable_stay_time_unknown = Stay.objects.create(
             location=location, user=self.other_user, frequency=Stay.DAILY
@@ -74,7 +64,7 @@ class ReachableStaysTestCase(TestCase):
             end=datetime(2024, 1, 10),
         )
         unreachable_location = Location.objects.create(
-            is_home=False, point=BERLIN, user=self.other_user
+            is_home=False, point=TestLocations.BERLIN.value, user=self.other_user
         )
         self.unreachable_stay_wrong_location = Stay.objects.create(
             location=unreachable_location, user=self.other_user, frequency=Stay.DAILY
@@ -123,7 +113,7 @@ class EstimatedHandoverTestCase(TestCase):
             email="sender@turtlemail.app", username="sender"
         )
         location = Location.objects.create(
-            is_home=False, point=HAMBURG, user=self.sender
+            is_home=False, point=TestLocations.HAMBURG.value, user=self.sender
         )
 
         self.previous_handover = date(2024, 1, 3)
@@ -212,7 +202,7 @@ class FindRouteTestCase(TestCase):
         inactive_until=None,
     ):
         location = Location.objects.create(
-            is_home=False, point=POINTS[name], user=user, name=name
+            is_home=False, point=TestLocations[name.upper()].value, user=user, name=name
         )
         return Stay.objects.create(
             location=location,
@@ -508,12 +498,12 @@ class CalculateRouteStepDatesTestCase(TestCase):
             sender=self.sender, recipient=self.recipient, human_id="test_id"
         )
         self.location = Location.objects.create(
-            is_home=False, point=HAMBURG, user=self.sender
+            is_home=False, point=TestLocations.HAMBURG.value, user=self.sender
         )
 
     def test_routestep_dates(self):
         other_location = Location.objects.create(
-            is_home=False, point=BERLIN, user=self.sender
+            is_home=False, point=TestLocations.BERLIN.value, user=self.sender
         )
         stays = [
             Stay.objects.create(
