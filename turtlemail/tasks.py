@@ -14,10 +14,12 @@ from turtlemail.models import (
 )
 from turtlemail.notification_service import NotificationService
 from turtlemail.routing import recalculate_missing_routes
+from turtlemail.util import ensure_database_connection
 
 
 @periodic_task(crontab(minute="*/1"))
 @lock_task("recalculate_missing_routes")
+@ensure_database_connection
 def every_minute():
     packets = Packet.objects.without_valid_route()
     debug("Found %d packets for recalculating routes", len(packets))
@@ -26,6 +28,7 @@ def every_minute():
 
 @periodic_task(crontab(minute="*/60"))
 @lock_task("send_chat_notifications")
+@ensure_database_connection
 def send_chat_notifications():
     messages = UserChatMessage.objects.filter(status=ChatMessage.StatusChoices.NEW)
     # avoid double notification. We want to reduce db load with one update call
@@ -58,6 +61,7 @@ def send_chat_notifications():
 
 @periodic_task(crontab(minute="*/15"))
 @lock_task("send_requests_notifications")
+@ensure_database_connection
 def send_requests_notifications():
     resend_interval_filter = Q(stay__route_steps__notified_at__isnull=True) | Q(
         stay__route_steps__notified_at__lte=datetime.datetime.now()
