@@ -92,6 +92,8 @@ class AuthenticationForm(_AuthenticationForm):
         self.action = _("Log In")
         self.other_form_url = reverse("signup")
         self.other_form_link_text = _("Create a new account")
+        if (email := self.request.GET.get("email")) is not None:
+            self.initial["username"] = email
 
 
 class PacketForm(forms.Form):
