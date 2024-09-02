@@ -10,10 +10,11 @@ SECRET_KEY=not-a-very-secret-key
 DEBUG=0
 
 # hostnames this app is allowed to operate on
-ALLOWED_HOSTS=localhost
+ALLOWED_HOSTS=localhost,demoday.turtlemail.app
+BASE_URL=https://demoday.turtlemail.app
 
 # default FROM email header value
-EMAIL_DEFAULT_FROM=noreply@example.org
+EMAIL_DEFAULT_FROM=noreply@turtlemail.app
 
 # worker configuration
 HUEY_REDIS_URL=redis://key-value-store:6379/0

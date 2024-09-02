@@ -40,7 +40,9 @@ services:
     volumes:
       - ./docker/nginx-server.conf:/etc/nginx/nginx.conf
       - ./docker/nginx-app.conf:/etc/nginx/snippets/app.conf
-    ports: ['8637:8637']
+      - ./data/fullchain.pem:/var/lib/certs/fullchain.pem
+      - ./data/privkey.pem:/var/lib/certs/privkey.pem
+    ports: ['80:8080', '443:43443']
 
 volumes:
   turtlemail-data:
