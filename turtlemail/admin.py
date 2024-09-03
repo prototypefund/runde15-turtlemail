@@ -10,6 +10,7 @@ class UserAdmin(_UserAdmin):
     model = User
     list_display = (
         "email",
+        "username",
         "is_staff",
         "is_active",
     )
@@ -47,7 +48,7 @@ class UserAdmin(_UserAdmin):
             },
         ),
     )
-    search_fields = ("email",)
+    search_fields = ("email", "username")
     ordering = ("email",)
 
 
