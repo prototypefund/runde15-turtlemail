@@ -2,7 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.11.0] - 2024-09-19
+
+### Bug Fixes
+
+- Class methods must have self argument ([bb4561d](bb4561d3a851934315de3c10e0e62079cfaf0e33))
+- Ensure tasks continue to run after db connections have been closed ([639ad64](639ad646aeed137f03f0ee02814ec86864cb75b8))
+- Fix function reference ([10a7baa](10a7baaebdc3a43f4bd2f40b2259d349cd55b9d4))
+- Missing translation ([cc025dd](cc025dd9fb7ea907fc705860f7d9e0ea533b9a18))
+- Add missing migration ([9157398](9157398e5620aac86742a6071933a90eac3fc278))
+- Remove spaces from human id dictionary ([467d32d](467d32d1b18d86d46b75ab165c2821e3d1fb80f4))
+
+### Features
+
+- Add demo fixtures for PTF demo day ([7a5a4a7](7a5a4a71dda77350a00e3f912e76774b2d3682ad))
+- Add turtlestats command ([b83b3b9](b83b3b9061bd317ed0142a883a37cfe6bb367776))
+- Allow pre-filling email in login URLs ([ad551e6](ad551e675b1bba42d7d62eae6c151c34cf91dc1c))
+- Show and search usernames in admin user view ([330a695](330a6958f1ed99e7f5df7be7545df32d1e4b6a8a))
+- Use animated image on landing page ([b48e6e8](b48e6e84ddaf9c860553760336260ed9ef7f6dd3))
+- Allow users to delete their accounts ([4900e4f](4900e4fd95cf0cc159e68e98f7476c31df2444ec))
+- Allow cancelling packets ([b8728dc](b8728dce29ca09096b5b142b818c08e5d85286be))
+
+### Miscellaneous Tasks
+
+- Shorten password for demo accounts ([bebc4c6](bebc4c6f90ee1c6f4c73f09c72e795afa086119b))
+
+### Refactor
+
+- Move test locations into base test module ([b602db2](b602db21e0ea957196a0c7c91509f5bf8bb11242))
+- Use cascade to delete packet sender and recipient ([8646811](8646811ec58687b00fe3a022b31142d5d4ca156b))
+
+### Build
+
+- Fix docker warnings ([b03852e](b03852e45abc10ad1091d09c5b58c04e17b590e6))
+
 ## [0.10.0] - 2024-08-27
+
+[ec1e817](ec1e817a526a162cd197cd621f238edb64d63ca0)...[4030b44](4030b44bbee3abaa290037c89b872cc09779841b)
 
 ### Bug Fixes
 
@@ -11,6 +47,10 @@ All notable changes to this project will be documented in this file.
 ### Features
 
 - Add index page that can always be accessed ([85565ac](85565acc9a90ee83dca173c42772475eb3972259))
+
+### Bump
+
+- Release v0.10.0 ([4030b44](4030b44bbee3abaa290037c89b872cc09779841b))
 
 ## [0.9.0] - 2024-08-14
 
