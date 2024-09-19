@@ -138,12 +138,6 @@ class User(AbstractBaseUser, PermissionsMixin):
                     )
                 route.delete()
 
-            # Remove packets where the user is sender or recipient
-            for packet in self.sent_packets.all():
-                packet.delete()
-            for packet in self.received_packets.all():
-                packet.delete()
-
             # Delete all stays and locations
             for location in self.location_set.all():
                 location.delete()
@@ -426,13 +420,13 @@ class Packet(models.Model):
     sender = models.ForeignKey(
         User,
         verbose_name=_("Sender"),
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         related_name="sent_packets",
     )
     recipient = models.ForeignKey(
         User,
         verbose_name=_("Recipient"),
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         related_name="received_packets",
     )
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
