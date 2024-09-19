@@ -75,6 +75,7 @@ urlpatterns = [
         "htmx/invite-user", views.HtmxInviteUserView.as_view(), name="htmx_invite_user"
     ),
     path("profile", views.ProfileView.as_view(), name="profile"),
+    path("delete-user", views.DeleteUserView.as_view(), name="delete_user"),
     path(
         "htmx/create-location",
         views.HtmxCreateLocationView.as_view(),

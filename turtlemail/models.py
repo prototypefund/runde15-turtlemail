@@ -116,6 +116,49 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    def delete(self, *args, **kwargs):
+        with transaction.atomic():
+            if not self.can_delete():
+                raise RuntimeError(
+                    "Can't delete a user with packets that are still being delivered."
+                )
+
+            # Cancel all accepted route steps
+            for stay in self.stay_set.all():
+                stay.cancel_dependent_route_steps()
+                # new routes will be calculated in the background in tasks.py
+
+            # Remove all routes the user is involved in
+            # This should also remove route steps
+            involved_routes = Route.objects.filter(steps__stay__user=self)
+            for route in involved_routes:
+                if route.packet.status() == Packet.Status.DELIVERING:
+                    raise RuntimeError(
+                        "Can't delete a user with packets that are still being delivered."
+                    )
+                route.delete()
+
+            # Remove packets where the user is sender or recipient
+            for packet in self.sent_packets.all():
+                packet.delete()
+            for packet in self.received_packets.all():
+                packet.delete()
+
+            # Delete all stays and locations
+            for location in self.location_set.all():
+                location.delete()
+
+            return super().delete(*args, **kwargs)
+
+    def can_delete(self):
+        involved_packets = Packet.objects.filter(routestep__stay__user=self)
+        # Check that no packets are still in delivery
+        for packet in involved_packets:
+            if packet.status() == Packet.Status.DELIVERING:
+                return False
+
+        return True
+
 
 def default_invite_token():
     return secrets.token_urlsafe(32)
@@ -720,7 +763,7 @@ class DeliveryLog(models.Model):
     route_step = models.ForeignKey(
         RouteStep,
         verbose_name=_("Route Step"),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="delivery_logs",
         null=True,
     )
@@ -732,7 +775,7 @@ class DeliveryLog(models.Model):
         related_name="delivery_logs",
     )
     route = models.ForeignKey(
-        Route, verbose_name=_("Route"), on_delete=models.CASCADE, null=True
+        Route, verbose_name=_("Route"), on_delete=models.SET_NULL, null=True
     )
     action = models.TextField(choices=ACTION_CHOICES, verbose_name=_("Action Choices"))
     new_step_status = models.TextField(

@@ -703,6 +703,25 @@ msgstr "Beigetreten"
 msgid "Log Out"
 msgstr "Ausloggen"
 
+msgid "Delete my account"
+msgstr "Mein Konto löschen"
+
+msgid "This will remove you from any deliveries you are involved in."
+msgstr ""
+"Wenn du dein Konto löschst, werden eventuell geplante Übergaben "
+"automatisch abgesagt. Pakete, die du versendet oder empfangen hast, "
+"werden vollständig gelöscht."
+
+msgid ""
+"You're still involved in ongoing deliveries. Please complete these "
+"deliveries before deleting your account. If that does not work for you, "
+"please send a mail to team@turtlemail.app."
+msgstr ""
+"Du bist noch an Pets beteiligt, die gerade unterwegs sind. Bitte gib "
+"Pets, die du noch bei dir hast, an die nächste Person weiter, oder sage "
+"zukünftige Übergaben ab. Falls das für dich nicht passt, melde dich bitte"
+" bei uns unter team@turtlemail.app."
+
 msgid "Settings"
 msgstr "Einstellungen"
 

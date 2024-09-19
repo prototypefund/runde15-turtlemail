@@ -15,6 +15,25 @@
             <div class="flex justify-end mt-4">
                 <a href="{{ url("logout") }}" class="btn">{{ _("Log Out") }}</a>
             </div>
+            <details class="mt-4 border collapse collapse-arrow border-base-300">
+                <summary class="font-medium collapse-title">{{ _("Delete my account") }}</summary>
+                <div class="p-4 border-t collapse-content border-base-300">
+                    {% if request.user.can_delete() %}
+                        <form action="{{ url("delete_user") }}"
+                              hx-boost="true"
+                              method="post"
+                              class="flex flex-col gap-4">
+                            {% csrf_token %}
+                            <p>{{ _("This will remove you from any deliveries you are involved in.") }}</p>
+                            <button class="btn btn-error">{{ _("Delete my account") }}</button>
+                        </form>
+                    {% else %}
+                        <p>
+                            {{ _("You're still involved in ongoing deliveries. Please complete these deliveries before deleting your account. If that does not work for you, please send a mail to team@turtlemail.app.") }}
+                        </p>
+                    {% endif %}
+                </div>
+            </details>
         </div>
         <div class="p-8 bg-base-100 rounded-box">
             <h2 class="text-2xl font-bold">{{ gettext("Settings") }}</h2>

@@ -505,6 +505,15 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         return context
 
 
+class DeleteUserView(LoginRequiredMixin, TemplateView):
+    template_name = "turtlemail/user_deleted.jinja"
+
+    def post(self, request: AuthedHttpRequest):
+        request.user.delete()
+
+        return self.render_to_response({})
+
+
 class HtmxCreateLocationView(LoginRequiredMixin, CreateView):
     model = Location
     template_name = "turtlemail/locations/create_form.jinja"
