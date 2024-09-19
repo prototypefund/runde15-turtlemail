@@ -480,7 +480,7 @@ def check_and_recalculate_route(route: Route, starting_date: date) -> Route | No
 
 def recalculate_missing_routes(packets: List[Packet], starting_date: datetime.datetime):
     for packet in packets:
-        if packet.status() == Packet.Status.NO_ROUTE_FOUND:
+        if packet.status() in [Packet.Status.NO_ROUTE_FOUND, Packet.Status.CANCELLED]:
             # We gave up to find a route for this packet.
             continue
 

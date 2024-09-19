@@ -62,6 +62,11 @@ urlpatterns = [
         name="packet_detail",
     ),
     path(
+        "deliveries/<slug:slug>/cancel",
+        views.CancelPacketView.as_view(),
+        name="cancel_packet",
+    ),
+    path(
         "htmx/deliveries/<slug:slug>/expand_logs/",
         views.HtmxExpandActivitiesView.as_view(),
         name="expand_packet_logs",

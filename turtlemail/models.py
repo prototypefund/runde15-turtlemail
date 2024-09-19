@@ -384,6 +384,7 @@ class Packet(models.Model):
         READY_TO_SHIP = "READY_TO_SHIP", _("Ready to Ship")
         DELIVERING = "DELIVERING", _("Delivering")
         DELIVERED = "DELIVERED", _("Delivered")
+        CANCELLED = "CANCELLED", _("Cancelled")
 
         def description(self):
             match self:
@@ -414,6 +415,8 @@ class Packet(models.Model):
                     )
                 case self.DELIVERED:
                     return _("This delivery has reached its destination.")
+                case self.CANCELLED:
+                    return _("This delivery has been cancelled.")
 
     # Users with packets can't be deleted right now.
     # What if the packet is still being delivered?
@@ -431,6 +434,7 @@ class Packet(models.Model):
     )
     created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
     human_id = models.TextField(verbose_name=_("Code"), unique=True)
+    is_cancelled = models.BooleanField(verbose_name=_("Cancelled"), default=False)
 
     objects = PacketManager()
 
@@ -464,6 +468,9 @@ class Packet(models.Model):
 
     def status(self):
         route = self.current_route()
+        if self.is_cancelled:
+            return self.Status.CANCELLED
+
         if route is None:
             packet_too_old = (
                 datetime.datetime.now(datetime.UTC) - self.created_at
@@ -525,6 +532,31 @@ class Packet(models.Model):
             step = step.next_step
 
         return None
+
+    def can_cancel(self):
+        return self.status() not in [
+            self.Status.DELIVERING,
+            self.Status.DELIVERED,
+            self.Status.CANCELLED,
+        ]
+
+    def cancel(self):
+        with transaction.atomic():
+            if not self.can_cancel():
+                raise RuntimeError("Can't cancel a packet that's being delivered.")
+
+            if (current_route := self.current_route()) is not None:
+                current_route.steps.update(status=RouteStep.CANCELLED)
+                current_route.status = Route.CANCELLED
+                current_route.save()
+
+            self.is_cancelled = True
+            self.save()
+
+            DeliveryLog.objects.create(
+                packet=self,
+                action=DeliveryLog.PACKET_CANCELLED,
+            )
 
 
 class Route(models.Model):
@@ -740,6 +772,7 @@ class DeliveryLog(models.Model):
     NEW_ROUTE = "NEW_ROUTE"
     NO_ROUTE_FOUND = "NO_ROUTE_FOUND"
     PACKET_CHANGED_LOCATION = "PACKET_CHANGED_LOCATION"
+    PACKET_CANCELLED = "PACKET_CANCELLED"
 
     ACTION_CHOICES = (
         (ROUTE_STEP_CHANGE, _("User's journey changed")),
@@ -747,6 +780,7 @@ class DeliveryLog(models.Model):
         (NEW_ROUTE, _("Found new travel plans")),
         (NO_ROUTE_FOUND, _("Unable to find travel plans")),
         (PACKET_CHANGED_LOCATION, _("Packet arrived at new location")),
+        (PACKET_CANCELLED, _("The delivery was cancelled")),
     )
 
     if TYPE_CHECKING:

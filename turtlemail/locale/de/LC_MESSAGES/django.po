@@ -210,6 +210,9 @@ msgstr "In Lieferung"
 msgid "Delivered"
 msgstr "Zugestellt"
 
+msgid "Cancelled"
+msgstr "Abgebrochen"
+
 msgid "The system is currently looking for people who can make this delivery."
 msgstr "Das System sucht aktuell nach Menschen, die diese Lieferung machen können."
 
@@ -245,6 +248,9 @@ msgstr ""
 
 msgid "This delivery has reached its destination."
 msgstr "Diese Lieferung hat ihren Zielort erreicht."
+
+msgid "This delivery has been cancelled."
+msgstr "Die Überlieferung dieses Pets wurde abgebrochen."
 
 msgid "Sender"
 msgstr "Absender"
@@ -290,9 +296,6 @@ msgstr "Fortlaufend"
 
 msgid "Completed"
 msgstr "Erledigt"
-
-msgid "Cancelled"
-msgstr "Storniert"
 
 msgid "Problem reported"
 msgstr "Problem gemeldet"
@@ -343,6 +346,9 @@ msgstr "Es konnten keine passenden Reisepläne gefunden werden"
 msgid "Packet arrived at new location"
 msgstr "Lieferung ist an einem neuen Ort"
 
+msgid "The delivery was cancelled"
+msgstr "Überlieferung des Pets wurde abgebrochen"
+
 msgid "Action Choices"
 msgstr "Aktionenauswahl"
 
@@ -357,13 +363,13 @@ msgid "A journey involved in this delivery changed: %(status)s"
 msgstr "Eine Reise in dieser Lieferung hat sich geändert: %(status)s"
 
 msgid "A user cancelled their journey for this delivery"
-msgstr "Ein Benutzer hat seine Reise für diese Lieferung storniert"
+msgstr "Eine geplante Übergabe wurde abgesagt"
 
 msgid "A user rejected a proposed journey for this delivery"
-msgstr "Ein Benutzer hat eine vorgeschlagene Reise für diese Lieferung abgelehnt"
+msgstr "Eine vorgeschlagene Übergabe wurde abgelehnt"
 
 msgid "A user confirmed their journey for this delivery"
-msgstr "Ein Benutzer hat seine Reise für diese Lieferung bestätigt"
+msgstr "Eine vorgeschlagene Übergabe wurde bestätigt"
 
 msgid "A user reported a problem that needs to be addressed by the support team"
 msgstr "Jemand hat ein Problem mit dieser Übergabe an das Support-Team gemeldet"
@@ -681,6 +687,23 @@ msgstr "Übergabestatus aktualisieren"
 
 msgid "You're not involved in the current travel plans for this delivery."
 msgstr "Du bist nicht in den aktuellen Reiseplänen dieser Lieferung eingeplant."
+
+msgid "Manage"
+msgstr "Verwalten"
+
+msgid "Cancel delivery"
+msgstr "Überlieferung abbrechen"
+
+msgid "This will cancel any planned handovers."
+msgstr "Hiermit werden alle geplanten Übergaben abgebrochen."
+
+msgid "Cancel this delivery"
+msgstr "Überlieferrung dieses Pets abbrechen"
+
+msgid "This delivery is already traveling, so it can't be cancelled anymore."
+msgstr ""
+"Dieses Pet ist bereits unterwegs. Daher kann die Lieferung nicht mehr "
+"abgebrochen werden."
 
 msgid "Activity"
 msgstr "Aktivität"

@@ -100,8 +100,28 @@
             {% if users_route_steps|length == 0 %}
                 <p>{{ _("You're not involved in the current travel plans for this delivery.") }}</p>
             {% endif %}
+            {% if request.user == packet.sender and packet.can_cancel() %}
+                <h3 class="mt-4 mb-2 text-sm text-base-content/60">{{ _("Manage") }}</h3>
+                <details class="border rounded-lg collapse collapse-arrow border-base-300">
+                    <summary class="font-medium collapse-title">{{ _("Cancel delivery") }}</summary>
+                    <div class="p-4 border-t collapse-content border-base-300">
+                        {% if request.user.can_delete() %}
+                            <form action="{{ url("cancel_packet", packet.human_id) }}"
+                                  hx-boost="true"
+                                  method="post"
+                                  class="flex flex-col gap-4">
+                                {% csrf_token %}
+                                <p>{{ _("This will cancel any planned handovers.") }}</p>
+                                <button class="btn btn-error">{{ _("Cancel this delivery") }}</button>
+                            </form>
+                        {% else %}
+                            <p>{{ _("This delivery is already traveling, so it can't be cancelled anymore.") }}</p>
+                        {% endif %}
+                    </div>
+                </details>
+            {% endif %}
             {% if packet.delivery_logs.all()|length > 0 %}
-                <h3 class="mt-2 text-sm text-base-content/60">{{ _("Activity") }}</h3>
+                <h3 class="mt-4 text-sm text-base-content/60">{{ _("Activity") }}</h3>
                 <ul class="mt-1" id="log-container">
                     {% include "turtlemail/_activities.jinja" %}
                 </ul>

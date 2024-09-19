@@ -716,6 +716,23 @@ class PacketDetailView(UserPassesTestMixin, DetailView):
         )
 
 
+class CancelPacketView(UserPassesTestMixin, View):
+    def get_object(self) -> Packet:
+        slug = self.kwargs.get("slug")
+        return Packet.objects.get_by_natural_key(human_id=slug)
+
+    def post(self, request: AuthedHttpRequest, *args, **kwargs):
+        slug = self.kwargs.get("slug")
+        packet = self.get_object()
+        packet.cancel()
+
+        return redirect(reverse("packet_detail", args=(slug,)))
+
+    def test_func(self) -> bool | None:
+        packet = self.get_object()
+        return self.request.user == packet.sender
+
+
 class HtmxExpandActivitiesView(DetailView):
     template_name = "turtlemail/_activities.jinja"
     model = DeliveryLog
