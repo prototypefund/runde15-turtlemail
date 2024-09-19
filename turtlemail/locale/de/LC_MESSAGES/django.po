@@ -801,6 +801,9 @@ msgstr "Hast du dieses Pet erhalten?"
 msgid "No, there has been a problem"
 msgstr "Nein, es gab ein Problem"
 
+msgid "Your account was deleted successfully"
+msgstr "Dein Konto wurde erfolgreich gelöscht."
+
 msgid "Hello!"
 msgstr "Hallo!"
 
